@@ -1,9 +1,10 @@
 import { Navbar } from '@/components/Navbar';
-import { streamers } from '@/data/streamers';
+import { streamers } from '@/data/streamers'; // Keep for static params
+import { getStreamers } from '@/lib/getStreamers'; // Import for dynamic data
 import { notFound } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, VideoOff } from 'lucide-react';
 
 // In Next.js 15, params is a Promise.
 // But checking package.json, user has "next": "16.1.6" (Wait, 16? Next.js 15 is latest stable, maybe it's a canary or upcoming? Or I misread Step 9 input.
@@ -24,7 +25,10 @@ export async function generateStaticParams() {
 
 export default async function WatchPage({ params }: WatchPageProps) {
   const { id } = await params;
-  const streamer = streamers.find((s) => s.id === id);
+
+  // Fetch fresh data to get status and youtubeId
+  const allStreamers = await getStreamers();
+  const streamer = allStreamers.find((s) => s.id === id);
 
   if (!streamer) {
     notFound();
@@ -41,14 +45,22 @@ export default async function WatchPage({ params }: WatchPageProps) {
             Back to Family
           </Link>
 
-          <div className="aspect-video w-full bg-zinc-900 rounded-xl overflow-hidden border border-zinc-800 shadow-2xl shadow-gold/5 mb-6">
-            <iframe
-              className="w-full h-full"
-              src={`https://www.youtube.com/embed/${streamer.youtubeId}?autoplay=1`}
-              title={streamer.name}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
+          <div className="aspect-video w-full bg-zinc-900 rounded-xl overflow-hidden border border-zinc-800 shadow-2xl shadow-gold/5 mb-6 relative group">
+            {streamer.status === 'live' && streamer.youtubeId ? (
+              <iframe
+                className="w-full h-full"
+                src={`https://www.youtube.com/embed/${streamer.youtubeId}?autoplay=1`}
+                title={streamer.name}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            ) : (
+              <div className="w-full h-full flex flex-col items-center justify-center bg-zinc-900/50">
+                <VideoOff className="w-16 h-16 text-zinc-700 mb-4" />
+                <h3 className="text-xl font-bold text-zinc-500">Stream is Offline</h3>
+                <p className="text-zinc-600 mt-2">Waiting for {streamer.name} to go live...</p>
+              </div>
+            )}
           </div>
 
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 bg-zinc-900/50 p-6 rounded-xl border border-white/5">

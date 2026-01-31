@@ -13,7 +13,7 @@ export const streamers: Streamer[] = [
     id: '1',
     name: 'Crystal Oda Cougan',
     role: 'Godmother',
-    channelId: 'UC_PLACEHOLDER_ic.crystal', // TODO: Find Channel ID
+    channelId: 'UCVox_6S1p0JBJx3MIMxUHIQ', // TODO: Find Channel ID
     youtubeId: '',
     avatar: '/Crystal-Oda-Cougan.jpg',
     status: 'offline',
@@ -31,7 +31,7 @@ export const streamers: Streamer[] = [
     id: '3',
     name: 'Abimanyu Cougan',
     role: 'BIG BOSS',
-    channelId: 'UC_PLACEHOLDER_opank21', // TODO: Find Channel ID
+    channelId: 'UCzDqjuYInUPp3UyuQMS7B-Q', // TODO: Find Channel ID
     youtubeId: '',
     avatar: '/abimanyu-cougan.jpg',
     status: 'offline',
@@ -40,7 +40,7 @@ export const streamers: Streamer[] = [
     id: '4',
     name: 'Di4vell',
     role: 'Member',
-    channelId: 'UC_gN2sLwHlS0mS-b6L3L6Gg',
+    channelId: 'UCXMx8DZWH91C43QeRP6dR3g',
     youtubeId: '',
     avatar: '/D4vel--Cougan.jpg',
     status: 'offline',
@@ -68,7 +68,7 @@ export const streamers: Streamer[] = [
     id: '7',
     name: 'ImWahyuSkyy',
     role: 'Member',
-    channelId: 'UC_PLACEHOLDER_ImWahyuSkyy', // TODO: Find Channel ID
+    channelId: 'UCKfVAASgzT4ynMBa5cOhFUA', // TODO: Find Channel ID
     youtubeId: '',
     avatar: 'https://ui-avatars.com/api/?name=ImWahyuSkyy&background=000&color=d4af37',
     status: 'offline',
@@ -77,7 +77,7 @@ export const streamers: Streamer[] = [
     id: '8',
     name: 'WiskaGudut',
     role: 'Member',
-    channelId: 'UC_PLACEHOLDER_WiskaGudut', // TODO: Find Channel ID
+    channelId: 'UCf0OL86JVEqf0ejkULLnVFA', // TODO: Find Channel ID
     youtubeId: '',
     avatar: 'https://ui-avatars.com/api/?name=WiskaGudut&background=000&color=d4af37',
     status: 'offline',
@@ -86,7 +86,7 @@ export const streamers: Streamer[] = [
     id: '9',
     name: 'ZukaaaAmat',
     role: 'Member',
-    channelId: 'UC_PLACEHOLDER_ZukaaaAmat', // TODO: Find Channel ID
+    channelId: 'UC7StJFG0KbDpj4vUZhbBcdA', // TODO: Find Channel ID
     youtubeId: '',
     avatar: 'https://ui-avatars.com/api/?name=ZukaaaAmat&background=000&color=d4af37',
     status: 'offline',
@@ -95,7 +95,7 @@ export const streamers: Streamer[] = [
     id: '10',
     name: 'haraazy',
     role: 'Member',
-    channelId: 'UC_PLACEHOLDER_haraazy', // TODO: Find Channel ID
+    channelId: 'UCTw-hQ197ZSU7wwvB6iav_Q', // TODO: Find Channel ID
     youtubeId: '',
     avatar: 'https://ui-avatars.com/api/?name=haraazy&background=000&color=d4af37',
     status: 'offline',
@@ -104,7 +104,7 @@ export const streamers: Streamer[] = [
     id: '11',
     name: 'sarahmaheswara',
     role: 'Member',
-    channelId: 'UC_PLACEHOLDER_sarahmaheswara', // TODO: Find Channel ID
+    channelId: 'UCRpjWT4pLKSRMIHe1tDt7HA', // TODO: Find Channel ID
     youtubeId: '',
     avatar: 'https://ui-avatars.com/api/?name=sarahmaheswara&background=000&color=d4af37',
     status: 'offline',
@@ -113,7 +113,7 @@ export const streamers: Streamer[] = [
     id: '12',
     name: 'petrix35',
     role: 'Member',
-    channelId: 'UC_PLACEHOLDER_petrix35', // TODO: Find Channel ID
+    channelId: 'UC5SORctGpjsLRxX6DJj9NNA', // TODO: Find Channel ID
     youtubeId: '',
     avatar: 'https://ui-avatars.com/api/?name=petrix35&background=000&color=d4af37',
     status: 'offline',
@@ -122,7 +122,7 @@ export const streamers: Streamer[] = [
     id: '13',
     name: 'BbyAngelllll',
     role: 'Member',
-    channelId: 'UC_PLACEHOLDER_BbyAngelllll', // TODO: Find Channel ID
+    channelId: 'UCGGtYwqIYO_nx0gAe16DJmw', // TODO: Find Channel ID
     youtubeId: '',
     avatar: 'https://ui-avatars.com/api/?name=BbyAngelllll&background=000&color=d4af37',
     status: 'offline',
@@ -131,7 +131,7 @@ export const streamers: Streamer[] = [
     id: '14',
     name: 'smarttupai8316',
     role: 'Member',
-    channelId: 'UC_PLACEHOLDER_smarttupai8316', // TODO: Find Channel ID
+    channelId: 'UCDc5YC15xZAU1I4S4pFy9VA', // TODO: Find Channel ID
     youtubeId: '',
     avatar: 'https://ui-avatars.com/api/?name=smarttupai8316&background=000&color=d4af37',
     status: 'offline',
@@ -140,7 +140,7 @@ export const streamers: Streamer[] = [
     id: '15',
     name: 'ReynoYabriRenel',
     role: 'Member',
-    channelId: 'UC_PLACEHOLDER_ReynoYabriRenel', // TODO: Find Channel ID
+    channelId: 'UC9Wss8O8dDwqaO7gGGkdJ_Q', // TODO: Find Channel ID
     youtubeId: '',
     avatar: 'https://ui-avatars.com/api/?name=ReynoYabriRenel&background=000&color=d4af37',
     status: 'offline',
@@ -149,7 +149,7 @@ export const streamers: Streamer[] = [
     id: '16',
     name: 'ibeeyorii',
     role: 'Member',
-    channelId: 'UC_PLACEHOLDER_ibeeyorii', // TODO: Find Channel ID
+    channelId: 'UCZW7syuDzTBMiDQ3ZZKS6Ig', // TODO: Find Channel ID
     youtubeId: '',
     avatar: 'https://ui-avatars.com/api/?name=ibeeyorii&background=000&color=d4af37',
     status: 'offline',
@@ -158,7 +158,7 @@ export const streamers: Streamer[] = [
     id: '17',
     name: 'ABAH-F',
     role: 'Member',
-    channelId: 'UC_PLACEHOLDER_ABAH-F', // TODO: Find Channel ID
+    channelId: 'UCI8im5Xz1vy-CuZ-ecLN3JA', // TODO: Find Channel ID
     youtubeId: '',
     avatar: 'https://ui-avatars.com/api/?name=ABAH-F&background=000&color=d4af37',
     status: 'offline',

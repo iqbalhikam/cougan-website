@@ -26,6 +26,10 @@ export function Navbar() {
                 <span>
                   <Image src="/LOGO-COUGAN.gif" alt="Cougan Fams Logo" width={500} height={500} className="w-40 md:w-56 lg:w-20 h-auto object-contain" unoptimized />
                 </span>
+                {/* <span className="font-cougan-text px-4">X</span>
+                <span>
+                  <Image src="/BSG_LOGO.png" alt="Cougan Fams Logo" width={500} height={500} className="w-40 md:w-56 lg:w-15 h-auto object-contain" unoptimized />
+                </span> */}
                 {/* COUGAN<span className="text-white">FAMILLIA</span> */}
               </span>
             </Link>

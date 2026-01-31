@@ -1,42 +1,59 @@
 import { streamers, Streamer } from '@/data/streamers';
 
 export async function getStreamers(): Promise<Streamer[]> {
-  const apiKey = process.env.YOUTUBE_API_KEY;
+  // NO API KEY NEEDED
+  // We use a fallback method by scraping the /live URL of the channel
+  // This is less reliable than the API but works without a key/quota.
 
-  if (!apiKey) {
-    console.warn('YOUTUBE_API_KEY is not set. Returning static data.');
-    return streamers;
-  }
-
-  console.log('Fetching streamer data initiated...');
+  console.log('Fetching streamer data via Scraping (No API Key)...');
 
   try {
     const updatedStreamers = await Promise.all(
       streamers.map(async (streamer) => {
         // If no channelId (e.g. placeholder text), skip check
         if (!streamer.channelId || streamer.channelId.startsWith('UC_youtube') || streamer.channelId.includes('PLACEHOLDER')) {
-          // console.log(`Skipping ${streamer.name} (No valid Channel ID)`);
           return streamer;
         }
 
         try {
-          // console.log(`Fetching for ${streamer.name} (${streamer.channelId})...`);
-          const response = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${streamer.channelId}&eventType=live&type=video&key=${apiKey}`, {
-            next: { revalidate: 60 },
+          // Fetch the canonical 'live' URL for the channel.
+          // If they are live, this page usually contains specific metadata or text like "watching now".
+          // We use a User-Agent to ensure we get the desktop/mobile page we expect.
+          const response = await fetch(`https://www.youtube.com/channel/${streamer.channelId}/live`, {
+            headers: {
+              'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+              'Accept-Language': 'en-US,en;q=0.9',
+            },
+            next: { revalidate: 60 }, // Cache for 1 minute
           });
 
           if (!response.ok) {
-            console.error(`Failed to fetch for ${streamer.name}: ${response.status} ${response.statusText}`);
-            const text = await response.text();
-            console.error('Response body:', text);
+            // 404 means channel not found, etc.
             return streamer;
           }
 
-          const data = await response.json();
+          const text = await response.text();
 
-          if (data.items && data.items.length > 0) {
-            console.log(`LIVE FOUND: ${streamer.name}`);
-            const videoId = data.items[0].id.videoId;
+          // Check for specific markers in the HTML
+          // "text":"LIVE" is often found in the badge JSON
+          // "watching now" is found in the viewer count text
+          const isLive = text.includes('"text":"LIVE"') && text.includes('watching now');
+
+          // Note: extraction of videoId from HTML is harder.
+          // Converting to "live" status implies we might link to the /live URL directly?
+          // Or we try to extract "videoId":"..."
+
+          let videoId = '';
+          if (isLive) {
+            // Try to find videoID. Pattern: "videoId":"VIDEO_ID"
+            const match = text.match(/"videoId":"([a-zA-Z0-9_-]{11})"/);
+            if (match && match[1]) {
+              videoId = match[1];
+            }
+          }
+
+          if (isLive && videoId) {
+            console.log(`LIVE FOUND (Scrape): ${streamer.name}`);
             return {
               ...streamer,
               status: 'live',
@@ -49,7 +66,7 @@ export async function getStreamers(): Promise<Streamer[]> {
             } as Streamer;
           }
         } catch (error) {
-          console.error(`Error fetching for ${streamer.name}:`, error);
+          console.error(`Error scraping for ${streamer.name}:`, error);
           return streamer;
         }
       }),

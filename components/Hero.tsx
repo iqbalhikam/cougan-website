@@ -15,8 +15,8 @@ export function Hero() {
     <div className="relative w-full overflow-hidden bg-black flex items-center justify-center">
       {/* Background Image - Drives Height */}
       <div className="relative w-full">
-        <div className="absolute inset-0 bg-black/60 z-10" />
-        <Image width={1920} height={1080} src="/cougan-family.jpg" alt="Cougan Famillia" className="w-full h-auto object-contain block" />
+        <div className="absolute inset-0 bg-black/10 z-10" />
+        <Image width={1920} height={1080} src="/Cougan-Fams.jpg" alt="Cougan Famillia" className="w-full h-auto object-contain block" />
         <div className="absolute bottom-0 left-0 right-0 h-50 bg-gradient-to-t from-black via-black/80 to-transparent z-10" />
       </div>
 
@@ -32,7 +32,7 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-4xl md:text-6xl lg:text-7xl font-black text-white tracking-tighter mb-4 md:mb-6">
-            COUGAN <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold to-gold-dim"> FAMILLIA </span>
+            COUGAN <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold to-gold-dim"> FAMILY </span>
           </motion.h1>
 
           <motion.p
