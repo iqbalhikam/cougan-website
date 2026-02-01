@@ -3,6 +3,9 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import { QuotaMonitor } from '@/components/QuotaMonitor';
 import './globals.css';
 import LoadingScreen from '@/components/LoadingScreen';
+import { AudioPlayer } from '@/components/AudioPlayer';
+import fs from 'fs';
+import path from 'path';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -24,10 +27,22 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Read backsound directory
+  const backsoundDir = path.join(process.cwd(), 'public', 'backsound');
+  let playlist: string[] = [];
+
+  try {
+    const files = fs.readdirSync(backsoundDir);
+    playlist = files.filter((file) => /\.(mp3|wav|ogg)$/i.test(file)).map((file) => `/backsound/${file}`);
+  } catch (error) {
+    console.error('Error reading backsound directory:', error);
+  }
+
   return (
-    <html lang="en">
+    <html lang="en" className="scroll-smooth">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <LoadingScreen />
+        <AudioPlayer playlist={playlist} />
         {children}
         <QuotaMonitor />
       </body>

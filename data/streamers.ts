@@ -39,7 +39,7 @@ export const streamers: Streamer[] = [
   {
     id: '4',
     name: 'Di4vell',
-    role: 'Member',
+    role: '3R Member',
     channelId: 'UCXMx8DZWH91C43QeRP6dR3g',
     youtubeId: '',
     avatar: '/D4vel--Cougan.jpg',
@@ -47,16 +47,43 @@ export const streamers: Streamer[] = [
   },
   {
     id: '5',
-    name: 'Bangking25',
-    role: 'Godfather',
+    name: 'Gonzales Cougan',
+    role: '3R Member',
+    channelId: 'UC9Wss8O8dDwqaO7gGGkdJ_Q', // TODO: Find Channel ID
+    youtubeId: '',
+    avatar: '/Gonzales-Cougan.jpg',
+    status: 'offline',
+  },
+  {
+    id: '6',
+    name: 'Troy Cougan',
+    role: '3R Member',
+    channelId: 'UCrMPgKwaZyq7spIgbAMf5bQ', // TODO: Find Channel ID
+    youtubeId: '',
+    avatar: '/Troy-Cougan.jpg',
+    status: 'offline',
+  },
+  {
+    id: '7',
+    name: 'Akari Cougan',
+    role: 'Member',
+    channelId: 'UCZW7syuDzTBMiDQ3ZZKS6Ig', // TODO: Find Channel ID
+    youtubeId: '',
+    avatar: '/Akari-Cougan.jpg',
+    status: 'offline',
+  },
+  {
+    id: '8',
+    name: 'Dudung Cougan',
+    role: 'Member',
     channelId: 'UC21jlheq1Md8BQaWrii7V6w',
     youtubeId: '',
     avatar: 'https://ui-avatars.com/api/?name=Bangking25&background=000&color=d4af37',
     status: 'offline',
   },
   {
-    id: '6',
-    name: 'SEptazoe',
+    id: '9',
+    name: 'Zoe Cougan',
     role: 'Soldier',
     channelId: 'UCY06vxuyFJrv3jQ9sDGv3ng',
     youtubeId: '',
@@ -65,8 +92,8 @@ export const streamers: Streamer[] = [
   },
 
   {
-    id: '7',
-    name: 'ImWahyuSkyy',
+    id: '10',
+    name: 'T4ka Sky Cougan',
     role: 'Member',
     channelId: 'UCKfVAASgzT4ynMBa5cOhFUA', // TODO: Find Channel ID
     youtubeId: '',
@@ -74,8 +101,8 @@ export const streamers: Streamer[] = [
     status: 'offline',
   },
   {
-    id: '8',
-    name: 'WiskaGudut',
+    id: '11',
+    name: 'Giska Cougan',
     role: 'Member',
     channelId: 'UCf0OL86JVEqf0ejkULLnVFA', // TODO: Find Channel ID
     youtubeId: '',
@@ -83,17 +110,17 @@ export const streamers: Streamer[] = [
     status: 'offline',
   },
   {
-    id: '9',
-    name: 'ZukaaaAmat',
+    id: '12',
+    name: 'Zukaaa Cougan',
     role: 'Member',
     channelId: 'UC7StJFG0KbDpj4vUZhbBcdA', // TODO: Find Channel ID
     youtubeId: '',
-    avatar: 'https://ui-avatars.com/api/?name=ZukaaaAmat&background=000&color=d4af37',
+    avatar: 'https://ui-avatars.com/api/?name=Zukaaa Amat&background=000&color=d4af37',
     status: 'offline',
   },
   {
-    id: '10',
-    name: 'haraazy',
+    id: '13',
+    name: 'Hara Cougan',
     role: 'Member',
     channelId: 'UCTw-hQ197ZSU7wwvB6iav_Q', // TODO: Find Channel ID
     youtubeId: '',
@@ -101,8 +128,8 @@ export const streamers: Streamer[] = [
     status: 'offline',
   },
   {
-    id: '11',
-    name: 'sarahmaheswara',
+    id: '14',
+    name: 'Abiel Oda Cougan',
     role: 'Member',
     channelId: 'UCRpjWT4pLKSRMIHe1tDt7HA', // TODO: Find Channel ID
     youtubeId: '',
@@ -110,8 +137,8 @@ export const streamers: Streamer[] = [
     status: 'offline',
   },
   {
-    id: '12',
-    name: 'petrix35',
+    id: '15',
+    name: 'Petrix Cougan',
     role: 'Member',
     channelId: 'UC5SORctGpjsLRxX6DJj9NNA', // TODO: Find Channel ID
     youtubeId: '',
@@ -119,8 +146,8 @@ export const streamers: Streamer[] = [
     status: 'offline',
   },
   {
-    id: '13',
-    name: 'BbyAngelllll',
+    id: '16',
+    name: 'Angel Cougan',
     role: 'Member',
     channelId: 'UCGGtYwqIYO_nx0gAe16DJmw', // TODO: Find Channel ID
     youtubeId: '',
@@ -128,8 +155,8 @@ export const streamers: Streamer[] = [
     status: 'offline',
   },
   {
-    id: '14',
-    name: 'smarttupai8316',
+    id: '17',
+    name: 'Pai Cougan',
     role: 'Member',
     channelId: 'UCDc5YC15xZAU1I4S4pFy9VA', // TODO: Find Channel ID
     youtubeId: '',
@@ -137,26 +164,8 @@ export const streamers: Streamer[] = [
     status: 'offline',
   },
   {
-    id: '15',
-    name: 'ReynoYabriRenel',
-    role: 'Member',
-    channelId: 'UC9Wss8O8dDwqaO7gGGkdJ_Q', // TODO: Find Channel ID
-    youtubeId: '',
-    avatar: 'https://ui-avatars.com/api/?name=ReynoYabriRenel&background=000&color=d4af37',
-    status: 'offline',
-  },
-  {
-    id: '16',
-    name: 'ibeeyorii',
-    role: 'Member',
-    channelId: 'UCZW7syuDzTBMiDQ3ZZKS6Ig', // TODO: Find Channel ID
-    youtubeId: '',
-    avatar: 'https://ui-avatars.com/api/?name=ibeeyorii&background=000&color=d4af37',
-    status: 'offline',
-  },
-  {
-    id: '17',
-    name: 'ABAH-F',
+    id: '18',
+    name: 'Waloyo Cougan',
     role: 'Member',
     channelId: 'UCI8im5Xz1vy-CuZ-ecLN3JA', // TODO: Find Channel ID
     youtubeId: '',

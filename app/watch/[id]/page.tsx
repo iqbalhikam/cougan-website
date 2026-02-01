@@ -35,7 +35,7 @@ export default async function WatchPage({ params }: WatchPageProps) {
   }
 
   return (
-    <main className="min-h-screen bg-black flex flex-col">
+    <main className="min-h-screen bg-black flex flex-col pt-16">
       <Navbar />
 
       <div className="flex-1 container mx-auto p-4 pt-20 flex flex-col items-center">

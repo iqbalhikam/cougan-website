@@ -12,11 +12,12 @@ export function Hero() {
   const buttonOpacity = useTransform(scrollY, [0, 400], [1, 0]);
 
   return (
-    <div className="relative w-full overflow-hidden bg-black flex items-center justify-center">
+    <div className="relative w-full overflow-hidden flex flex-col items-center justify-center">
+      <Image width={1920} height={1080} src="/Cougan-Fams.gif" alt="Cougan Famillia" className="z-10 w-full h-26 object-cover" />
       {/* Background Image - Drives Height */}
       <div className="relative w-full">
         <div className="absolute inset-0 bg-black/10 z-10" />
-        <Image width={1920} height={1080} src="/Cougan-Fams.jpg" alt="Cougan Famillia" className="w-full h-auto object-contain block" />
+        <Image width={1920} height={1080} src="/Cougan-Fams.gif" alt="Cougan Famillia" className="w-full h-auto object-contain block" />
         <div className="absolute bottom-0 left-0 right-0 h-50 bg-gradient-to-t from-black via-black/80 to-transparent z-10" />
       </div>
 
@@ -32,7 +33,7 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-4xl md:text-6xl lg:text-7xl font-black text-white tracking-tighter mb-4 md:mb-6">
-            COUGAN <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold to-gold-dim"> FAMILY </span>
+            By Order Of <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold to-gold-dim"> The Cougan Family </span>
           </motion.h1>
 
           <motion.p
@@ -43,7 +44,7 @@ export function Hero() {
             className="text-lg md:text-xl text-zinc-300 mb-6 md:mb-10 max-w-2xl mx-auto font-light leading-relaxed">
             Blood makes you related. Loyalty makes you family.
             <br className="hidden md:block" />
-            <span className="text-gold/80 font-medium mt-1 block">Premium GTA V Roleplay Entertainment</span>
+            <span className="text-gold/80 font-medium mt-1 block bg-black/10 backdrop-blur-sm rounded-full px-2">Premium GTA V Roleplay Entertainment</span>
           </motion.p>
 
           <motion.div

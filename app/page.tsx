@@ -8,11 +8,11 @@ export const revalidate = 60; // Revalidate every 60 seconds
 export default async function Home() {
   const streamers = await getStreamers();
   return (
-    <main className="min-h-screen bg-black pt-26">
+    <main className="min-h-screen bg-black scroll-smooth">
       <Navbar />
       <Hero />
 
-      <section id="members" className="py-20 px-4 md:px-8 max-w-7xl mx-auto">
+      <section id="members" className="py-20 px-4 md:px-8 pt-28 max-w-7xl mx-auto">
         <div className="mb-12 text-center md:text-left">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             The <span className="text-gold">Family</span> Members
@@ -26,7 +26,6 @@ export default async function Home() {
           ))}
         </div>
       </section>
-
       <footer className="py-10 border-t border-white/10 text-center text-zinc-500 text-sm">
         <p>&copy; {new Date().getFullYear()} Cougan Fams. All rights reserved.</p>
       </footer>
