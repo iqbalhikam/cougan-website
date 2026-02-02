@@ -14,15 +14,17 @@ datasource db {
 }
 
 model Streamer {
-  id        String   @id
-  name      String
-  role      String
-  channelId String   @map("channel_id")
-  youtubeId String?  @default("") @map("youtube_id")
-  avatar    String
-  status    String   @default("offline")
-  createdAt DateTime @default(now()) @map("created_at")
-  position     Int      @default(autoincrement()) 
+  id             String    @id
+  name           String
+  role           String
+  channelId      String    @map("channel_id")
+  youtubeId      String?   @default("") @map("youtube_id")
+  avatar         String
+  status         String    @default("offline")
+  createdAt      DateTime  @default(now()) @map("created_at")
+  position       Int       @default(autoincrement())
+  lastChecked    DateTime? @map("last_checked")
+  lastVideoCheck DateTime? @map("last_video_check")
 
   @@map("streamers")
 }

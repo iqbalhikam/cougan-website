@@ -44,6 +44,8 @@ export type StreamerMinAggregateOutputType = {
   status: string | null
   createdAt: Date | null
   position: number | null
+  lastChecked: Date | null
+  lastVideoCheck: Date | null
 }
 
 export type StreamerMaxAggregateOutputType = {
@@ -56,6 +58,8 @@ export type StreamerMaxAggregateOutputType = {
   status: string | null
   createdAt: Date | null
   position: number | null
+  lastChecked: Date | null
+  lastVideoCheck: Date | null
 }
 
 export type StreamerCountAggregateOutputType = {
@@ -68,6 +72,8 @@ export type StreamerCountAggregateOutputType = {
   status: number
   createdAt: number
   position: number
+  lastChecked: number
+  lastVideoCheck: number
   _all: number
 }
 
@@ -90,6 +96,8 @@ export type StreamerMinAggregateInputType = {
   status?: true
   createdAt?: true
   position?: true
+  lastChecked?: true
+  lastVideoCheck?: true
 }
 
 export type StreamerMaxAggregateInputType = {
@@ -102,6 +110,8 @@ export type StreamerMaxAggregateInputType = {
   status?: true
   createdAt?: true
   position?: true
+  lastChecked?: true
+  lastVideoCheck?: true
 }
 
 export type StreamerCountAggregateInputType = {
@@ -114,6 +124,8 @@ export type StreamerCountAggregateInputType = {
   status?: true
   createdAt?: true
   position?: true
+  lastChecked?: true
+  lastVideoCheck?: true
   _all?: true
 }
 
@@ -213,6 +225,8 @@ export type StreamerGroupByOutputType = {
   status: string
   createdAt: Date
   position: number
+  lastChecked: Date | null
+  lastVideoCheck: Date | null
   _count: StreamerCountAggregateOutputType | null
   _avg: StreamerAvgAggregateOutputType | null
   _sum: StreamerSumAggregateOutputType | null
@@ -248,6 +262,8 @@ export type StreamerWhereInput = {
   status?: Prisma.StringFilter<"Streamer"> | string
   createdAt?: Prisma.DateTimeFilter<"Streamer"> | Date | string
   position?: Prisma.IntFilter<"Streamer"> | number
+  lastChecked?: Prisma.DateTimeNullableFilter<"Streamer"> | Date | string | null
+  lastVideoCheck?: Prisma.DateTimeNullableFilter<"Streamer"> | Date | string | null
 }
 
 export type StreamerOrderByWithRelationInput = {
@@ -260,11 +276,12 @@ export type StreamerOrderByWithRelationInput = {
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   position?: Prisma.SortOrder
+  lastChecked?: Prisma.SortOrderInput | Prisma.SortOrder
+  lastVideoCheck?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type StreamerWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  position?: number
   AND?: Prisma.StreamerWhereInput | Prisma.StreamerWhereInput[]
   OR?: Prisma.StreamerWhereInput[]
   NOT?: Prisma.StreamerWhereInput | Prisma.StreamerWhereInput[]
@@ -275,7 +292,10 @@ export type StreamerWhereUniqueInput = Prisma.AtLeast<{
   avatar?: Prisma.StringFilter<"Streamer"> | string
   status?: Prisma.StringFilter<"Streamer"> | string
   createdAt?: Prisma.DateTimeFilter<"Streamer"> | Date | string
-}, "id" | "position">
+  position?: Prisma.IntFilter<"Streamer"> | number
+  lastChecked?: Prisma.DateTimeNullableFilter<"Streamer"> | Date | string | null
+  lastVideoCheck?: Prisma.DateTimeNullableFilter<"Streamer"> | Date | string | null
+}, "id">
 
 export type StreamerOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -287,6 +307,8 @@ export type StreamerOrderByWithAggregationInput = {
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   position?: Prisma.SortOrder
+  lastChecked?: Prisma.SortOrderInput | Prisma.SortOrder
+  lastVideoCheck?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.StreamerCountOrderByAggregateInput
   _avg?: Prisma.StreamerAvgOrderByAggregateInput
   _max?: Prisma.StreamerMaxOrderByAggregateInput
@@ -307,6 +329,8 @@ export type StreamerScalarWhereWithAggregatesInput = {
   status?: Prisma.StringWithAggregatesFilter<"Streamer"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Streamer"> | Date | string
   position?: Prisma.IntWithAggregatesFilter<"Streamer"> | number
+  lastChecked?: Prisma.DateTimeNullableWithAggregatesFilter<"Streamer"> | Date | string | null
+  lastVideoCheck?: Prisma.DateTimeNullableWithAggregatesFilter<"Streamer"> | Date | string | null
 }
 
 export type StreamerCreateInput = {
@@ -319,6 +343,8 @@ export type StreamerCreateInput = {
   status?: string
   createdAt?: Date | string
   position?: number
+  lastChecked?: Date | string | null
+  lastVideoCheck?: Date | string | null
 }
 
 export type StreamerUncheckedCreateInput = {
@@ -331,6 +357,8 @@ export type StreamerUncheckedCreateInput = {
   status?: string
   createdAt?: Date | string
   position?: number
+  lastChecked?: Date | string | null
+  lastVideoCheck?: Date | string | null
 }
 
 export type StreamerUpdateInput = {
@@ -342,6 +370,9 @@ export type StreamerUpdateInput = {
   avatar?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  position?: Prisma.IntFieldUpdateOperationsInput | number
+  lastChecked?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastVideoCheck?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type StreamerUncheckedUpdateInput = {
@@ -354,6 +385,8 @@ export type StreamerUncheckedUpdateInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   position?: Prisma.IntFieldUpdateOperationsInput | number
+  lastChecked?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastVideoCheck?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type StreamerCreateManyInput = {
@@ -366,6 +399,8 @@ export type StreamerCreateManyInput = {
   status?: string
   createdAt?: Date | string
   position?: number
+  lastChecked?: Date | string | null
+  lastVideoCheck?: Date | string | null
 }
 
 export type StreamerUpdateManyMutationInput = {
@@ -377,6 +412,9 @@ export type StreamerUpdateManyMutationInput = {
   avatar?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  position?: Prisma.IntFieldUpdateOperationsInput | number
+  lastChecked?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastVideoCheck?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type StreamerUncheckedUpdateManyInput = {
@@ -389,6 +427,8 @@ export type StreamerUncheckedUpdateManyInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   position?: Prisma.IntFieldUpdateOperationsInput | number
+  lastChecked?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastVideoCheck?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type StreamerCountOrderByAggregateInput = {
@@ -401,6 +441,8 @@ export type StreamerCountOrderByAggregateInput = {
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   position?: Prisma.SortOrder
+  lastChecked?: Prisma.SortOrder
+  lastVideoCheck?: Prisma.SortOrder
 }
 
 export type StreamerAvgOrderByAggregateInput = {
@@ -417,6 +459,8 @@ export type StreamerMaxOrderByAggregateInput = {
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   position?: Prisma.SortOrder
+  lastChecked?: Prisma.SortOrder
+  lastVideoCheck?: Prisma.SortOrder
 }
 
 export type StreamerMinOrderByAggregateInput = {
@@ -429,6 +473,8 @@ export type StreamerMinOrderByAggregateInput = {
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   position?: Prisma.SortOrder
+  lastChecked?: Prisma.SortOrder
+  lastVideoCheck?: Prisma.SortOrder
 }
 
 export type StreamerSumOrderByAggregateInput = {
@@ -455,6 +501,10 @@ export type IntFieldUpdateOperationsInput = {
   divide?: number
 }
 
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
+}
+
 
 
 export type StreamerSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -467,6 +517,8 @@ export type StreamerSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   status?: boolean
   createdAt?: boolean
   position?: boolean
+  lastChecked?: boolean
+  lastVideoCheck?: boolean
 }, ExtArgs["result"]["streamer"]>
 
 export type StreamerSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -479,6 +531,8 @@ export type StreamerSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   status?: boolean
   createdAt?: boolean
   position?: boolean
+  lastChecked?: boolean
+  lastVideoCheck?: boolean
 }, ExtArgs["result"]["streamer"]>
 
 export type StreamerSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -491,6 +545,8 @@ export type StreamerSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   status?: boolean
   createdAt?: boolean
   position?: boolean
+  lastChecked?: boolean
+  lastVideoCheck?: boolean
 }, ExtArgs["result"]["streamer"]>
 
 export type StreamerSelectScalar = {
@@ -503,9 +559,11 @@ export type StreamerSelectScalar = {
   status?: boolean
   createdAt?: boolean
   position?: boolean
+  lastChecked?: boolean
+  lastVideoCheck?: boolean
 }
 
-export type StreamerOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "role" | "channelId" | "youtubeId" | "avatar" | "status" | "createdAt" | "position", ExtArgs["result"]["streamer"]>
+export type StreamerOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "role" | "channelId" | "youtubeId" | "avatar" | "status" | "createdAt" | "position" | "lastChecked" | "lastVideoCheck", ExtArgs["result"]["streamer"]>
 
 export type $StreamerPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Streamer"
@@ -520,6 +578,8 @@ export type $StreamerPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     status: string
     createdAt: Date
     position: number
+    lastChecked: Date | null
+    lastVideoCheck: Date | null
   }, ExtArgs["result"]["streamer"]>
   composites: {}
 }
@@ -952,6 +1012,8 @@ export interface StreamerFieldRefs {
   readonly status: Prisma.FieldRef<"Streamer", 'String'>
   readonly createdAt: Prisma.FieldRef<"Streamer", 'DateTime'>
   readonly position: Prisma.FieldRef<"Streamer", 'Int'>
+  readonly lastChecked: Prisma.FieldRef<"Streamer", 'DateTime'>
+  readonly lastVideoCheck: Prisma.FieldRef<"Streamer", 'DateTime'>
 }
     
 

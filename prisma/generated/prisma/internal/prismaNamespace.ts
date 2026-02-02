@@ -526,7 +526,9 @@ export const StreamerScalarFieldEnum = {
   avatar: 'avatar',
   status: 'status',
   createdAt: 'createdAt',
-  position: 'position'
+  position: 'position',
+  lastChecked: 'lastChecked',
+  lastVideoCheck: 'lastVideoCheck'
 } as const
 
 export type StreamerScalarFieldEnum = (typeof StreamerScalarFieldEnum)[keyof typeof StreamerScalarFieldEnum]

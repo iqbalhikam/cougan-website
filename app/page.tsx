@@ -3,7 +3,7 @@ import { Hero } from '@/components/layout/Hero';
 import { StreamerCard } from '@/components/features/streamer/StreamerCard';
 import { getStreamers } from '@/lib/getStreamers';
 
-export const revalidate = 60; // Revalidate every 60 seconds
+export const revalidate = 120; // Revalidate every 2 minutes (reduced from 60s)
 
 export default async function Home() {
   const streamers = await getStreamers();
