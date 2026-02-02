@@ -44,7 +44,13 @@ export async function getStreamers(): Promise<Streamer[]> {
             next: { revalidate: 60 },
           });
 
-          if (!response.ok) return currentStreamer;
+          if (!response.ok) {
+            return {
+              ...currentStreamer,
+              status: 'offline',
+              youtubeId: '',
+            };
+          }
 
           const html = await response.text();
           let isLive = false;
@@ -94,8 +100,13 @@ export async function getStreamers(): Promise<Streamer[]> {
           }
         } catch (error) {
           console.error(`Error scraping for ${streamer.name}:`, error);
-          // On ERROR (e.g. rate limit), fallback to DB so we don't break site
-          return currentStreamer;
+          // On ERROR (e.g. rate limit), force OFFLINE status.
+          // Do NOT fallback to DB data, as it is likely stale/incorrect ("different youtube" issue).
+          return {
+            ...currentStreamer,
+            status: 'offline',
+            youtubeId: '',
+          };
         }
       }),
     );

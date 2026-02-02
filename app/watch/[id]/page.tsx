@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { ArrowLeft, VideoOff } from 'lucide-react';
 
+export const revalidate = 0; // Force dynamic to ensure live status is checked on every navigation
+
 // In Next.js 15, params is a Promise.
 interface WatchPageProps {
   params: Promise<{
