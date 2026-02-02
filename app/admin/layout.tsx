@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation';
 import { createSupabaseServer } from '@/lib/supabase/server';
-import { Navbar } from '@/components/layout/Navbar';
+
+export const dynamic = 'force-dynamic';
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createSupabaseServer();
@@ -24,7 +25,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         <h1 className="text-xl font-bold text-gold">Cougan Admin</h1>
         <div className="text-sm text-zinc-400">Logged in as {user.email}</div>
       </div>
-      
+
       <main className="p-8 max-w-7xl mx-auto">{children}</main>
     </div>
   );
