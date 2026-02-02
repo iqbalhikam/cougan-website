@@ -36,7 +36,6 @@ export async function getStreamers(): Promise<Streamer[]> {
         }
 
         try {
-          // Live Check Logic (Preserved)
           const response = await fetch(`https://www.youtube.com/channel/${streamer.channelId}/live`, {
             headers: {
               'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
@@ -47,34 +46,55 @@ export async function getStreamers(): Promise<Streamer[]> {
 
           if (!response.ok) return currentStreamer;
 
-          const text = await response.text();
-          const isLive = text.includes('"text":"LIVE"') && text.includes('watching now');
-
+          const html = await response.text();
+          let isLive = false;
           let videoId = '';
-          if (isLive) {
-            const match = text.match(/"videoId":"([a-zA-Z0-9_-]{11})"/);
-            if (match && match[1]) {
-              videoId = match[1];
+
+          // 1. Try parsing ytInitialData (More reliable)
+          const ytInitialDataMatch = html.match(/var ytInitialData = ({.*?});/);
+          if (ytInitialDataMatch && ytInitialDataMatch[1]) {
+            try {
+              const ytData = JSON.parse(ytInitialDataMatch[1]);
+              const microformat = ytData.microformat?.microformatDataRenderer;
+              if (microformat?.liveBroadcastDetails?.isLiveBroadcast) {
+                isLive = true;
+                videoId = microformat.liveBroadcastDetails.videoId;
+              }
+            } catch (e) {
+              console.error('Error parsing ytInitialData:', e);
+            }
+          }
+
+          // 2. Fallback: Check for raw text indicators if logic above failed to find live
+          if (!isLive) {
+            const hasLiveText = html.includes('"text":"LIVE"') && html.includes('watching now');
+            if (hasLiveText) {
+              const match = html.match(/"videoId":"([a-zA-Z0-9_-]{11})"/);
+              if (match && match[1]) {
+                isLive = true;
+                videoId = match[1];
+              }
             }
           }
 
           if (isLive && videoId) {
-            console.log(`LIVE FOUND (Scrape): ${currentStreamer.name}`);
+            console.log(`LIVE FOUND (Scrape): ${currentStreamer.name} -> ${videoId}`);
             return {
               ...currentStreamer,
               status: 'live' as const,
               youtubeId: videoId,
             };
           } else {
-            // If DB says live but scrape says offline?
-            // We trust the scrape for "real-time" accuracy, but if admins want to force "live",
-            // we might need a flag. For now, let's stick to "scraped status overrides offline DB status"
-            // or "scrape status overrides everything".
-            // Let's settle on: If scrape finds LIVE, set LIVE. Else keep DB status (which might be set manually).
-            return currentStreamer;
+            // Explicitly return offline if we scraped successfully but found no live stream
+            // This prevents "different youtube" issue by overriding stale DB data
+            return {
+              ...currentStreamer,
+              status: 'offline',
+            };
           }
         } catch (error) {
           console.error(`Error scraping for ${streamer.name}:`, error);
+          // On ERROR (e.g. rate limit), fallback to DB so we don't break site
           return currentStreamer;
         }
       }),
