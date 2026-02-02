@@ -1,5 +1,4 @@
-import { Navbar } from '@/components/Navbar';
-import { streamers } from '@/data/streamers'; // Keep for static params
+import { Navbar } from '@/components/layout/Navbar';
 import { getStreamers } from '@/lib/getStreamers'; // Import for dynamic data
 import { notFound } from 'next/navigation';
 import { Button } from '@/components/ui/button';
@@ -7,10 +6,6 @@ import Link from 'next/link';
 import { ArrowLeft, VideoOff } from 'lucide-react';
 
 // In Next.js 15, params is a Promise.
-// But checking package.json, user has "next": "16.1.6" (Wait, 16? Next.js 15 is latest stable, maybe it's a canary or upcoming? Or I misread Step 9 input.
-// Re-checking Step 9: "next": "16.1.6". Wait, Next.js 15 is current. 16 might be very new or user is on a specific version.
-// Regardless, treating params as Promise is the safe forward-compatible way for App Router now.
-
 interface WatchPageProps {
   params: Promise<{
     id: string;
@@ -18,6 +13,7 @@ interface WatchPageProps {
 }
 
 export async function generateStaticParams() {
+  const streamers = await getStreamers();
   return streamers.map((streamer) => ({
     id: streamer.id,
   }));

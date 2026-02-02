@@ -1,7 +1,12 @@
-import { Navbar } from '@/components/Navbar';
-import { MultiViewPlayer } from '@/components/MultiViewPlayer';
+import { Navbar } from '@/components/layout/Navbar';
+import { MultiViewPlayer } from '@/components/features/player/MultiViewPlayer';
+import { getStreamers } from '@/lib/getStreamers';
 
-export default function MultiViewPage() {
+export const revalidate = 60;
+
+export default async function MultiViewPage() {
+  const streamers = await getStreamers();
+
   return (
     <main className="min-h-screen bg-black flex flex-col">
       <Navbar />
@@ -10,7 +15,7 @@ export default function MultiViewPage() {
           <h1 className="text-3xl font-bold text-white">Multi-View Command Center</h1>
           <p className="text-zinc-400">Monitor multiple family perspectives simultaneously.</p>
         </div>
-        <MultiViewPlayer />
+        <MultiViewPlayer initialStreamers={streamers} />
       </div>
     </main>
   );

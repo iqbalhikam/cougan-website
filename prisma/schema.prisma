@@ -6,9 +6,23 @@
 
 generator client {
   provider = "prisma-client"
-  output   = "../lib/generated/prisma"
+  output   = "./generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
+}
+
+model Streamer {
+  id        String   @id
+  name      String
+  role      String
+  channelId String   @map("channel_id")
+  youtubeId String?  @default("") @map("youtube_id")
+  avatar    String
+  status    String   @default("offline")
+  createdAt DateTime @default(now()) @map("created_at")
+  position     Int      @default(autoincrement()) 
+
+  @@map("streamers")
 }
