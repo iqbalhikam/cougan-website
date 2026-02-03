@@ -18,7 +18,7 @@ export async function middleware(request: NextRequest) {
       pathname.startsWith('/_next') ||
       pathname.startsWith('/api') ||
       pathname.startsWith('/static') ||
-      pathname.includes('.') // File extensions (images, etc.)
+      /\.(.+)$/.test(pathname) // Only allow if it has a file extension at the end
     ) {
       return await updateSession(request);
     }
