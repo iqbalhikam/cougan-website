@@ -38,11 +38,13 @@ export default function RootLayout({
     console.error('Error reading backsound directory:', error);
   }
 
+  const isMaintenance = process.env.NEXT_PUBLIC_MAINTENANCE_MODE === 'true';
+
   return (
     <html lang="en" className="scroll-smooth">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <LoadingScreen />
-        <AudioPlayer playlist={playlist} />
+        {!isMaintenance && <LoadingScreen />}
+        {!isMaintenance && <AudioPlayer playlist={playlist} />}
         {children}
         <QuotaMonitor />
       </body>
