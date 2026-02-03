@@ -53,7 +53,9 @@ class CacheService {
     // Prevent cache from growing too large
     if (this.cache.size >= this.MAX_CACHE_SIZE) {
       const firstKey = this.cache.keys().next().value;
-      this.cache.delete(firstKey);
+      if (firstKey) {
+        this.cache.delete(firstKey);
+      }
     }
 
     // Determine TTL based on live streamers count
