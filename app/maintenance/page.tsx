@@ -20,7 +20,7 @@ export default function MaintenancePage() {
             <Image src="/x.png" alt="Cougan Family Logo" fill className="object-contain" priority unoptimized />
           </div>
           <div className="relative flex items-center justify-center w-20 h-20 md:w-36 md:h-36 lg:w-60 lg:h-60 animate-pulse-slow drop-shadow-[0_0_25px_rgba(180,148,31,0.3)]">
-            <Image src="/BSG_LOGO.png" alt="BSG Logo" fill className="object-contain hover:grayscale-0 transition-all duration-700" />
+            <Image src="/BSG_LOGO.png" alt="BSG Logo" fill className="object-contain hover:grayscale-0 transition-all duration-700 grayscale" />
           </div>
         </div>
 
