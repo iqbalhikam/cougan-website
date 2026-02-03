@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { createStreamer, updateStreamer } from '@/lib/actions/streamers';
 
-import { Streamer } from '@/generated/prisma/client';
+import { Streamer } from '@/prisma/generated/prisma/client';
 
 interface StreamerFormProps {
   initialData?: Streamer;
