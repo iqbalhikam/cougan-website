@@ -75,13 +75,15 @@ export const StreamerScalarFieldEnum = {
   name: 'name',
   role: 'role',
   channelId: 'channelId',
+  customUrl: 'customUrl',
   youtubeId: 'youtubeId',
   avatar: 'avatar',
   status: 'status',
   createdAt: 'createdAt',
   position: 'position',
   lastChecked: 'lastChecked',
-  lastVideoCheck: 'lastVideoCheck'
+  lastVideoCheck: 'lastVideoCheck',
+  latestVideoId: 'latestVideoId'
 } as const
 
 export type StreamerScalarFieldEnum = (typeof StreamerScalarFieldEnum)[keyof typeof StreamerScalarFieldEnum]

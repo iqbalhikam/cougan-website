@@ -14,17 +14,21 @@ datasource db {
 }
 
 model Streamer {
-  id             String    @id
+  id             String    @id @default(cuid())
   name           String
   role           String
-  channelId      String    @map("channel_id")
-  youtubeId      String?   @default("") @map("youtube_id")
+  channelId      String    @unique @map("channel_id")
+  customUrl      String?   @map("custom_url") // Opsional: link asli
+  youtubeId      String?   @default("") @map("youtube_id") // ID Video Live saat ini
   avatar         String
   status         String    @default("offline")
   createdAt      DateTime  @default(now()) @map("created_at")
   position       Int       @default(autoincrement())
-  lastChecked    DateTime? @map("last_checked")
-  lastVideoCheck DateTime? @map("last_video_check")
+  
+  // --- FIELD BARU YANG WAJIB DITAMBAHKAN ---
+  lastChecked    DateTime? @map("last_checked")      // Waktu terakhir cek
+  lastVideoCheck DateTime? @map("last_video_check")  // Waktu terakhir cek video spesifik
+  latestVideoId  String?   @map("latest_video_id")   // Cache ID video terakhir (untuk hemat kuota)
 
   @@map("streamers")
 }
