@@ -30,12 +30,15 @@ model Streamer {
   @@map("streamers")
 }
 
+// ... model Streamer yang sudah ada ...
+
 model Backsound {
-  id        String   @id @default(uuid())
-  name      String
-  url       String
-  isActive  Boolean  @default(true)
-  createdAt DateTime @default(now()) @map("created_at")
+  id           String   @id @default(cuid())
+  filename     String   // <--- Ubah jadi 'filename' agar cocok dengan API
+  originalName String?  @map("original_name") // Opsional
+  url          String
+  size         Int
+  createdAt    DateTime @default(now()) @map("created_at")
 
   @@map("backsounds")
 }

@@ -4,8 +4,9 @@ import { QuotaMonitor } from '@/components/admin/QuotaMonitor';
 import './globals.css';
 import LoadingScreen from '@/components/layout/LoadingScreen';
 import { AudioPlayer } from '@/components/features/player/AudioPlayer';
-import { getBacksounds } from '@/lib/actions/backsound';
-
+import fs from 'fs';
+import path from 'path';
+import { prisma } from '@/lib/prisma';
 const geistSans = Geist({
   variable: '--font-geist-sans',
   subsets: ['latin'],
@@ -27,14 +28,20 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   // Read backsound from database
-  const backsounds = await getBacksounds();
-  const playlist = backsounds.filter((track) => track.isActive).map((track) => track.url);
+  // Read backsound from local directory
+  const tracks = await prisma.backsound.findMany({
+    orderBy: { createdAt: 'desc' },
+    select: { url: true },
+  });
+
+  // Convert object array ke string array ['url1', 'url2']
+  const playlistUrls = tracks.map((t) => t.url);
 
   return (
     <html lang="en" className="scroll-smooth">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <LoadingScreen />
-        <AudioPlayer playlist={playlist} />
+        <AudioPlayer playlist={playlistUrls} />
         {children}
         <QuotaMonitor />
       </body>

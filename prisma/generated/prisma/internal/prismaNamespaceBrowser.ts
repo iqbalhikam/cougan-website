@@ -91,9 +91,10 @@ export type StreamerScalarFieldEnum = (typeof StreamerScalarFieldEnum)[keyof typ
 
 export const BacksoundScalarFieldEnum = {
   id: 'id',
-  name: 'name',
+  filename: 'filename',
+  originalName: 'originalName',
   url: 'url',
-  isActive: 'isActive',
+  size: 'size',
   createdAt: 'createdAt'
 } as const
 

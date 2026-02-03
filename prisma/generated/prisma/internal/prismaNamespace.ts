@@ -612,9 +612,10 @@ export type StreamerScalarFieldEnum = (typeof StreamerScalarFieldEnum)[keyof typ
 
 export const BacksoundScalarFieldEnum = {
   id: 'id',
-  name: 'name',
+  filename: 'filename',
+  originalName: 'originalName',
   url: 'url',
-  isActive: 'isActive',
+  size: 'size',
   createdAt: 'createdAt'
 } as const
 
@@ -690,13 +691,6 @@ export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'In
  * Reference to a field of type 'Int[]'
  */
 export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
-    
-
-
-/**
- * Reference to a field of type 'Boolean'
- */
-export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
