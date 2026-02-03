@@ -4,8 +4,7 @@ import { QuotaMonitor } from '@/components/admin/QuotaMonitor';
 import './globals.css';
 import LoadingScreen from '@/components/layout/LoadingScreen';
 import { AudioPlayer } from '@/components/features/player/AudioPlayer';
-import fs from 'fs';
-import path from 'path';
+import { getBacksounds } from '@/lib/actions/backsound';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -22,21 +21,14 @@ export const metadata: Metadata = {
   description: 'Official streaming hub for the Cougan Family.',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Read backsound directory
-  const backsoundDir = path.join(process.cwd(), 'public', 'backsound');
-  let playlist: string[] = [];
-
-  try {
-    const files = fs.readdirSync(backsoundDir);
-    playlist = files.filter((file) => /\.(mp3|wav|ogg)$/i.test(file)).map((file) => `/backsound/${file}`);
-  } catch (error) {
-    console.error('Error reading backsound directory:', error);
-  }
+  // Read backsound from database
+  const backsounds = await getBacksounds();
+  const playlist = backsounds.filter((track) => track.isActive).map((track) => track.url);
 
   return (
     <html lang="en" className="scroll-smooth">

@@ -22,3 +22,8 @@ export * from './enums';
  * 
  */
 export type Streamer = Prisma.StreamerModel
+/**
+ * Model Backsound
+ * 
+ */
+export type Backsound = Prisma.BacksoundModel

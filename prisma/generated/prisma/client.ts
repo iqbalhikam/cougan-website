@@ -44,3 +44,8 @@ export { Prisma }
  * 
  */
 export type Streamer = Prisma.StreamerModel
+/**
+ * Model Backsound
+ * 
+ */
+export type Backsound = Prisma.BacksoundModel

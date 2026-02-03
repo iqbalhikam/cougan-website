@@ -384,7 +384,8 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 
 export const ModelName = {
-  Streamer: 'Streamer'
+  Streamer: 'Streamer',
+  Backsound: 'Backsound'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -400,7 +401,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "streamer"
+    modelProps: "streamer" | "backsound"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -478,6 +479,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Backsound: {
+      payload: Prisma.$BacksoundPayload<ExtArgs>
+      fields: Prisma.BacksoundFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.BacksoundFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacksoundPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.BacksoundFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacksoundPayload>
+        }
+        findFirst: {
+          args: Prisma.BacksoundFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacksoundPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.BacksoundFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacksoundPayload>
+        }
+        findMany: {
+          args: Prisma.BacksoundFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacksoundPayload>[]
+        }
+        create: {
+          args: Prisma.BacksoundCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacksoundPayload>
+        }
+        createMany: {
+          args: Prisma.BacksoundCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.BacksoundCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacksoundPayload>[]
+        }
+        delete: {
+          args: Prisma.BacksoundDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacksoundPayload>
+        }
+        update: {
+          args: Prisma.BacksoundUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacksoundPayload>
+        }
+        deleteMany: {
+          args: Prisma.BacksoundDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.BacksoundUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.BacksoundUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacksoundPayload>[]
+        }
+        upsert: {
+          args: Prisma.BacksoundUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacksoundPayload>
+        }
+        aggregate: {
+          args: Prisma.BacksoundAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateBacksound>
+        }
+        groupBy: {
+          args: Prisma.BacksoundGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.BacksoundGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.BacksoundCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.BacksoundCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -533,6 +608,17 @@ export const StreamerScalarFieldEnum = {
 } as const
 
 export type StreamerScalarFieldEnum = (typeof StreamerScalarFieldEnum)[keyof typeof StreamerScalarFieldEnum]
+
+
+export const BacksoundScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  url: 'url',
+  isActive: 'isActive',
+  createdAt: 'createdAt'
+} as const
+
+export type BacksoundScalarFieldEnum = (typeof BacksoundScalarFieldEnum)[keyof typeof BacksoundScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -604,6 +690,13 @@ export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'In
  * Reference to a field of type 'Int[]'
  */
 export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -716,6 +809,7 @@ export type PrismaClientOptions = ({
 }
 export type GlobalOmitConfig = {
   streamer?: Prisma.StreamerOmit
+  backsound?: Prisma.BacksoundOmit
 }
 
 /* Types for Logging */

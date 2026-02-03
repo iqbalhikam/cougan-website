@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragEndEvent } from '@dnd-kit/core';
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy, useSortable } from '@dnd-kit/sortable';
@@ -62,6 +62,13 @@ export function SortableStreamerList({ initialStreamers }: SortableStreamerListP
   const [streamers, setStreamers] = useState(initialStreamers);
   const [isSaving, setIsSaving] = useState(false);
 
+  // ✅ SOLUSI HYDRATION: Tambahkan state mounted
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
@@ -73,33 +80,32 @@ export function SortableStreamerList({ initialStreamers }: SortableStreamerListP
     const { active, over } = event;
 
     if (over && active.id !== over.id) {
-      // 1. Calculate new items first based on current state
       const oldIndex = streamers.findIndex((item) => item.id === active.id);
       const newIndex = streamers.findIndex((item) => item.id === over.id);
 
       const newItems = arrayMove(streamers, oldIndex, newIndex);
-
-      // 2. Optimistic update to UI state
       setStreamers(newItems);
 
-      // 3. Prepare updates for server
       const updates = newItems.map((item, index) => ({
         id: item.id,
         position: index,
       }));
 
-      // 4. Call Server Action
       setIsSaving(true);
       try {
         await updateStreamerPositions(updates);
       } catch (error) {
         console.error('Failed to save order:', error);
-        // Optional: Revert state on error if critical
       } finally {
         setIsSaving(false);
       }
     }
   };
+
+  // ✅ JANGAN render DndContext sebelum mounted
+  if (!mounted) {
+    return <div className="bg-zinc-900 rounded-lg border border-zinc-800 overflow-hidden p-8 text-center text-zinc-500">Loading list...</div>;
+  }
 
   return (
     <div className="bg-zinc-900 rounded-lg border border-zinc-800 overflow-hidden">

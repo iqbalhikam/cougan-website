@@ -51,7 +51,8 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-  Streamer: 'Streamer'
+  Streamer: 'Streamer',
+  Backsound: 'Backsound'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -86,6 +87,17 @@ export const StreamerScalarFieldEnum = {
 } as const
 
 export type StreamerScalarFieldEnum = (typeof StreamerScalarFieldEnum)[keyof typeof StreamerScalarFieldEnum]
+
+
+export const BacksoundScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  url: 'url',
+  isActive: 'isActive',
+  createdAt: 'createdAt'
+} as const
+
+export type BacksoundScalarFieldEnum = (typeof BacksoundScalarFieldEnum)[keyof typeof BacksoundScalarFieldEnum]
 
 
 export const SortOrder = {

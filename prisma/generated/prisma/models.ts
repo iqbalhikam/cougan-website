@@ -9,4 +9,5 @@
  * 🟢 You can import this file directly.
  */
 export type * from './models/Streamer'
+export type * from './models/Backsound'
 export type * from './commonInputTypes'

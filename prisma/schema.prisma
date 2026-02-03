@@ -29,3 +29,13 @@ model Streamer {
 
   @@map("streamers")
 }
+
+model Backsound {
+  id        String   @id @default(uuid())
+  name      String
+  url       String
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("backsounds")
+}
