@@ -30,7 +30,7 @@ export default function MaintenancePage() {
             Under Maintenance
           </h1>
           <div className="h-1 w-24 bg-blood mx-auto rounded-full"></div>
-          <p className="text-gray-400 text-lg md:text-xl font-light tracking-wide italic">&quot;We are refining the business. No witnesses.&quot;</p>
+          <p className="text-gray-400 text-lg md:text-xl font-light tracking-wide italic">&quot;We are currently improving this website. There are no witnesses.&quot;</p>
         </div>
 
         {/* BSG Logo - Partner/Footer */}
