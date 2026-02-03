@@ -266,13 +266,18 @@ class QuotaService {
    * Get comprehensive metrics
    */
   getMetrics() {
+    // HARDCODED LIMIT: Kuota default YouTube Data API v3 adalah 10,000 unit/hari
+    const DAILY_LIMIT = 10000;
+
     return {
       quotaUsed: this.quotaUsed,
+      limit: DAILY_LIMIT, // Tambahkan ini agar frontend tahu batasnya
+      remaining: DAILY_LIMIT - this.quotaUsed, // Hitung sisa
       requestsMade: this.requestsMade,
       isCircuitOpen: this.isCircuitOpen,
       circuitBreakerTrips: this.circuitBreakerTrips,
       errorCount: this.errorCount,
-      currentResetDelay: this.currentResetDelay / 1000 / 60, // in minutes
+      currentResetDelay: this.currentResetDelay / 1000 / 60,
       uptime: process.uptime(),
       lastReset: this.lastReset.toISOString(),
       rateLimiter: this.rateLimiter.getStats(),

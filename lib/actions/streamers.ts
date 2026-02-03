@@ -67,6 +67,7 @@ export async function updateStreamer(id: string, data: Partial<StreamerInput>) {
         avatar: data.avatar,
         status: data.status,
         position: data.position,
+
       },
     });
     revalidatePath('/');
@@ -78,19 +79,32 @@ export async function updateStreamer(id: string, data: Partial<StreamerInput>) {
   }
 }
 
+// lib/actions/streamers.ts
+
 export async function deleteStreamer(id: string) {
   await requireAdmin();
-
+  
   try {
+    // 1. Cek apakah data ada
+    const existing = await prisma.streamer.findUnique({
+      where: { id }
+    });
+
+    if (!existing) {
+      return { success: false, error: "Data tidak ditemukan atau sudah terhapus" };
+    }
+
+    // 2. Jika ada, baru hapus
     await prisma.streamer.delete({
       where: { id },
     });
+
     revalidatePath('/');
     revalidatePath('/admin');
     return { success: true };
   } catch (error) {
-    console.error('Failed to delete streamer:', error);
-    return { success: false, error: 'Failed to delete streamer' };
+    console.error("Failed to delete streamer:", error);
+    return { success: false, error: "Terjadi kesalahan server" };
   }
 }
 

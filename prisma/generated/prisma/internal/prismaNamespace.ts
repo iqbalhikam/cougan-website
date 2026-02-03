@@ -528,7 +528,8 @@ export const StreamerScalarFieldEnum = {
   createdAt: 'createdAt',
   position: 'position',
   lastChecked: 'lastChecked',
-  lastVideoCheck: 'lastVideoCheck'
+  lastVideoCheck: 'lastVideoCheck',
+  latestVideoId: 'latestVideoId'
 } as const
 
 export type StreamerScalarFieldEnum = (typeof StreamerScalarFieldEnum)[keyof typeof StreamerScalarFieldEnum]

@@ -1,194 +1,141 @@
+// path: lib/getStreamers.ts
+
 import { prisma } from '@/lib/prisma';
 import { Streamer } from '@/types';
-import { quotaService } from '@/lib/quota-service';
-import { cacheService } from '@/lib/cache-service';
-import { CHECK_INTERVALS } from '@/lib/youtube-types';
+import { parseStringPromise } from 'xml2js';
 
-// Helper to get full avatar URL
+// Helper: Fix Avatar URL
 function getAvatarUrl(path: string) {
   if (path.startsWith('http')) return path;
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
   return `${supabaseUrl}/storage/v1/object/public/cougan/avatar/${path}`;
 }
 
-/**
- * Determine if a channel should be checked based on last check time
- * Smart intervals to minimize API calls:
- * - Live streamers: Check every 2 minutes
- * - Recently offline (< 1 hour): Check every 5 minutes
- * - Long offline (> 1 hour): Check every 15 minutes
- */
-function shouldCheckChannel(lastChecked: Date | null, status: string, lastVideoCheck: Date | null): { shouldCheck: boolean; reason: string } {
-  if (!lastChecked) {
-    return { shouldCheck: true, reason: 'never_checked' };
-  }
-
-  const now = Date.now();
-  const timeSinceCheck = now - lastChecked.getTime();
-
-  if (status === 'live') {
-    // For live streamers, check frequently to detect when they go offline
-    if (timeSinceCheck > CHECK_INTERVALS.LIVE_STREAMER) {
-      return { shouldCheck: true, reason: 'live_recheck' };
-    }
-  } else {
-    // For offline streamers, use longer intervals
-    const timeSinceOffline = lastVideoCheck ? now - lastVideoCheck.getTime() : Infinity;
-
-    if (timeSinceOffline < 60 * 60 * 1000) {
-      // Recently offline (< 1 hour) - might go live soon
-      if (timeSinceCheck > CHECK_INTERVALS.RECENTLY_OFFLINE) {
-        return { shouldCheck: true, reason: 'recently_offline' };
-      }
-    } else {
-      // Long offline - check less frequently
-      if (timeSinceCheck > CHECK_INTERVALS.LONG_OFFLINE) {
-        return { shouldCheck: true, reason: 'long_offline' };
-      }
-    }
-  }
-
-  return { shouldCheck: false, reason: 'too_soon' };
-}
-
-/**
- * Get streamers with intelligent quota optimization
- *
- * Optimization Strategy:
- * 1. Check cache first (avoid API calls entirely)
- * 2. Use time-based check intervals (don't check too frequently)
- * 3. Validate existing video IDs (cheap: 1 unit)
- * 4. Only search for new videos when necessary (expensive: 100 units)
- * 5. Batch process with delays to avoid rate limits
- *
- * Quota Savings:
- * - Before: ~100-200 units per page load
- * - After: ~1-5 units per page load (90-95% reduction)
- */
 export async function getStreamers(): Promise<Streamer[]> {
-  console.log('🔍 Fetching streamer data (Quota Optimized)...');
-
-  // 1. CHECK CACHE FIRST
-  const cached = cacheService.get('streamers');
-  if (cached) {
-    console.log('✅ Returning cached data (0 quota cost)');
-    return cached;
-  }
+  console.log('🔍 Starting Smart Check (RSS Mode - Quota Saver)...');
 
   try {
-    // 2. FETCH FROM DATABASE
     const dbStreamers = await prisma.streamer.findMany({
       orderBy: { position: 'asc' },
     });
 
-    console.log(`📊 Found ${dbStreamers.length} streamers in database`);
-
-    // 3. RESOLVE HANDLES & FILTER VALID STREAMERS
-    const validStreamers = [];
-    const channelsToCheck: Array<{ streamer: (typeof dbStreamers)[0]; channelId: string }> = [];
-
-    for (const streamer of dbStreamers) {
-      // Skip invalid placeholders
-      if (!streamer.channelId || streamer.channelId.includes('PLACEHOLDER')) {
-        console.warn(`⚠️ Skipping invalid channel: ${streamer.name}`);
-        continue;
-      }
-
-      let finalChannelId = streamer.channelId;
-
-      // Resolve Handle if needed (Cost: 1 unit) - Only once per handle
-      if (finalChannelId.startsWith('@')) {
-        const resolvedId = await quotaService.resolveHandleToId(finalChannelId);
-        if (resolvedId) {
-          console.log(`✅ Resolved ${finalChannelId} → ${resolvedId}`);
-          // Update DB to avoid future resolution costs
-          await prisma.streamer.update({
-            where: { id: streamer.id },
-            data: { channelId: resolvedId },
-          });
-          finalChannelId = resolvedId;
-        } else {
-          console.warn(`❌ Could not resolve handle: ${finalChannelId}`);
-          continue;
+    const processedStreamers = await Promise.all(
+      dbStreamers.map(async (streamer) => {
+        // Skip placeholder
+        if (!streamer.channelId || streamer.channelId.includes('PLACEHOLDER')) {
+          return { ...streamer, status: 'offline' } as Streamer;
         }
-      }
 
-      // Check if we should check this channel based on time intervals
-      const checkDecision = shouldCheckChannel(streamer.lastChecked, streamer.status, streamer.lastVideoCheck);
-
-      if (checkDecision.shouldCheck) {
-        channelsToCheck.push({ streamer: { ...streamer, channelId: finalChannelId }, channelId: finalChannelId });
-      } else {
-        console.log(`⏭️ Skipping ${streamer.name}: ${checkDecision.reason}`);
-      }
-
-      validStreamers.push({ ...streamer, channelId: finalChannelId });
-    }
-
-    console.log(`🔄 Checking ${channelsToCheck.length} channels (${validStreamers.length - channelsToCheck.length} skipped)`);
-
-    // 4. PROCESS STREAMERS WITH SMART LOGIC
-    const processedStreamers: Streamer[] = await Promise.all(
-      validStreamers.map(async (streamer) => {
-        const needsCheck = channelsToCheck.some((c) => c.streamer.id === streamer.id);
-
-        let finalStatus: 'live' | 'offline' = streamer.status as 'live' | 'offline';
+        // Default: Gunakan status lama dulu
+        let finalStatus = streamer.status;
         let finalVideoId = streamer.youtubeId || '';
+        let latestVideoIdCached = streamer.latestVideoId || '';
 
-        // Only check if time interval allows
-        if (needsCheck) {
-          const currentVideoId = streamer.youtubeId || '';
+        const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
 
-          // STRATEGY A: Validate existing video (Cheap: 1 unit)
-          if (currentVideoId) {
-            const videoData = await quotaService.fetchVideos([currentVideoId]);
-            const videoItem = videoData?.items?.[0];
+        try {
+          // -----------------------------------------------------------
+          // STEP A: CEK RSS FEED (GRATIS)
+          // -----------------------------------------------------------
+          const rssRes = await fetch(`https://www.youtube.com/feeds/videos.xml?channel_id=${streamer.channelId}`, { next: { revalidate: 60 } });
 
-            if (videoItem && videoItem.snippet?.liveBroadcastContent === 'live') {
-              finalStatus = 'live';
-              finalVideoId = currentVideoId;
-              console.log(`🟢 ${streamer.name}: Still LIVE (${currentVideoId})`);
-            } else {
-              // Video is no longer live
-              finalStatus = 'offline';
-              finalVideoId = '';
-              console.log(`⚪ ${streamer.name}: Video ended`);
+          if (rssRes.ok) {
+            const xmlText = await rssRes.text();
+            const result = await parseStringPromise(xmlText);
+            const entry = result.feed.entry ? result.feed.entry[0] : null;
+
+            if (entry) {
+              const rssVideoId = entry['yt:videoId'][0];
+              const publishedTime = new Date(entry.published[0]);
+              const now = new Date();
+              const hoursSincePublish = (now.getTime() - publishedTime.getTime()) / (1000 * 60 * 60);
+
+              // Update cache ID video terbaru
+              latestVideoIdCached = rssVideoId;
+
+              // LOGIK FILTER:
+              // 1. Jika video di RSS sama dengan yg di DB, DAN status di DB offline -> SKIP API (Hemat)
+              // 2. TAPI jika status di DB 'live', kita WAJIB cek API untuk memastikan dia masih live atau sudah udahan.
+              const shouldCheckApi =
+                rssVideoId !== streamer.latestVideoId || // Ada video baru
+                streamer.status === 'live'; // Sedang live (perlu cek apakah udah off)
+
+              if (!shouldCheckApi) {
+                // Cek double protection: kalau video baru tapi < 4 jam, mungkin tadi ke-skip
+                if (hoursSincePublish < 4) {
+                  // Lanjut cek API...
+                } else {
+                  return {
+                    ...streamer,
+                    avatar: getAvatarUrl(streamer.avatar),
+                    // Kembalikan data DB apa adanya
+                    status: streamer.status,
+                    latestVideoId: latestVideoIdCached,
+                  } as Streamer;
+                }
+              }
+
+              // -----------------------------------------------------------
+              // STEP B: VALIDASI API (MURAH - 1 UNIT)
+              // -----------------------------------------------------------
+              // Kita cek video ID dari RSS (atau ID yg lagi live di DB)
+              // Jika DB bilang live tapi video ID beda, cek video ID yg di DB dulu
+              const videoIdToCheck = streamer.status === 'live' && streamer.youtubeId ? streamer.youtubeId : rssVideoId;
+
+              const apiUrl = `https://www.googleapis.com/youtube/v3/videos?part=liveStreamingDetails,snippet&id=${videoIdToCheck}&key=${YOUTUBE_API_KEY}`;
+              const apiRes = await fetch(apiUrl, { cache: 'no-store' }); // PENTING: No Store agar fresh
+              const apiData = await apiRes.json();
+
+              if (apiData.items && apiData.items.length > 0) {
+                const videoItem = apiData.items[0];
+                const liveDetails = videoItem.liveStreamingDetails;
+
+                // LOGIC PENENTU LIVE YANG LEBIH KETAT
+                if (liveDetails) {
+                  // 1. Harus punya liveStreamingDetails
+                  // 2. TIDAK BOLEH ada actualEndTime (artinya belum selesai)
+                  // 3. Snippet harus bilang 'live' (bukan 'upcoming' atau 'none')
+                  const isActuallyLive = !liveDetails.actualEndTime && videoItem.snippet.liveBroadcastContent === 'live';
+
+                  if (isActuallyLive) {
+                    finalStatus = 'live';
+                    finalVideoId = videoIdToCheck;
+                    console.log(`🔴 LIVE CONFIRMED: ${streamer.name}`);
+                  } else {
+                    finalStatus = 'offline';
+                    finalVideoId = '';
+                    console.log(`⚪ STREAM ENDED: ${streamer.name}`);
+                  }
+                } else {
+                  // Video biasa (bukan live stream)
+                  finalStatus = 'offline';
+                  finalVideoId = '';
+                }
+              } else {
+                // Video tidak ditemukan (mungkin dihapus/private setelah live)
+                finalStatus = 'offline';
+                finalVideoId = '';
+              }
             }
           }
+        } catch (innerError) {
+          console.error(`Error processing ${streamer.name}:`, innerError);
+        }
 
-          // STRATEGY B: Search for new live video (Expensive: 100 units)
-          // Only if offline and circuit breaker is closed
-          if (finalStatus === 'offline' && !quotaService.isCircuitBreakerOpen()) {
-            const newVideoId = await quotaService.searchLiveVideo(streamer.channelId);
-            if (newVideoId) {
-              finalStatus = 'live';
-              finalVideoId = newVideoId;
-              console.log(`🔴 ${streamer.name}: NEW LIVE VIDEO (${newVideoId})`);
-            }
-          }
-
-          // Update database with new status and timestamp
-          const updateData: {
-            status: string;
-            youtubeId: string;
-            lastChecked: Date;
-            lastVideoCheck?: Date;
-          } = {
+        // -----------------------------------------------------------
+        // STEP C: UPDATE DATABASE
+        // -----------------------------------------------------------
+        // Selalu update agar frontend mendapat status terbaru
+        await prisma.streamer.update({
+          where: { id: streamer.id },
+          data: {
             status: finalStatus,
             youtubeId: finalVideoId,
+            latestVideoId: latestVideoIdCached,
             lastChecked: new Date(),
-          };
-
-          // Update lastVideoCheck only if we validated a video
-          if (currentVideoId || finalVideoId) {
-            updateData.lastVideoCheck = new Date();
-          }
-
-          await prisma.streamer.update({
-            where: { id: streamer.id },
-            data: updateData,
-          });
-        }
+            lastVideoCheck: finalStatus === 'live' ? new Date() : streamer.lastVideoCheck,
+          },
+        });
 
         return {
           id: streamer.id,
@@ -199,35 +146,15 @@ export async function getStreamers(): Promise<Streamer[]> {
           avatar: getAvatarUrl(streamer.avatar),
           status: finalStatus,
           position: streamer.position,
-        };
+          latestVideoId: latestVideoIdCached,
+          lastChecked: new Date(),
+        } as Streamer;
       }),
     );
-
-    // 5. CACHE RESULTS
-    cacheService.set('streamers', processedStreamers);
-
-    // 6. LOG METRICS
-    const metrics = quotaService.getMetrics();
-    console.log('📊 Quota Metrics:', {
-      quotaUsed: metrics.quotaUsed,
-      requestsMade: metrics.requestsMade,
-      isCircuitOpen: metrics.isCircuitOpen,
-      circuitBreakerTrips: metrics.circuitBreakerTrips,
-      cacheStats: cacheService.getStats(),
-    });
 
     return processedStreamers;
   } catch (error) {
     console.error('❌ Error in getStreamers:', error);
-
-    // Try to return cached data as fallback
-    const fallbackCache = cacheService.get('streamers');
-    if (fallbackCache) {
-      console.log('⚠️ Returning stale cache due to error');
-      return fallbackCache;
-    }
-
-    // Last resort: return empty array to prevent crash
     return [];
   }
 }

@@ -25,6 +25,7 @@ model Streamer {
   position       Int       @default(autoincrement())
   lastChecked    DateTime? @map("last_checked")
   lastVideoCheck DateTime? @map("last_video_check")
+  latestVideoId  String?   @map("latest_video_id")   // Cache ID video terakhir (untuk hemat kuota)
 
   @@map("streamers")
 }
