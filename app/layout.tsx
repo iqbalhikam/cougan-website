@@ -3,8 +3,7 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import LoadingScreen from '@/components/layout/LoadingScreen';
 import { AudioPlayer } from '@/components/features/player/AudioPlayer';
-import fs from 'fs';
-import path from 'path';
+import { Analytics } from '@vercel/analytics/next';
 import { prisma } from '@/lib/prisma';
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -42,7 +41,7 @@ export default async function RootLayout({
         <LoadingScreen />
         <AudioPlayer playlist={playlistUrls} />
         {children}
-        
+        <Analytics />
       </body>
     </html>
   );

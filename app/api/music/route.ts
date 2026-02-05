@@ -14,7 +14,7 @@ export async function GET() {
       orderBy: { createdAt: 'desc' },
     });
     return NextResponse.json(tracks);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Gagal mengambil data' }, { status: 500 });
   }
 }
