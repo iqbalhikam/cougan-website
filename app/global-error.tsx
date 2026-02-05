@@ -3,6 +3,18 @@
 import MaintenanceScreen from '@/components/maintenance/MaintenanceScreen';
 import { useEffect } from 'react';
 import { logger } from '@/lib/logger';
+import './globals.css'; // Import Global CSS for Tailwind
+import { Geist, Geist_Mono } from 'next/font/google';
+
+const geistSans = Geist({
+  variable: '--font-geist-sans',
+  subsets: ['latin'],
+});
+
+const geistMono = Geist_Mono({
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
+});
 
 export default function GlobalError({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
   useEffect(() => {
@@ -11,8 +23,8 @@ export default function GlobalError({ error, reset }: { error: Error & { digest?
   }, [error]);
 
   return (
-    <html>
-      <body>
+    <html lang="en">
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <MaintenanceScreen />
       </body>
     </html>

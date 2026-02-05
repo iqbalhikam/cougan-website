@@ -83,7 +83,7 @@ export async function getStreamers(): Promise<Streamer[]> {
               const videoIdToCheck = streamer.status === 'live' && streamer.youtubeId ? streamer.youtubeId : rssVideoId;
 
               const apiUrl = `https://www.googleapis.com/youtube/v3/videos?part=liveStreamingDetails,snippet&id=${videoIdToCheck}&key=${YOUTUBE_API_KEY}`;
-              const apiRes = await fetch(apiUrl, { cache: 'no-store' }); // PENTING: No Store agar fresh
+              const apiRes = await fetch(apiUrl, { next: { revalidate: 60 } }); // PENTING: Cache 60s agar build static aman & hemat quota
               const apiData = await apiRes.json();
 
               if (apiData.items && apiData.items.length > 0) {
