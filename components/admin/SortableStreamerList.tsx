@@ -69,6 +69,10 @@ export function SortableStreamerList({ initialStreamers }: SortableStreamerListP
     setMounted(true);
   }, []);
 
+  useEffect(() => {
+    setStreamers(initialStreamers);
+  }, [initialStreamers]);
+
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {

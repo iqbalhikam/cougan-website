@@ -115,6 +115,10 @@ class QuotaService {
     }
   }
 
+  public trackUsage(units: number, operation: string) {
+    this.trackCost(units, operation);
+  }
+
   private trackCost(units: number, operation: string) {
     this.quotaUsed += units;
     this.requestsMade++;

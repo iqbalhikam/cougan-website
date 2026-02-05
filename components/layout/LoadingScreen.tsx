@@ -111,7 +111,7 @@ export default function LoadingScreen() {
 
       {/* Progress Bar Container */}
       <div className="absolute bottom-0 left-0 right-0 z-[101] h-0.5 bg-white/10 overflow-hidden">
-        <div className="h-full bg-gradient-to-r from-red-900 via-red-600 to-red-500 transition-all duration-100 ease-linear shadow-[0_0_15px_rgba(220,38,38,0.8)]" style={{ width: `${progress}%` }} />
+        <div className="h-full bg-linear-to-r from-red-900 via-red-600 to-red-500 transition-all duration-100 ease-linear shadow-[0_0_15px_rgba(220,38,38,0.8)]" style={{ width: `${progress}%` }} />
       </div>
 
       {/* Skip Button */}
@@ -129,7 +129,7 @@ export default function LoadingScreen() {
       </button>
 
       {/* Overlay Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+      <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
     </div>
   );
 }

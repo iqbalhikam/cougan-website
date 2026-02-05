@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Trash2, Music, Loader2, TrashIcon } from 'lucide-react';
+import { Music, Loader2, TrashIcon } from 'lucide-react';
 
 interface Track {
   id: string;

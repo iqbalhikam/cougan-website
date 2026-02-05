@@ -3,6 +3,7 @@
 import { prisma } from '@/lib/prisma';
 import { Streamer } from '@/types';
 import { parseStringPromise } from 'xml2js';
+import { quotaService } from '@/lib/quota-service';
 
 // Helper: Fix Avatar URL
 function getAvatarUrl(path: string) {
@@ -12,7 +13,7 @@ function getAvatarUrl(path: string) {
 }
 
 export async function getStreamers(): Promise<Streamer[]> {
-  console.log('🔍 Starting Smart Check (RSS Mode - Quota Saver)...');
+  console.info('[STREAMER] 🔍 Starting Smart Check (RSS Mode - Quota Saver)...');
 
   try {
     const dbStreamers = await prisma.streamer.findMany({
@@ -56,9 +57,15 @@ export async function getStreamers(): Promise<Streamer[]> {
               // LOGIK FILTER:
               // 1. Jika video di RSS sama dengan yg di DB, DAN status di DB offline -> SKIP API (Hemat)
               // 2. TAPI jika status di DB 'live', kita WAJIB cek API untuk memastikan dia masih live atau sudah udahan.
+              // 2. TAPI jika status di DB 'live', kita WAJIB cek API untuk memastikan dia masih live atau sudah udahan.
               const shouldCheckApi =
                 rssVideoId !== streamer.latestVideoId || // Ada video baru
                 streamer.status === 'live'; // Sedang live (perlu cek apakah udah off)
+
+              if (shouldCheckApi) {
+                // Update cache variable immediately to prevent loop
+                latestVideoIdCached = rssVideoId;
+              }
 
               if (!shouldCheckApi) {
                 // Cek double protection: kalau video baru tapi < 4 jam, mungkin tadi ke-skip
@@ -82,8 +89,15 @@ export async function getStreamers(): Promise<Streamer[]> {
               // Jika DB bilang live tapi video ID beda, cek video ID yg di DB dulu
               const videoIdToCheck = streamer.status === 'live' && streamer.youtubeId ? streamer.youtubeId : rssVideoId;
 
+              // CIRCUIT BREAKER CHECK
+              if (quotaService.isCircuitBreakerOpen()) {
+                console.warn(`[STREAMER] ⚠️ Circuit breaker OPEN. Skipping API check for ${streamer.name}`);
+                return { ...streamer, avatar: getAvatarUrl(streamer.avatar) }; // Return cached data
+              }
+
               const apiUrl = `https://www.googleapis.com/youtube/v3/videos?part=liveStreamingDetails,snippet&id=${videoIdToCheck}&key=${YOUTUBE_API_KEY}`;
               const apiRes = await fetch(apiUrl, { next: { revalidate: 60 } }); // PENTING: Cache 60s agar build static aman & hemat quota
+
               const apiData = await apiRes.json();
 
               if (apiData.items && apiData.items.length > 0) {
@@ -100,11 +114,11 @@ export async function getStreamers(): Promise<Streamer[]> {
                   if (isActuallyLive) {
                     finalStatus = 'live';
                     finalVideoId = videoIdToCheck;
-                    console.log(`🔴 LIVE CONFIRMED: ${streamer.name}`);
+                    console.info(`[STREAMER] 🔴 Live Confirmed: ${streamer.name}`);
                   } else {
                     finalStatus = 'offline';
                     finalVideoId = '';
-                    console.log(`⚪ STREAM ENDED: ${streamer.name}`);
+                    console.info(`[STREAMER] ⚪ Stream Ended: ${streamer.name}`);
                   }
                 } else {
                   // Video biasa (bukan live stream)
@@ -123,19 +137,28 @@ export async function getStreamers(): Promise<Streamer[]> {
         }
 
         // -----------------------------------------------------------
-        // STEP C: UPDATE DATABASE
+        // STEP C: UPDATE DATABASE (Only if changed)
         // -----------------------------------------------------------
-        // Selalu update agar frontend mendapat status terbaru
-        await prisma.streamer.update({
-          where: { id: streamer.id },
-          data: {
-            status: finalStatus,
-            youtubeId: finalVideoId,
-            latestVideoId: latestVideoIdCached,
-            lastChecked: new Date(),
-            lastVideoCheck: finalStatus === 'live' ? new Date() : streamer.lastVideoCheck,
-          },
-        });
+        const hasChanged = finalStatus !== streamer.status || finalVideoId !== (streamer.youtubeId || '') || latestVideoIdCached !== (streamer.latestVideoId || '');
+
+        if (hasChanged) {
+          try {
+            await prisma.streamer.update({
+              where: { id: streamer.id },
+              data: {
+                status: finalStatus,
+                youtubeId: finalVideoId,
+                latestVideoId: latestVideoIdCached,
+                lastChecked: new Date(),
+                lastVideoCheck: finalStatus === 'live' ? new Date() : streamer.lastVideoCheck,
+              },
+            });
+            console.info(`[STREAMER] 💾 Updated DB for ${streamer.name}: ${finalStatus}`);
+          } catch {
+            // Ignore if record not found (deleted)
+            console.warn(`[STREAMER] ⚠️ Skipping update for ${streamer.name}: Record might be deleted.`);
+          }
+        }
 
         return {
           id: streamer.id,
@@ -147,7 +170,7 @@ export async function getStreamers(): Promise<Streamer[]> {
           status: finalStatus,
           position: streamer.position,
           latestVideoId: latestVideoIdCached,
-          lastChecked: new Date(),
+          lastChecked: hasChanged ? new Date() : streamer.lastChecked || new Date(),
         } as Streamer;
       }),
     );

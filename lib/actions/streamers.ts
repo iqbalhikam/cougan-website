@@ -13,7 +13,7 @@ export async function getStreamersDA() {
       orderBy: [{ position: 'asc' }],
     });
   } catch (error) {
-    console.error('Failed to fetch streamers for admin:', error);
+    console.error('[ACTION] ❌ Failed to fetch streamers for admin:', error);
     throw new Error('Failed to fetch streamers');
   }
 }
@@ -44,11 +44,12 @@ export async function createStreamer(data: StreamerInput) {
         position: data.position || 0,
       },
     });
-    revalidatePath('/');
+    revalidatePath('/', 'layout');
     revalidatePath('/admin');
+    console.info(`[ACTION] ✅ Created streamer: ${data.name}`);
     return { success: true, data: newStreamer };
   } catch (error) {
-    console.error('Failed to create streamer:', error);
+    console.error('[ACTION] ❌ Failed to create streamer:', error);
     return { success: false, error: 'Failed to create streamer' };
   }
 }
@@ -67,10 +68,9 @@ export async function updateStreamer(id: string, data: Partial<StreamerInput>) {
         avatar: data.avatar,
         status: data.status,
         position: data.position,
-
       },
     });
-    revalidatePath('/');
+    revalidatePath('/', 'layout');
     revalidatePath('/admin');
     return { success: true };
   } catch (error) {
@@ -83,15 +83,15 @@ export async function updateStreamer(id: string, data: Partial<StreamerInput>) {
 
 export async function deleteStreamer(id: string) {
   await requireAdmin();
-  
+
   try {
     // 1. Cek apakah data ada
     const existing = await prisma.streamer.findUnique({
-      where: { id }
+      where: { id },
     });
 
     if (!existing) {
-      return { success: false, error: "Data tidak ditemukan atau sudah terhapus" };
+      return { success: false, error: 'Data tidak ditemukan atau sudah terhapus' };
     }
 
     // 2. Jika ada, baru hapus
@@ -99,12 +99,12 @@ export async function deleteStreamer(id: string) {
       where: { id },
     });
 
-    revalidatePath('/');
+    revalidatePath('/', 'layout');
     revalidatePath('/admin');
     return { success: true };
   } catch (error) {
-    console.error("Failed to delete streamer:", error);
-    return { success: false, error: "Terjadi kesalahan server" };
+    console.error('Failed to delete streamer:', error);
+    return { success: false, error: 'Terjadi kesalahan server' };
   }
 }
 
@@ -119,7 +119,7 @@ export async function updateStreamerPositions(items: { id: string; position: num
       }),
     );
     await Promise.all(updates);
-    revalidatePath('/');
+    revalidatePath('/', 'layout');
     revalidatePath('/admin');
     return { success: true };
   } catch (error) {
