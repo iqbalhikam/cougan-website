@@ -15,8 +15,8 @@ export function Hero() {
     <div className="relative w-full overflow-hidden flex flex-col items-center justify-center ">
       {/* Background Image - Drives Height */}
       <div className="relative w-full">
-        <div className="absolute inset-0 bg-black/10 z-10" />
-        <Image width={1920} height={1080} src="/Cougan-Fams.gif" alt="Cougan Famillia" className="w-full h-auto object-contain block" />
+        <div className="absolute inset-0 bg-linear-to-b from-transparent via-black/60 to-black z-10" />
+        <Image width={1920} height={1080} src="/images/background/Cougan-Fams.gif" alt="Cougan Famillia" className="w-full h-auto object-contain block" />
         <div className="absolute bottom-0 left-0 right-0 h-50 bg-linear-to-t from-black via-black/80 to-transparent z-10" />
       </div>
 
@@ -31,8 +31,8 @@ export function Hero() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-4xl md:text-6xl lg:text-7xl font-black text-white tracking-tighter mb-4 md:mb-6">
-            By Order Of <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold to-gold-dim"> The Cougan Family </span>
+            className="text-3xl md:text-5xl lg:text-7xl font-bold text-[#e0c090] tracking-widest uppercase font-serif drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)] mb-4 md:mb-6">
+            By Order Of <span className="text-gold border-b-2 border-gold/30 pb-1"> The Cougan Family </span>
           </motion.h1>
           <motion.p
             style={{ opacity: textOpacity2 }}
@@ -42,7 +42,7 @@ export function Hero() {
             className="text-lg md:text-xl text-zinc-300 mb-6 md:mb-10 max-w-2xl mx-auto font-light leading-relaxed">
             Blood makes you related. Loyalty makes you family.
             <br className="hidden md:block" />
-            <span className="text-gold/80 font-medium mt-1 block bg-black/10 backdrop-blur-sm rounded-full px-2">Premium GTA V Roleplay Entertainment</span>
+            <span className="text-gold/80 font-medium mt-1 block rounded-full px-2">Premium GTA V Roleplay Entertainment</span>
           </motion.p>
           <motion.div
             style={{ opacity: buttonOpacity }}

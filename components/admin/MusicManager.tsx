@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Trash2, Music, Loader2 } from 'lucide-react';
+import { Trash2, Music, Loader2, TrashIcon } from 'lucide-react';
 
 interface Track {
   id: string;
@@ -16,6 +16,26 @@ export function MusicManager() {
   const [tracks, setTracks] = useState<Track[]>([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
+
+  const MAX_STORAGE_BYTES = 100 * 1024 * 1024; // 100 MB
+  const totalUsedBytes = tracks.reduce((acc, t) => acc + t.size, 0);
+  const remainingBytes = MAX_STORAGE_BYTES - totalUsedBytes;
+  const usagePercentage = (totalUsedBytes / MAX_STORAGE_BYTES) * 100;
+
+  // Recommendation Logic
+  const songsCount = tracks.length;
+  const TARGET_SONGS = 15;
+  const remainingSlots = TARGET_SONGS - songsCount;
+
+  let suggestionText = '';
+  if (remainingSlots > 0 && remainingBytes > 0) {
+    const avgSize = remainingBytes / remainingSlots;
+    suggestionText = `Sisa slot: ${remainingSlots}. Agar muat hingga ${TARGET_SONGS} lagu, rata-rata ukuran file: ${(avgSize / 1024 / 1024).toFixed(2)} MB`;
+  } else if (remainingBytes > 0) {
+    suggestionText = `Storage tersedia: ${(remainingBytes / 1024 / 1024).toFixed(2)} MB. Upload lagu sesuai kapasitas tersisa.`;
+  } else {
+    suggestionText = 'Storage penuh!';
+  }
 
   // Fetch data saat load
   const fetchTracks = async () => {
@@ -57,8 +77,12 @@ export function MusicManager() {
       e.target.value = '';
       fetchTracks();
       alert('Berhasil upload!');
-    } catch (error: any) {
-      alert(error.message);
+    } catch (error) {
+      if (error instanceof Error) {
+        alert(error.message);
+      } else {
+        alert('Upload failed');
+      }
     } finally {
       setUploading(false);
     }
@@ -93,19 +117,31 @@ export function MusicManager() {
           <Music className="w-5 h-5 text-green-400" />
           Music Manager
         </h2>
-        <span className="text-sm text-zinc-400">{tracks.length} / 15 Slot Terpakai</span>
+
+        <span className="text-sm text-zinc-400">{tracks.length} Lagu Uploaded</span>
       </div>
 
       {/* Upload Area */}
-      <div className="flex gap-4 items-center bg-zinc-800/50 p-4 rounded-lg border border-dashed border-zinc-700">
-        <Input
-          type="file"
-          accept="audio/*"
-          onChange={handleUpload}
-          disabled={uploading || tracks.length >= 15}
-          className="bg-transparent border-0 file:bg-zinc-700 file:text-white file:border-0 file:mr-4 file:py-2 file:px-4 file:rounded-md hover:file:bg-zinc-600"
-        />
-        {uploading && <Loader2 className="w-5 h-5 animate-spin text-green-400" />}
+      <div className="flex flex-col w-full gap-2">
+        <div className="flex justify-between text-sm text-zinc-400">
+          <span>Storage Used: {formatSize(totalUsedBytes)} / 100 MB</span>
+          <span>{usagePercentage.toFixed(1)}%</span>
+        </div>
+        <div className="w-full bg-zinc-700 rounded-full h-2.5 overflow-hidden">
+          <div className={`h-2.5 rounded-full ${usagePercentage > 90 ? 'bg-red-500' : 'bg-green-500'}`} style={{ width: `${Math.min(usagePercentage, 100)}%` }}></div>
+        </div>
+        <p className="text-xs text-yellow-500 mt-1">{suggestionText}</p>
+
+        <div className="flex gap-4 items-center bg-zinc-800/50 p-4 rounded-lg border border-dashed border-zinc-700 mt-4">
+          <Input
+            type="file"
+            accept="audio/*"
+            onChange={handleUpload}
+            disabled={uploading || remainingBytes <= 0}
+            className="bg-transparent border-0 file:bg-zinc-700 file:text-white file:border-0 file:mr-4 file:py-2 file:px-4 file:rounded-md hover:file:bg-zinc-600"
+          />
+          {uploading && <Loader2 className="w-5 h-5 animate-spin text-green-400" />}
+        </div>
       </div>
 
       {/* List Lagu */}
@@ -131,7 +167,9 @@ export function MusicManager() {
               <div className="flex items-center gap-2">
                 <audio controls className="h-8 w-32 hidden md:block" src={track.url} />
                 <Button onClick={() => handleDelete(track.id, track.filename)} className="h-8 w-8 hover:bg-red-600/20 hover:text-red-500">
-                  <Trash2 className="w-4 h-4" />
+                  <div>
+                    <TrashIcon className="w-4 h-4" />
+                  </div>
                 </Button>
               </div>
             </div>

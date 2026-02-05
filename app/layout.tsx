@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
-import { QuotaMonitor } from '@/components/admin/QuotaMonitor';
 import './globals.css';
 import LoadingScreen from '@/components/layout/LoadingScreen';
 import { AudioPlayer } from '@/components/features/player/AudioPlayer';
@@ -43,7 +42,7 @@ export default async function RootLayout({
         <LoadingScreen />
         <AudioPlayer playlist={playlistUrls} />
         {children}
-        <QuotaMonitor />
+        
       </body>
     </html>
   );

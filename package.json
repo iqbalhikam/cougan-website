@@ -23,10 +23,12 @@
     "googleapis": "^171.0.0",
     "lucide-react": "^0.563.0",
     "next": "16.1.6",
+    "pg": "^8.18.0",
     "prisma": "^7.3.0",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-social-media-embed": "^2.5.18",
+    "react-use-measure": "^2.1.7",
     "tailwind-merge": "^3.4.0",
     "xml2js": "^0.6.2"
   },
@@ -37,6 +39,7 @@
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
+    "@types/pg": "^8.16.0",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/xml2js": "^0.4.14",

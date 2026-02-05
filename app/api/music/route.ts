@@ -28,8 +28,16 @@ export async function POST(req: Request) {
     if (!file) return NextResponse.json({ error: 'File wajib ada' }, { status: 400 });
     if (file.size > 5 * 1024 * 1024) return NextResponse.json({ error: 'Max 5MB' }, { status: 400 });
 
-    const count = await prisma.backsound.count();
-    if (count >= 15) return NextResponse.json({ error: 'Kuota penuh (Max 15)' }, { status: 403 });
+    // Hitung total storage terpakai
+    const allTracks = await prisma.backsound.findMany({
+      select: { size: true },
+    });
+    const totalSize = allTracks.reduce((acc, track) => acc + track.size, 0);
+    const MAX_STORAGE = 100 * 1024 * 1024; // 100 MB
+
+    if (totalSize + file.size > MAX_STORAGE) {
+      return NextResponse.json({ error: 'Storage penuh (Max 100MB)' }, { status: 403 });
+    }
 
     // Upload Supabase
     const fileName = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
@@ -55,8 +63,9 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json(newTrack);
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 
@@ -83,7 +92,8 @@ export async function DELETE(req: Request) {
     });
 
     return NextResponse.json({ message: 'Berhasil dihapus' });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
