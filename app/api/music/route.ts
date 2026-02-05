@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { createClient } from '@supabase/supabase-js';
+import { logger } from '@/lib/logger';
 
 // Setup Supabase Admin
 const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!);
@@ -14,7 +15,8 @@ export async function GET() {
       orderBy: { createdAt: 'desc' },
     });
     return NextResponse.json(tracks);
-  } catch {
+  } catch (error) {
+    logger.error({ err: error }, 'Failed to fetch music tracks');
     return NextResponse.json({ error: 'Gagal mengambil data' }, { status: 500 });
   }
 }
@@ -65,6 +67,7 @@ export async function POST(req: Request) {
     return NextResponse.json(newTrack);
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unknown error';
+    logger.error({ err: error }, 'Failed to upload music');
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
@@ -82,7 +85,7 @@ export async function DELETE(req: Request) {
     const { error: storageError } = await supabase.storage.from(BUCKET_NAME).remove([filename]);
 
     if (storageError) {
-      console.error('Storage Delete Error:', storageError);
+      logger.error({ err: storageError }, 'Storage Delete Error');
       // Lanjut saja biar DB bersih, atau return error terserah preferensi
     }
 
@@ -94,6 +97,7 @@ export async function DELETE(req: Request) {
     return NextResponse.json({ message: 'Berhasil dihapus' });
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unknown error';
+    logger.error({ err: error }, 'Failed to delete music');
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
