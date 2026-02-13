@@ -5,6 +5,7 @@ import LoadingScreen from '@/components/layout/LoadingScreen';
 import { AudioPlayer } from '@/components/features/player/AudioPlayer';
 import { Analytics } from '@vercel/analytics/next';
 import { prisma } from '@/lib/prisma';
+import { LanguageProvider } from '@/components/providers/LanguageProvider';
 const geistSans = Geist({
   variable: '--font-geist-sans',
   subsets: ['latin'],
@@ -38,10 +39,12 @@ export default async function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <LoadingScreen />
-        <AudioPlayer playlist={playlistUrls} />
-        {children}
-        <Analytics />
+        <LanguageProvider>
+          <LoadingScreen />
+          <AudioPlayer playlist={playlistUrls} />
+          {children}
+          <Analytics />
+        </LanguageProvider>
       </body>
     </html>
   );

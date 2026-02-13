@@ -5,11 +5,14 @@ import { Streamer } from '@/types';
 import { X, Users } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
+import { useLanguage } from '@/components/providers/LanguageProvider';
+
 interface MultiViewPlayerProps {
   initialStreamers: Streamer[];
 }
 
 export function MultiViewPlayer({ initialStreamers }: MultiViewPlayerProps) {
+  const { dict } = useLanguage();
   // Start with empty or first streamer? Let's start with empty so user can choose.
   // Fetch streamers from API to get live status
   const [streamerData, setStreamerData] = useState<Streamer[]>(initialStreamers);
@@ -67,7 +70,9 @@ export function MultiViewPlayer({ initialStreamers }: MultiViewPlayerProps) {
       <div className="flex flex-wrap items-center gap-4 bg-zinc-900/50 p-4 rounded-lg border border-white/5">
         <div className="flex items-center gap-2 text-white font-medium mr-auto">
           <Users className="text-gold" />
-          <span>Active Streams ({activeStreamers.length}/4)</span>
+          <span>
+            {dict.multiview.activeStreams} ({activeStreamers.length}/4)
+          </span>
         </div>
 
         <div className="flex gap-2 flex-wrap">
@@ -88,7 +93,7 @@ export function MultiViewPlayer({ initialStreamers }: MultiViewPlayerProps) {
                       : 'bg-zinc-900 text-zinc-600 border-zinc-800 opacity-50 cursor-not-allowed',
                 )}>
                 <span className={cn('w-2 h-2 rounded-full', isLive ? 'bg-red-500 animate-pulse' : 'bg-gray-500')} />
-                {isActive ? 'Hide' : 'Add'} {s.name}
+                {isActive ? dict.multiview.hide : dict.multiview.add} {s.name}
               </button>
             );
           })}
@@ -100,8 +105,8 @@ export function MultiViewPlayer({ initialStreamers }: MultiViewPlayerProps) {
         {activeStreamers.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-[50vh] bg-zinc-900/30 rounded-xl border border-dashed border-zinc-700">
             <Users className="w-16 h-16 text-zinc-600 mb-4" />
-            <h3 className="text-xl text-zinc-400 font-medium">Select a family member to start watching</h3>
-            <p className="text-zinc-600">Select up to 4 streams simultaneously</p>
+            <h3 className="text-xl text-zinc-400 font-medium">{dict.multiview.selectMember}</h3>
+            <p className="text-zinc-600">{dict.multiview.selectLimit}</p>
           </div>
         ) : (
           activeStreamers.map((id) => {

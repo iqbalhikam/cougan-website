@@ -9,10 +9,10 @@ export default async function AdminDashboard() {
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-8">
-        <h2 className="text-3xl font-bold">Streamer Management</h2>
-        <Link href="/admin/new">
-          <Button className="bg-gold text-black hover:bg-yellow-500">Add New Member</Button>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+        <h2 className="text-2xl sm:text-3xl font-bold">Streamer Management</h2>
+        <Link href="/admin/new" className="w-full sm:w-auto">
+          <Button className="bg-gold text-black hover:bg-yellow-500 w-full sm:w-auto">Add New Member</Button>
         </Link>
       </div>
 

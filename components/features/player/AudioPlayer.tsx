@@ -126,7 +126,8 @@ export function AudioPlayer({ playlist }: AudioPlayerProps) {
   if (!playlist || playlist.length === 0) return null;
 
   return (
-    <div className={`fixed bottom-4 left-4 z-50 transition-all duration-300 ${isExpanded ? 'w-md' : 'w-16'} h-16 bg-black/80 backdrop-blur-md border border-white/10 rounded-full overflow-hidden flex items-center shadow-lg group`}>
+    <div
+      className={`fixed bottom-4 left-4 z-50 transition-all duration-300 ${isExpanded ? 'w-[calc(100vw-2rem)] md:w-96' : 'w-16'} h-16 bg-black/80 backdrop-blur-md border border-white/10 rounded-full overflow-hidden flex items-center shadow-lg group`}>
       <audio ref={audioRef} src={playlist[currentTrackIndex]} onEnded={handleTrackEnd} onTimeUpdate={handleTimeUpdate} onLoadedMetadata={handleLoadedMetadata} autoPlay />
 
       {/* Main Toggle Button */}
@@ -137,7 +138,7 @@ export function AudioPlayer({ playlist }: AudioPlayerProps) {
       </button>
 
       {/* Expanded Controls */}
-      <div className={`flex flex-col flex-1 px-4 pr-6 transition-opacity duration-300 ${isExpanded ? 'opacity-100 visible' : 'opacity-0 invisible absolute'}`}>
+      <div className={`flex flex-col flex-1 pl-0 pr-6 transition-opacity duration-300 overflow-hidden ${isExpanded ? 'opacity-100 visible w-auto' : 'opacity-0 invisible absolute w-0'}`}>
         {/* Controls Row */}
         <div className="flex items-center justify-between mb-1">
           <div className="flex items-center gap-3">

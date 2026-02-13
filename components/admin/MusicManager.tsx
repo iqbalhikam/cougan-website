@@ -152,21 +152,21 @@ export function MusicManager() {
           <div className="text-center text-zinc-500 py-4 italic">Belum ada musik. Upload sekarang!</div>
         ) : (
           tracks.map((track) => (
-            <div key={track.id} className="flex items-center justify-between p-3 bg-zinc-800 rounded-lg group hover:bg-zinc-750 transition-colors">
-              <div className="flex items-center gap-3 overflow-hidden">
+            <div key={track.id} className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-3 bg-zinc-800 rounded-lg group hover:bg-zinc-750 transition-colors gap-3">
+              <div className="flex items-center gap-3 overflow-hidden w-full sm:w-auto">
                 <div className="w-8 h-8 rounded-full bg-zinc-700 flex items-center justify-center shrink-0">
                   <Music className="w-4 h-4 text-zinc-400" />
                 </div>
-                <div className="flex flex-col min-w-0">
+                <div className="flex flex-col min-w-0 flex-1">
                   {/* Tampilkan nama file yang lebih bersih jika perlu logic split string */}
-                  <span className="text-sm text-white font-medium truncate max-w-[200px] md:max-w-md">{track.filename.split('-').slice(1).join('-')}</span>
+                  <span className="text-sm text-white font-medium truncate max-w-full sm:max-w-md">{track.filename.split('-').slice(1).join('-')}</span>
                   <span className="text-xs text-zinc-500">{formatSize(track.size)}</span>
                 </div>
               </div>
 
-              <div className="flex items-center gap-2">
-                <audio controls className="h-8 w-32 hidden md:block" src={track.url} />
-                <Button onClick={() => handleDelete(track.id, track.filename)} className="h-8 w-8 hover:bg-red-600/20 hover:text-red-500">
+              <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
+                <audio controls className="h-8 w-full sm:w-32" src={track.url} />
+                <Button onClick={() => handleDelete(track.id, track.filename)} className="h-8 w-8 hover:bg-red-600/20 hover:text-red-500 shrink-0">
                   <div>
                     <TrashIcon className="w-4 h-4" />
                   </div>

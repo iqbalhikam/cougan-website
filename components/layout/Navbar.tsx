@@ -7,30 +7,29 @@ import { Menu, X } from 'lucide-react';
 import { useState } from 'react';
 import Image from 'next/image';
 
+import { useLanguage } from '@/components/providers/LanguageProvider';
+import { LanguageSwitcher } from '@/components/ui/LanguageSwitcher';
+
 export function Navbar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+  const { dict } = useLanguage();
 
   const routes = [
-    { href: '/', label: 'Home' },
-    { href: '/multiview', label: 'Multi-View' },
+    { href: '/', label: dict.navbar.home },
+    { href: '/multiview', label: dict.navbar.multiView },
   ];
 
   return (
     <nav className="fixed top-0 z-50 w-full border-b border-white/10 bg-black/10 backdrop-blur-sm">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="flex h-16 items-center justify-between">
+        <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
             <Link href="/" className="flex items-center gap-2">
               <span className="text-2xl flex items-center font-bold tracking-tighter text-gold">
                 <span>
                   <Image src="/LOGO-COUGAN.gif" alt="Cougan Fams Logo" width={500} height={500} className="w-16   h-auto object-contain" unoptimized />
                 </span>
-                {/* <span className="font-cougan-text px-4">X</span>
-                <span>
-                  <Image src="/BSG_LOGO.png" alt="Cougan Fams Logo" width={500} height={500} className="w-40 md:w-56 lg:w-15 h-auto object-contain" unoptimized />
-                </span> */}
-                {/* COUGAN<span className="text-white">FAMILLIA</span> */}
               </span>
             </Link>
           </div>
@@ -42,10 +41,12 @@ export function Navbar() {
                   {route.label}
                 </Link>
               ))}
+              <LanguageSwitcher />
             </div>
           </div>
 
-          <div className="md:hidden">
+          <div className="md:hidden flex items-center gap-4">
+            <LanguageSwitcher />
             <button onClick={() => setIsOpen(!isOpen)} className="text-zinc-400 hover:text-white">
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
