@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { getStreamersDA } from '@/lib/actions/streamers';
 import { SortableStreamerList } from '@/components/admin/SortableStreamerList';
 import { MusicManager } from '@/components/admin/MusicManager';
+import { GalleryManager } from '@/components/admin/GalleryManager';
 
 export default async function AdminDashboard() {
   const streamers = await getStreamersDA();
@@ -25,6 +26,10 @@ export default async function AdminDashboard() {
         </div>
 
         <MusicManager />
+      </div>
+
+      <div className="max-w-4xl mx-auto py-8 px-4 border-t border-zinc-800">
+        <GalleryManager />
       </div>
     </div>
   );

@@ -6,6 +6,7 @@ import { getStreamers } from '@/lib/getStreamers';
 import dynamic from 'next/dynamic';
 
 import { LazyCouganHistoryBook } from '@/components/features/history/LazyCouganHistoryBook';
+import { LazyGallery } from '@/components/features/LazyGallery';
 
 const RealtimeStreamerList = dynamic(() => import('@/components/features/streamer/RealtimeStreamerList').then((mod) => mod.RealtimeStreamerList), {
   loading: () => (
@@ -30,6 +31,8 @@ export default async function Home() {
       <Hero />
 
       <LazyCouganHistoryBook />
+
+      <LazyGallery />
 
       <section id="members" className="py-12 md:py-20 px-4 md:px-8 pt-12 md:pt-20 max-w-7xl mx-auto">
         <HomeHeader />
