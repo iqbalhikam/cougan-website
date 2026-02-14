@@ -19,7 +19,7 @@ export function Hero() {
       {/* Background Image - Drives Height */}
       <div className="absolute inset-0 w-full h-full">
         <div className="absolute inset-0 bg-linear-to-b from-transparent via-black/60 to-black z-10" />
-        <Image src="/images/background/full-cougan.png" alt="Cougan Famillia" fill className="object-cover object-center" priority />
+        <Image src="/images/background/full-cougan.png" alt="Cougan Famillia" fill className="object-cover object-center" priority quality={100} sizes="100vw" />
         <div className="absolute bottom-0 left-0 right-0 h-50 bg-linear-to-t from-black via-black/80 to-transparent z-10" />
       </div>
 
