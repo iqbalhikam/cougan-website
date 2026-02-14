@@ -11,6 +11,7 @@ export async function getStreamersDA() {
     // Prioritize order asc, then created_at desc
     return await prisma.streamer.findMany({
       orderBy: [{ position: 'asc' }],
+      include: { role: true },
     });
   } catch (error) {
     console.error('[ACTION] ❌ Failed to fetch streamers for admin:', error);
@@ -20,7 +21,7 @@ export async function getStreamersDA() {
 
 export interface StreamerInput {
   name: string;
-  role: string;
+  roleId: string;
   channelId: string;
   youtubeId?: string | null;
   avatar: string;
@@ -36,7 +37,7 @@ export async function createStreamer(data: StreamerInput) {
       data: {
         id: crypto.randomUUID(), // Or let Prisma handle it if configured
         name: data.name,
-        role: data.role,
+        roleId: data.roleId,
         channelId: data.channelId,
         youtubeId: data.youtubeId,
         avatar: data.avatar, // Path from storage
@@ -67,7 +68,7 @@ export async function updateStreamer(id: string, data: Partial<StreamerInput>) {
       where: { id },
       data: {
         name: data.name,
-        role: data.role,
+        roleId: data.roleId,
         channelId: data.channelId,
         youtubeId: data.youtubeId,
         avatar: data.avatar,

@@ -1,4 +1,4 @@
-import { PrismaClient } from '../prisma/generated/prisma/client';// Sesuaikan path jika perlu
+import { PrismaClient } from '../prisma/generated/prisma/client'; // Sesuaikan path jika perlu
 import { PrismaPg } from '@prisma/adapter-pg';
 import { Pool } from 'pg';
 

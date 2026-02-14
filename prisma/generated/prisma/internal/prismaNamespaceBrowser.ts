@@ -51,6 +51,7 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
+  Role: 'Role',
   Streamer: 'Streamer',
   Backsound: 'Backsound'
 } as const
@@ -71,10 +72,18 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
+export const RoleScalarFieldEnum = {
+  id: 'id',
+  name: 'name'
+} as const
+
+export type RoleScalarFieldEnum = (typeof RoleScalarFieldEnum)[keyof typeof RoleScalarFieldEnum]
+
+
 export const StreamerScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  role: 'role',
+  roleId: 'roleId',
   channelId: 'channelId',
   youtubeId: 'youtubeId',
   avatar: 'avatar',

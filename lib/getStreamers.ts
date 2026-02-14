@@ -18,6 +18,7 @@ export async function getStreamers(): Promise<Streamer[]> {
   try {
     const dbStreamers = await prisma.streamer.findMany({
       orderBy: { position: 'asc' },
+      include: { role: true },
     });
 
     const processedStreamers = await Promise.all(
@@ -163,6 +164,7 @@ export async function getStreamers(): Promise<Streamer[]> {
         return {
           id: streamer.id,
           name: streamer.name,
+          roleId: streamer.roleId,
           role: streamer.role,
           channelId: streamer.channelId,
           youtubeId: finalVideoId,

@@ -65,7 +65,7 @@ export default async function WatchPage({ params }: WatchPageProps) {
             <div>
               <h1 className="text-3xl font-bold text-white mb-2">{streamer.name}</h1>
               <div className="flex items-center gap-3">
-                <span className="bg-gold text-black px-3 py-1 rounded text-sm font-bold uppercase">{streamer.role}</span>
+                <span className="bg-gold text-black px-3 py-1 rounded text-sm font-bold uppercase">{streamer.role?.name || 'Unknown'}</span>
                 {streamer.status === 'live' && (
                   <span className="flex items-center text-red-500 font-bold text-sm animate-pulse">
                     <span className="w-2 h-2 bg-red-500 rounded-full mr-2" />

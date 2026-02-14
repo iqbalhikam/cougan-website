@@ -50,7 +50,7 @@ function SortableItem({ streamer }: { streamer: Streamer }) {
         {/* Role */}
         <div className="w-full md:w-auto flex justify-between md:block text-sm">
           <span className="md:hidden text-zinc-500 uppercase text-xs font-bold">Role</span>
-          <span className="text-zinc-300">{streamer.role}</span>
+          <span className="text-zinc-300">{streamer.role?.name || 'Unknown'}</span>
         </div>
 
         {/* Status */}
