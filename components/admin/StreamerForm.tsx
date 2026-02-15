@@ -11,7 +11,7 @@ import { getRoles, createRole } from '@/lib/actions/roles'; // Import actions
 import { Streamer, Role } from '@/prisma/generated/prisma/client'; // Import Role type
 
 interface StreamerFormProps {
-  initialData?: Streamer & { role: Role }; // Ensure initialData includes role relation
+  initialData?: Streamer & { role: Role | null }; // Ensure initialData includes role relation
   isEdit?: boolean;
 }
 
