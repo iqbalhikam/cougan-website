@@ -37,28 +37,28 @@ export type BacksoundSumAggregateOutputType = {
 export type BacksoundMinAggregateOutputType = {
   id: string | null
   filename: string | null
-  originalName: string | null
   url: string | null
   size: number | null
   createdAt: Date | null
+  originalName: string | null
 }
 
 export type BacksoundMaxAggregateOutputType = {
   id: string | null
   filename: string | null
-  originalName: string | null
   url: string | null
   size: number | null
   createdAt: Date | null
+  originalName: string | null
 }
 
 export type BacksoundCountAggregateOutputType = {
   id: number
   filename: number
-  originalName: number
   url: number
   size: number
   createdAt: number
+  originalName: number
   _all: number
 }
 
@@ -74,28 +74,28 @@ export type BacksoundSumAggregateInputType = {
 export type BacksoundMinAggregateInputType = {
   id?: true
   filename?: true
-  originalName?: true
   url?: true
   size?: true
   createdAt?: true
+  originalName?: true
 }
 
 export type BacksoundMaxAggregateInputType = {
   id?: true
   filename?: true
-  originalName?: true
   url?: true
   size?: true
   createdAt?: true
+  originalName?: true
 }
 
 export type BacksoundCountAggregateInputType = {
   id?: true
   filename?: true
-  originalName?: true
   url?: true
   size?: true
   createdAt?: true
+  originalName?: true
   _all?: true
 }
 
@@ -188,10 +188,10 @@ export type BacksoundGroupByArgs<ExtArgs extends runtime.Types.Extensions.Intern
 export type BacksoundGroupByOutputType = {
   id: string
   filename: string
-  originalName: string | null
   url: string
   size: number
   createdAt: Date
+  originalName: string | null
   _count: BacksoundCountAggregateOutputType | null
   _avg: BacksoundAvgAggregateOutputType | null
   _sum: BacksoundSumAggregateOutputType | null
@@ -220,19 +220,19 @@ export type BacksoundWhereInput = {
   NOT?: Prisma.BacksoundWhereInput | Prisma.BacksoundWhereInput[]
   id?: Prisma.StringFilter<"Backsound"> | string
   filename?: Prisma.StringFilter<"Backsound"> | string
-  originalName?: Prisma.StringNullableFilter<"Backsound"> | string | null
   url?: Prisma.StringFilter<"Backsound"> | string
   size?: Prisma.IntFilter<"Backsound"> | number
   createdAt?: Prisma.DateTimeFilter<"Backsound"> | Date | string
+  originalName?: Prisma.StringNullableFilter<"Backsound"> | string | null
 }
 
 export type BacksoundOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   filename?: Prisma.SortOrder
-  originalName?: Prisma.SortOrderInput | Prisma.SortOrder
   url?: Prisma.SortOrder
   size?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  originalName?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type BacksoundWhereUniqueInput = Prisma.AtLeast<{
@@ -241,19 +241,19 @@ export type BacksoundWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.BacksoundWhereInput[]
   NOT?: Prisma.BacksoundWhereInput | Prisma.BacksoundWhereInput[]
   filename?: Prisma.StringFilter<"Backsound"> | string
-  originalName?: Prisma.StringNullableFilter<"Backsound"> | string | null
   url?: Prisma.StringFilter<"Backsound"> | string
   size?: Prisma.IntFilter<"Backsound"> | number
   createdAt?: Prisma.DateTimeFilter<"Backsound"> | Date | string
+  originalName?: Prisma.StringNullableFilter<"Backsound"> | string | null
 }, "id">
 
 export type BacksoundOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   filename?: Prisma.SortOrder
-  originalName?: Prisma.SortOrderInput | Prisma.SortOrder
   url?: Prisma.SortOrder
   size?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  originalName?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.BacksoundCountOrderByAggregateInput
   _avg?: Prisma.BacksoundAvgOrderByAggregateInput
   _max?: Prisma.BacksoundMaxOrderByAggregateInput
@@ -267,82 +267,82 @@ export type BacksoundScalarWhereWithAggregatesInput = {
   NOT?: Prisma.BacksoundScalarWhereWithAggregatesInput | Prisma.BacksoundScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Backsound"> | string
   filename?: Prisma.StringWithAggregatesFilter<"Backsound"> | string
-  originalName?: Prisma.StringNullableWithAggregatesFilter<"Backsound"> | string | null
   url?: Prisma.StringWithAggregatesFilter<"Backsound"> | string
   size?: Prisma.IntWithAggregatesFilter<"Backsound"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Backsound"> | Date | string
+  originalName?: Prisma.StringNullableWithAggregatesFilter<"Backsound"> | string | null
 }
 
 export type BacksoundCreateInput = {
   id?: string
   filename: string
-  originalName?: string | null
   url: string
   size: number
   createdAt?: Date | string
+  originalName?: string | null
 }
 
 export type BacksoundUncheckedCreateInput = {
   id?: string
   filename: string
-  originalName?: string | null
   url: string
   size: number
   createdAt?: Date | string
+  originalName?: string | null
 }
 
 export type BacksoundUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   filename?: Prisma.StringFieldUpdateOperationsInput | string
-  originalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   url?: Prisma.StringFieldUpdateOperationsInput | string
   size?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  originalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type BacksoundUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   filename?: Prisma.StringFieldUpdateOperationsInput | string
-  originalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   url?: Prisma.StringFieldUpdateOperationsInput | string
   size?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  originalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type BacksoundCreateManyInput = {
   id?: string
   filename: string
-  originalName?: string | null
   url: string
   size: number
   createdAt?: Date | string
+  originalName?: string | null
 }
 
 export type BacksoundUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   filename?: Prisma.StringFieldUpdateOperationsInput | string
-  originalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   url?: Prisma.StringFieldUpdateOperationsInput | string
   size?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  originalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type BacksoundUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   filename?: Prisma.StringFieldUpdateOperationsInput | string
-  originalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   url?: Prisma.StringFieldUpdateOperationsInput | string
   size?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  originalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type BacksoundCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   filename?: Prisma.SortOrder
-  originalName?: Prisma.SortOrder
   url?: Prisma.SortOrder
   size?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  originalName?: Prisma.SortOrder
 }
 
 export type BacksoundAvgOrderByAggregateInput = {
@@ -352,19 +352,19 @@ export type BacksoundAvgOrderByAggregateInput = {
 export type BacksoundMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   filename?: Prisma.SortOrder
-  originalName?: Prisma.SortOrder
   url?: Prisma.SortOrder
   size?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  originalName?: Prisma.SortOrder
 }
 
 export type BacksoundMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   filename?: Prisma.SortOrder
-  originalName?: Prisma.SortOrder
   url?: Prisma.SortOrder
   size?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  originalName?: Prisma.SortOrder
 }
 
 export type BacksoundSumOrderByAggregateInput = {
@@ -376,40 +376,40 @@ export type BacksoundSumOrderByAggregateInput = {
 export type BacksoundSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   filename?: boolean
-  originalName?: boolean
   url?: boolean
   size?: boolean
   createdAt?: boolean
+  originalName?: boolean
 }, ExtArgs["result"]["backsound"]>
 
 export type BacksoundSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   filename?: boolean
-  originalName?: boolean
   url?: boolean
   size?: boolean
   createdAt?: boolean
+  originalName?: boolean
 }, ExtArgs["result"]["backsound"]>
 
 export type BacksoundSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   filename?: boolean
-  originalName?: boolean
   url?: boolean
   size?: boolean
   createdAt?: boolean
+  originalName?: boolean
 }, ExtArgs["result"]["backsound"]>
 
 export type BacksoundSelectScalar = {
   id?: boolean
   filename?: boolean
-  originalName?: boolean
   url?: boolean
   size?: boolean
   createdAt?: boolean
+  originalName?: boolean
 }
 
-export type BacksoundOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "filename" | "originalName" | "url" | "size" | "createdAt", ExtArgs["result"]["backsound"]>
+export type BacksoundOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "filename" | "url" | "size" | "createdAt" | "originalName", ExtArgs["result"]["backsound"]>
 
 export type $BacksoundPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Backsound"
@@ -417,10 +417,10 @@ export type $BacksoundPayload<ExtArgs extends runtime.Types.Extensions.InternalA
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     filename: string
-    originalName: string | null
     url: string
     size: number
     createdAt: Date
+    originalName: string | null
   }, ExtArgs["result"]["backsound"]>
   composites: {}
 }
@@ -846,10 +846,10 @@ export interface Prisma__BacksoundClient<T, Null = never, ExtArgs extends runtim
 export interface BacksoundFieldRefs {
   readonly id: Prisma.FieldRef<"Backsound", 'String'>
   readonly filename: Prisma.FieldRef<"Backsound", 'String'>
-  readonly originalName: Prisma.FieldRef<"Backsound", 'String'>
   readonly url: Prisma.FieldRef<"Backsound", 'String'>
   readonly size: Prisma.FieldRef<"Backsound", 'Int'>
   readonly createdAt: Prisma.FieldRef<"Backsound", 'DateTime'>
+  readonly originalName: Prisma.FieldRef<"Backsound", 'String'>
 }
     
 

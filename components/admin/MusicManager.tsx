@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Music, Loader2, TrashIcon } from 'lucide-react';
+import { Music, Loader2, TrashIcon, Upload } from 'lucide-react';
 
 interface Track {
   id: string;
@@ -123,6 +123,7 @@ export function MusicManager() {
 
       {/* Upload Area */}
       <div className="flex flex-col w-full gap-2">
+        {/* Storage Info (Tetap dipertahankan) */}
         <div className="flex justify-between text-sm text-zinc-400">
           <span>Storage Used: {formatSize(totalUsedBytes)} / 100 MB</span>
           <span>{usagePercentage.toFixed(1)}%</span>
@@ -132,16 +133,43 @@ export function MusicManager() {
         </div>
         <p className="text-xs text-yellow-500 mt-1">{suggestionText}</p>
 
-        <div className="flex gap-4 items-center bg-zinc-800/50 p-4 rounded-lg border border-dashed border-zinc-700 mt-4">
+        {/* Input Label (Area Upload) */}
+        <label
+          className={`
+      flex flex-col items-center justify-center w-full h-32 
+      border-2 border-dashed border-zinc-700 rounded-lg 
+      bg-zinc-900/50 hover:bg-gold/10 transition-colors cursor-pointer
+      ${uploading || remainingBytes <= 0 ? 'opacity-50 cursor-not-allowed' : ''}
+    `}>
+          <div className="flex flex-col items-center justify-center pt-5 pb-6">
+            {uploading ? (
+              // Tampilan saat Uploading
+              <>
+                <Loader2 className="w-8 h-8 mb-3 text-green-500 animate-spin" />
+                <p className="mb-2 text-sm text-zinc-400">Uploading Audio...</p>
+              </>
+            ) : (
+              // Tampilan Standby
+              <>
+                {/* Ikon Music atau Upload */}
+                <Upload className="w-8 h-8 mb-3 text-zinc-400" />
+                <p className="mb-2 text-sm text-zinc-400">
+                  <span className="font-semibold text-gold">Click to upload</span> or drag audio
+                </p>
+                <p className="text-xs text-zinc-500">MP3, WAV, or OGG (Max 10MB)</p>
+              </>
+            )}
+          </div>
+
+          {/* Input Asli (Hidden) */}
           <Input
             type="file"
             accept="audio/*"
-            onChange={handleUpload}
+            onChange={handleUpload} // Pastikan fungsi ini langsung memproses upload
             disabled={uploading || remainingBytes <= 0}
-            className="bg-transparent border-0 file:bg-zinc-700 file:text-white file:border-0 file:mr-4 file:py-2 file:px-4 file:rounded-md hover:file:bg-zinc-600"
+            className="hidden"
           />
-          {uploading && <Loader2 className="w-5 h-5 animate-spin text-green-400" />}
-        </div>
+        </label>
       </div>
 
       {/* List Lagu */}

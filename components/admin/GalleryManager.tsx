@@ -110,7 +110,7 @@ export function GalleryManager() {
   };
 
   return (
-    <div className="bg-zinc-900 rounded-xl p-6 border border-zinc-800">
+    <div className="bg-zinc-900 rounded-xl p-6  border border-zinc-800">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
         <div>
           <h2 className="text-xl font-bold text-white flex items-center gap-2">
@@ -119,36 +119,50 @@ export function GalleryManager() {
           </h2>
           <p className="text-zinc-400 text-sm mt-1">Manage photos in the &quot;La Famiglia&quot; gallery.</p>
         </div>
-        <Button variant="outline" size="sm" onClick={fetchImages} disabled={loading} className="border-zinc-700 hover:bg-zinc-800 text-zinc-300">
+        <Button variant="outline" size="sm" onClick={fetchImages} disabled={loading} className="border-zinc-700 hover:bg-zinc-800 hover:text-gold text-black">
           <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
           Refresh
         </Button>
       </div>
 
       {/* Upload Section */}
-      <div className="bg-black/40 rounded-lg p-4 mb-8 border border-zinc-800/50">
-        <h3 className="text-sm font-medium text-zinc-300 mb-3">Upload New Image</h3>
-        <div className="flex flex-col sm:flex-row gap-3">
-          <Input
-            type="file"
-            accept="image/*"
-            onChange={handleFileChange}
-            className="file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-gold/10 file:text-gold hover:file:bg-gold/20 text-zinc-300 bg-zinc-900/50 border-zinc-700"
-          />
-          <Button onClick={handleUpload} disabled={!selectedFile || uploading} className="bg-gold text-black hover:bg-yellow-500 min-w-[120px]">
+      <div className=" rounded-lg p-4 mb-8">
+
+        <label
+          className={`
+      flex flex-col items-center justify-center w-full h-32 
+      border-2 border-dashed border-zinc-700 rounded-lg 
+      bg-zinc-900/50 hover:bg-gold/10 transition-colors cursor-pointer
+      ${uploading ? 'opacity-50 cursor-not-allowed' : ''}
+    `}>
+          {/* Kondisi Tampilan: Uploading vs Standby */}
+          <div className="flex flex-col items-center justify-center pt-5 pb-6">
             {uploading ? (
               <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Uploading...
+                <Loader2 className="w-8 h-8 mb-3 text-gold animate-spin" />
+                <p className="mb-2 text-sm text-zinc-400">Uploading...</p>
               </>
             ) : (
               <>
-                <Upload className="mr-2 h-4 w-4" />
-                Upload
+                <Upload className="w-8 h-8 mb-3 text-zinc-400" />
+                <p className="mb-2 text-sm text-zinc-400">
+                  <span className="font-semibold text-gold">Click to upload</span> or drag and drop
+                </p>
+                <p className="text-xs text-zinc-500">SVG, PNG, JPG or GIF</p>
               </>
             )}
-          </Button>
-        </div>
+          </div>
+
+          {/* Input Disembunyikan (Hidden) */}
+          <Input
+            type="file"
+            accept="image/*"
+            disabled={uploading}
+            onChange={handleFileChange} // Pastikan fungsi ini langsung trigger upload
+            className="hidden"
+          />
+        </label>
+
         <p className="text-xs text-zinc-500 mt-2">Recommended aspect ratio: 4:5 (Portrait) or 16:9 (Landscape). Max size: 5MB.</p>
       </div>
 

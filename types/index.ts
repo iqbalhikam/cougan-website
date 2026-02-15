@@ -3,8 +3,8 @@
 export interface Streamer {
   id: string;
   name: string;
-  roleId: string;
-  role: { id: string; name: string };
+  roleId: string | null;
+  role: { id: string; name: string } | null;
   channelId: string;
   youtubeId: string | null;
   avatar: string;

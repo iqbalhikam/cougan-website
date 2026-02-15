@@ -37,7 +37,6 @@ export type StreamerSumAggregateOutputType = {
 export type StreamerMinAggregateOutputType = {
   id: string | null
   name: string | null
-  roleId: string | null
   channelId: string | null
   youtubeId: string | null
   avatar: string | null
@@ -47,12 +46,12 @@ export type StreamerMinAggregateOutputType = {
   lastChecked: Date | null
   lastVideoCheck: Date | null
   latestVideoId: string | null
+  roleId: string | null
 }
 
 export type StreamerMaxAggregateOutputType = {
   id: string | null
   name: string | null
-  roleId: string | null
   channelId: string | null
   youtubeId: string | null
   avatar: string | null
@@ -62,12 +61,12 @@ export type StreamerMaxAggregateOutputType = {
   lastChecked: Date | null
   lastVideoCheck: Date | null
   latestVideoId: string | null
+  roleId: string | null
 }
 
 export type StreamerCountAggregateOutputType = {
   id: number
   name: number
-  roleId: number
   channelId: number
   youtubeId: number
   avatar: number
@@ -77,6 +76,7 @@ export type StreamerCountAggregateOutputType = {
   lastChecked: number
   lastVideoCheck: number
   latestVideoId: number
+  roleId: number
   _all: number
 }
 
@@ -92,7 +92,6 @@ export type StreamerSumAggregateInputType = {
 export type StreamerMinAggregateInputType = {
   id?: true
   name?: true
-  roleId?: true
   channelId?: true
   youtubeId?: true
   avatar?: true
@@ -102,12 +101,12 @@ export type StreamerMinAggregateInputType = {
   lastChecked?: true
   lastVideoCheck?: true
   latestVideoId?: true
+  roleId?: true
 }
 
 export type StreamerMaxAggregateInputType = {
   id?: true
   name?: true
-  roleId?: true
   channelId?: true
   youtubeId?: true
   avatar?: true
@@ -117,12 +116,12 @@ export type StreamerMaxAggregateInputType = {
   lastChecked?: true
   lastVideoCheck?: true
   latestVideoId?: true
+  roleId?: true
 }
 
 export type StreamerCountAggregateInputType = {
   id?: true
   name?: true
-  roleId?: true
   channelId?: true
   youtubeId?: true
   avatar?: true
@@ -132,6 +131,7 @@ export type StreamerCountAggregateInputType = {
   lastChecked?: true
   lastVideoCheck?: true
   latestVideoId?: true
+  roleId?: true
   _all?: true
 }
 
@@ -224,7 +224,6 @@ export type StreamerGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
 export type StreamerGroupByOutputType = {
   id: string
   name: string
-  roleId: string
   channelId: string
   youtubeId: string | null
   avatar: string
@@ -234,6 +233,7 @@ export type StreamerGroupByOutputType = {
   lastChecked: Date | null
   lastVideoCheck: Date | null
   latestVideoId: string | null
+  roleId: string | null
   _count: StreamerCountAggregateOutputType | null
   _avg: StreamerAvgAggregateOutputType | null
   _sum: StreamerSumAggregateOutputType | null
@@ -262,7 +262,6 @@ export type StreamerWhereInput = {
   NOT?: Prisma.StreamerWhereInput | Prisma.StreamerWhereInput[]
   id?: Prisma.StringFilter<"Streamer"> | string
   name?: Prisma.StringFilter<"Streamer"> | string
-  roleId?: Prisma.StringFilter<"Streamer"> | string
   channelId?: Prisma.StringFilter<"Streamer"> | string
   youtubeId?: Prisma.StringNullableFilter<"Streamer"> | string | null
   avatar?: Prisma.StringFilter<"Streamer"> | string
@@ -272,13 +271,13 @@ export type StreamerWhereInput = {
   lastChecked?: Prisma.DateTimeNullableFilter<"Streamer"> | Date | string | null
   lastVideoCheck?: Prisma.DateTimeNullableFilter<"Streamer"> | Date | string | null
   latestVideoId?: Prisma.StringNullableFilter<"Streamer"> | string | null
-  role?: Prisma.XOR<Prisma.RoleScalarRelationFilter, Prisma.RoleWhereInput>
+  roleId?: Prisma.StringNullableFilter<"Streamer"> | string | null
+  role?: Prisma.XOR<Prisma.RoleNullableScalarRelationFilter, Prisma.RoleWhereInput> | null
 }
 
 export type StreamerOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  roleId?: Prisma.SortOrder
   channelId?: Prisma.SortOrder
   youtubeId?: Prisma.SortOrderInput | Prisma.SortOrder
   avatar?: Prisma.SortOrder
@@ -288,6 +287,7 @@ export type StreamerOrderByWithRelationInput = {
   lastChecked?: Prisma.SortOrderInput | Prisma.SortOrder
   lastVideoCheck?: Prisma.SortOrderInput | Prisma.SortOrder
   latestVideoId?: Prisma.SortOrderInput | Prisma.SortOrder
+  roleId?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.RoleOrderByWithRelationInput
 }
 
@@ -297,7 +297,6 @@ export type StreamerWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.StreamerWhereInput[]
   NOT?: Prisma.StreamerWhereInput | Prisma.StreamerWhereInput[]
   name?: Prisma.StringFilter<"Streamer"> | string
-  roleId?: Prisma.StringFilter<"Streamer"> | string
   channelId?: Prisma.StringFilter<"Streamer"> | string
   youtubeId?: Prisma.StringNullableFilter<"Streamer"> | string | null
   avatar?: Prisma.StringFilter<"Streamer"> | string
@@ -307,13 +306,13 @@ export type StreamerWhereUniqueInput = Prisma.AtLeast<{
   lastChecked?: Prisma.DateTimeNullableFilter<"Streamer"> | Date | string | null
   lastVideoCheck?: Prisma.DateTimeNullableFilter<"Streamer"> | Date | string | null
   latestVideoId?: Prisma.StringNullableFilter<"Streamer"> | string | null
-  role?: Prisma.XOR<Prisma.RoleScalarRelationFilter, Prisma.RoleWhereInput>
+  roleId?: Prisma.StringNullableFilter<"Streamer"> | string | null
+  role?: Prisma.XOR<Prisma.RoleNullableScalarRelationFilter, Prisma.RoleWhereInput> | null
 }, "id">
 
 export type StreamerOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  roleId?: Prisma.SortOrder
   channelId?: Prisma.SortOrder
   youtubeId?: Prisma.SortOrderInput | Prisma.SortOrder
   avatar?: Prisma.SortOrder
@@ -323,6 +322,7 @@ export type StreamerOrderByWithAggregationInput = {
   lastChecked?: Prisma.SortOrderInput | Prisma.SortOrder
   lastVideoCheck?: Prisma.SortOrderInput | Prisma.SortOrder
   latestVideoId?: Prisma.SortOrderInput | Prisma.SortOrder
+  roleId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.StreamerCountOrderByAggregateInput
   _avg?: Prisma.StreamerAvgOrderByAggregateInput
   _max?: Prisma.StreamerMaxOrderByAggregateInput
@@ -336,7 +336,6 @@ export type StreamerScalarWhereWithAggregatesInput = {
   NOT?: Prisma.StreamerScalarWhereWithAggregatesInput | Prisma.StreamerScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Streamer"> | string
   name?: Prisma.StringWithAggregatesFilter<"Streamer"> | string
-  roleId?: Prisma.StringWithAggregatesFilter<"Streamer"> | string
   channelId?: Prisma.StringWithAggregatesFilter<"Streamer"> | string
   youtubeId?: Prisma.StringNullableWithAggregatesFilter<"Streamer"> | string | null
   avatar?: Prisma.StringWithAggregatesFilter<"Streamer"> | string
@@ -346,6 +345,7 @@ export type StreamerScalarWhereWithAggregatesInput = {
   lastChecked?: Prisma.DateTimeNullableWithAggregatesFilter<"Streamer"> | Date | string | null
   lastVideoCheck?: Prisma.DateTimeNullableWithAggregatesFilter<"Streamer"> | Date | string | null
   latestVideoId?: Prisma.StringNullableWithAggregatesFilter<"Streamer"> | string | null
+  roleId?: Prisma.StringNullableWithAggregatesFilter<"Streamer"> | string | null
 }
 
 export type StreamerCreateInput = {
@@ -366,7 +366,6 @@ export type StreamerCreateInput = {
 export type StreamerUncheckedCreateInput = {
   id: string
   name: string
-  roleId?: string
   channelId: string
   youtubeId?: string | null
   avatar: string
@@ -376,6 +375,7 @@ export type StreamerUncheckedCreateInput = {
   lastChecked?: Date | string | null
   lastVideoCheck?: Date | string | null
   latestVideoId?: string | null
+  roleId?: string | null
 }
 
 export type StreamerUpdateInput = {
@@ -390,13 +390,12 @@ export type StreamerUpdateInput = {
   lastChecked?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastVideoCheck?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   latestVideoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  role?: Prisma.RoleUpdateOneRequiredWithoutStreamersNestedInput
+  role?: Prisma.RoleUpdateOneWithoutStreamersNestedInput
 }
 
 export type StreamerUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  roleId?: Prisma.StringFieldUpdateOperationsInput | string
   channelId?: Prisma.StringFieldUpdateOperationsInput | string
   youtubeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.StringFieldUpdateOperationsInput | string
@@ -406,12 +405,12 @@ export type StreamerUncheckedUpdateInput = {
   lastChecked?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastVideoCheck?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   latestVideoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  roleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type StreamerCreateManyInput = {
   id: string
   name: string
-  roleId?: string
   channelId: string
   youtubeId?: string | null
   avatar: string
@@ -421,6 +420,7 @@ export type StreamerCreateManyInput = {
   lastChecked?: Date | string | null
   lastVideoCheck?: Date | string | null
   latestVideoId?: string | null
+  roleId?: string | null
 }
 
 export type StreamerUpdateManyMutationInput = {
@@ -440,7 +440,6 @@ export type StreamerUpdateManyMutationInput = {
 export type StreamerUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  roleId?: Prisma.StringFieldUpdateOperationsInput | string
   channelId?: Prisma.StringFieldUpdateOperationsInput | string
   youtubeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.StringFieldUpdateOperationsInput | string
@@ -450,6 +449,7 @@ export type StreamerUncheckedUpdateManyInput = {
   lastChecked?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastVideoCheck?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   latestVideoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  roleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type StreamerListRelationFilter = {
@@ -465,7 +465,6 @@ export type StreamerOrderByRelationAggregateInput = {
 export type StreamerCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  roleId?: Prisma.SortOrder
   channelId?: Prisma.SortOrder
   youtubeId?: Prisma.SortOrder
   avatar?: Prisma.SortOrder
@@ -475,6 +474,7 @@ export type StreamerCountOrderByAggregateInput = {
   lastChecked?: Prisma.SortOrder
   lastVideoCheck?: Prisma.SortOrder
   latestVideoId?: Prisma.SortOrder
+  roleId?: Prisma.SortOrder
 }
 
 export type StreamerAvgOrderByAggregateInput = {
@@ -484,7 +484,6 @@ export type StreamerAvgOrderByAggregateInput = {
 export type StreamerMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  roleId?: Prisma.SortOrder
   channelId?: Prisma.SortOrder
   youtubeId?: Prisma.SortOrder
   avatar?: Prisma.SortOrder
@@ -494,12 +493,12 @@ export type StreamerMaxOrderByAggregateInput = {
   lastChecked?: Prisma.SortOrder
   lastVideoCheck?: Prisma.SortOrder
   latestVideoId?: Prisma.SortOrder
+  roleId?: Prisma.SortOrder
 }
 
 export type StreamerMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  roleId?: Prisma.SortOrder
   channelId?: Prisma.SortOrder
   youtubeId?: Prisma.SortOrder
   avatar?: Prisma.SortOrder
@@ -509,6 +508,7 @@ export type StreamerMinOrderByAggregateInput = {
   lastChecked?: Prisma.SortOrder
   lastVideoCheck?: Prisma.SortOrder
   latestVideoId?: Prisma.SortOrder
+  roleId?: Prisma.SortOrder
 }
 
 export type StreamerSumOrderByAggregateInput = {
@@ -559,10 +559,6 @@ export type StreamerUncheckedUpdateManyWithoutRoleNestedInput = {
 
 export type NullableStringFieldUpdateOperationsInput = {
   set?: string | null
-}
-
-export type DateTimeFieldUpdateOperationsInput = {
-  set?: Date | string
 }
 
 export type IntFieldUpdateOperationsInput = {
@@ -637,7 +633,6 @@ export type StreamerScalarWhereInput = {
   NOT?: Prisma.StreamerScalarWhereInput | Prisma.StreamerScalarWhereInput[]
   id?: Prisma.StringFilter<"Streamer"> | string
   name?: Prisma.StringFilter<"Streamer"> | string
-  roleId?: Prisma.StringFilter<"Streamer"> | string
   channelId?: Prisma.StringFilter<"Streamer"> | string
   youtubeId?: Prisma.StringNullableFilter<"Streamer"> | string | null
   avatar?: Prisma.StringFilter<"Streamer"> | string
@@ -647,6 +642,7 @@ export type StreamerScalarWhereInput = {
   lastChecked?: Prisma.DateTimeNullableFilter<"Streamer"> | Date | string | null
   lastVideoCheck?: Prisma.DateTimeNullableFilter<"Streamer"> | Date | string | null
   latestVideoId?: Prisma.StringNullableFilter<"Streamer"> | string | null
+  roleId?: Prisma.StringNullableFilter<"Streamer"> | string | null
 }
 
 export type StreamerCreateManyRoleInput = {
@@ -710,7 +706,6 @@ export type StreamerUncheckedUpdateManyWithoutRoleInput = {
 export type StreamerSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
-  roleId?: boolean
   channelId?: boolean
   youtubeId?: boolean
   avatar?: boolean
@@ -720,13 +715,13 @@ export type StreamerSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   lastChecked?: boolean
   lastVideoCheck?: boolean
   latestVideoId?: boolean
-  role?: boolean | Prisma.RoleDefaultArgs<ExtArgs>
+  roleId?: boolean
+  role?: boolean | Prisma.Streamer$roleArgs<ExtArgs>
 }, ExtArgs["result"]["streamer"]>
 
 export type StreamerSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
-  roleId?: boolean
   channelId?: boolean
   youtubeId?: boolean
   avatar?: boolean
@@ -736,13 +731,13 @@ export type StreamerSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   lastChecked?: boolean
   lastVideoCheck?: boolean
   latestVideoId?: boolean
-  role?: boolean | Prisma.RoleDefaultArgs<ExtArgs>
+  roleId?: boolean
+  role?: boolean | Prisma.Streamer$roleArgs<ExtArgs>
 }, ExtArgs["result"]["streamer"]>
 
 export type StreamerSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
-  roleId?: boolean
   channelId?: boolean
   youtubeId?: boolean
   avatar?: boolean
@@ -752,13 +747,13 @@ export type StreamerSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   lastChecked?: boolean
   lastVideoCheck?: boolean
   latestVideoId?: boolean
-  role?: boolean | Prisma.RoleDefaultArgs<ExtArgs>
+  roleId?: boolean
+  role?: boolean | Prisma.Streamer$roleArgs<ExtArgs>
 }, ExtArgs["result"]["streamer"]>
 
 export type StreamerSelectScalar = {
   id?: boolean
   name?: boolean
-  roleId?: boolean
   channelId?: boolean
   youtubeId?: boolean
   avatar?: boolean
@@ -768,28 +763,28 @@ export type StreamerSelectScalar = {
   lastChecked?: boolean
   lastVideoCheck?: boolean
   latestVideoId?: boolean
+  roleId?: boolean
 }
 
-export type StreamerOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "roleId" | "channelId" | "youtubeId" | "avatar" | "status" | "createdAt" | "position" | "lastChecked" | "lastVideoCheck" | "latestVideoId", ExtArgs["result"]["streamer"]>
+export type StreamerOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "channelId" | "youtubeId" | "avatar" | "status" | "createdAt" | "position" | "lastChecked" | "lastVideoCheck" | "latestVideoId" | "roleId", ExtArgs["result"]["streamer"]>
 export type StreamerInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  role?: boolean | Prisma.RoleDefaultArgs<ExtArgs>
+  role?: boolean | Prisma.Streamer$roleArgs<ExtArgs>
 }
 export type StreamerIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  role?: boolean | Prisma.RoleDefaultArgs<ExtArgs>
+  role?: boolean | Prisma.Streamer$roleArgs<ExtArgs>
 }
 export type StreamerIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  role?: boolean | Prisma.RoleDefaultArgs<ExtArgs>
+  role?: boolean | Prisma.Streamer$roleArgs<ExtArgs>
 }
 
 export type $StreamerPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Streamer"
   objects: {
-    role: Prisma.$RolePayload<ExtArgs>
+    role: Prisma.$RolePayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     name: string
-    roleId: string
     channelId: string
     youtubeId: string | null
     avatar: string
@@ -799,6 +794,7 @@ export type $StreamerPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     lastChecked: Date | null
     lastVideoCheck: Date | null
     latestVideoId: string | null
+    roleId: string | null
   }, ExtArgs["result"]["streamer"]>
   composites: {}
 }
@@ -1193,7 +1189,7 @@ readonly fields: StreamerFieldRefs;
  */
 export interface Prisma__StreamerClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  role<T extends Prisma.RoleDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RoleDefaultArgs<ExtArgs>>): Prisma.Prisma__RoleClient<runtime.Types.Result.GetResult<Prisma.$RolePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  role<T extends Prisma.Streamer$roleArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Streamer$roleArgs<ExtArgs>>): Prisma.Prisma__RoleClient<runtime.Types.Result.GetResult<Prisma.$RolePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1225,7 +1221,6 @@ export interface Prisma__StreamerClient<T, Null = never, ExtArgs extends runtime
 export interface StreamerFieldRefs {
   readonly id: Prisma.FieldRef<"Streamer", 'String'>
   readonly name: Prisma.FieldRef<"Streamer", 'String'>
-  readonly roleId: Prisma.FieldRef<"Streamer", 'String'>
   readonly channelId: Prisma.FieldRef<"Streamer", 'String'>
   readonly youtubeId: Prisma.FieldRef<"Streamer", 'String'>
   readonly avatar: Prisma.FieldRef<"Streamer", 'String'>
@@ -1235,6 +1230,7 @@ export interface StreamerFieldRefs {
   readonly lastChecked: Prisma.FieldRef<"Streamer", 'DateTime'>
   readonly lastVideoCheck: Prisma.FieldRef<"Streamer", 'DateTime'>
   readonly latestVideoId: Prisma.FieldRef<"Streamer", 'String'>
+  readonly roleId: Prisma.FieldRef<"Streamer", 'String'>
 }
     
 
@@ -1628,6 +1624,25 @@ export type StreamerDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Limit how many Streamers to delete.
    */
   limit?: number
+}
+
+/**
+ * Streamer.role
+ */
+export type Streamer$roleArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Role
+   */
+  select?: Prisma.RoleSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Role
+   */
+  omit?: Prisma.RoleOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RoleInclude<ExtArgs> | null
+  where?: Prisma.RoleWhereInput
 }
 
 /**

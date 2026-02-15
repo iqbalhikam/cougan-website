@@ -45,6 +45,11 @@ export { Prisma }
  */
 export type Role = Prisma.RoleModel
 /**
+ * Model Admin
+ * 
+ */
+export type Admin = Prisma.AdminModel
+/**
  * Model Streamer
  * 
  */

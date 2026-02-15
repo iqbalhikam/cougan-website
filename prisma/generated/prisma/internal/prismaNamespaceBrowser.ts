@@ -52,6 +52,7 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   Role: 'Role',
+  Admin: 'Admin',
   Streamer: 'Streamer',
   Backsound: 'Backsound'
 } as const
@@ -80,10 +81,18 @@ export const RoleScalarFieldEnum = {
 export type RoleScalarFieldEnum = (typeof RoleScalarFieldEnum)[keyof typeof RoleScalarFieldEnum]
 
 
+export const AdminScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  createdAt: 'createdAt'
+} as const
+
+export type AdminScalarFieldEnum = (typeof AdminScalarFieldEnum)[keyof typeof AdminScalarFieldEnum]
+
+
 export const StreamerScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  roleId: 'roleId',
   channelId: 'channelId',
   youtubeId: 'youtubeId',
   avatar: 'avatar',
@@ -92,7 +101,8 @@ export const StreamerScalarFieldEnum = {
   position: 'position',
   lastChecked: 'lastChecked',
   lastVideoCheck: 'lastVideoCheck',
-  latestVideoId: 'latestVideoId'
+  latestVideoId: 'latestVideoId',
+  roleId: 'roleId'
 } as const
 
 export type StreamerScalarFieldEnum = (typeof StreamerScalarFieldEnum)[keyof typeof StreamerScalarFieldEnum]
@@ -101,10 +111,10 @@ export type StreamerScalarFieldEnum = (typeof StreamerScalarFieldEnum)[keyof typ
 export const BacksoundScalarFieldEnum = {
   id: 'id',
   filename: 'filename',
-  originalName: 'originalName',
   url: 'url',
   size: 'size',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  originalName: 'originalName'
 } as const
 
 export type BacksoundScalarFieldEnum = (typeof BacksoundScalarFieldEnum)[keyof typeof BacksoundScalarFieldEnum]

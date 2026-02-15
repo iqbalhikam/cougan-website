@@ -246,9 +246,9 @@ export type RoleMinOrderByAggregateInput = {
   name?: Prisma.SortOrder
 }
 
-export type RoleScalarRelationFilter = {
-  is?: Prisma.RoleWhereInput
-  isNot?: Prisma.RoleWhereInput
+export type RoleNullableScalarRelationFilter = {
+  is?: Prisma.RoleWhereInput | null
+  isNot?: Prisma.RoleWhereInput | null
 }
 
 export type StringFieldUpdateOperationsInput = {
@@ -261,10 +261,12 @@ export type RoleCreateNestedOneWithoutStreamersInput = {
   connect?: Prisma.RoleWhereUniqueInput
 }
 
-export type RoleUpdateOneRequiredWithoutStreamersNestedInput = {
+export type RoleUpdateOneWithoutStreamersNestedInput = {
   create?: Prisma.XOR<Prisma.RoleCreateWithoutStreamersInput, Prisma.RoleUncheckedCreateWithoutStreamersInput>
   connectOrCreate?: Prisma.RoleCreateOrConnectWithoutStreamersInput
   upsert?: Prisma.RoleUpsertWithoutStreamersInput
+  disconnect?: Prisma.RoleWhereInput | boolean
+  delete?: Prisma.RoleWhereInput | boolean
   connect?: Prisma.RoleWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.RoleUpdateToOneWithWhereWithoutStreamersInput, Prisma.RoleUpdateWithoutStreamersInput>, Prisma.RoleUncheckedUpdateWithoutStreamersInput>
 }

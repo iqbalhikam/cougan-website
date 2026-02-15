@@ -7,7 +7,7 @@ import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSo
 import { CSS } from '@dnd-kit/utilities';
 import { Button } from '@/components/ui/button';
 import { deleteStreamer, updateStreamerPositions } from '@/lib/actions/streamers';
-import { GripVertical, Edit2, Trash2 } from 'lucide-react';
+import { GripVertical, Edit2, Trash2, LucideUsersRound } from 'lucide-react';
 import { Streamer } from '@/types';
 
 interface SortableStreamerListProps {
@@ -29,7 +29,7 @@ function SortableItem({ streamer }: { streamer: Streamer }) {
     <div
       ref={setNodeRef}
       style={style}
-      className={`bg-zinc-900 border border-zinc-800 rounded-lg mb-3 md:mb-0 md:rounded-none md:border-b md:border-t-0 md:border-x-0 last:border-b-0 hover:bg-zinc-800/50 transition-colors ${
+      className={`bg-zinc-900 border border-zinc-800 rounded-lg mb-3 md:mb-0 md:rounded-none md:border-b md:border-t-0 md:border-x-0 last:border-b-0 hover:bg-gold/10 transition-colors ${
         isDragging ? 'bg-zinc-800 shadow-xl border-zinc-700' : ''
       }`}>
       {/* Container untuk Layout Grid Desktop & Flex Mobile */}
@@ -133,11 +133,14 @@ export function SortableStreamerList({ initialStreamers }: SortableStreamerListP
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 pb-8 bg-zinc-900 rounded-xl border-zinc-800">
+      <h2 className="text-xl font-bold text-white flex items-center gap-2 px-9 pt-8 ">
+        <LucideUsersRound className="text-gold" /> Streamer Management
+      </h2>
       {isSaving && <div className="p-2 text-xs text-center bg-blue-500/20 text-blue-200 rounded border border-blue-500/30">Saving order...</div>}
 
       {/* List Container */}
-      <div className="bg-transparent md:bg-zinc-900 md:border md:border-zinc-800 md:rounded-lg overflow-hidden">
+      <div className="mx-8 bg-transparent md:bg-zinc-900 md:border md:border-zinc-800 md:rounded-lg overflow-hidden">
         {/* Desktop Header */}
         <div className="hidden md:grid md:grid-cols-[50px_1fr_1fr_100px_100px] gap-4 p-4 bg-zinc-800/50 text-zinc-400 font-bold uppercase text-xs border-b border-zinc-800">
           <div></div>

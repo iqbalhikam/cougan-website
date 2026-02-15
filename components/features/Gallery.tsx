@@ -194,7 +194,7 @@ export function Gallery() {
 
         {/* Bottom Quote/Signature */}
         <div className="mt-24 text-center">
-          <p className="text-blood font-serif text-sm tracking-[0.5em] uppercase opacity-70 drop-shadow-sm">EST. 2024</p>
+          <p className="text-blood font-serif text-sm tracking-[0.5em] uppercase opacity-70 drop-shadow-sm">EST. 2026</p>
         </div>
       </div>
     </section>
