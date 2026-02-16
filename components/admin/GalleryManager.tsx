@@ -20,12 +20,11 @@ export function GalleryManager() {
   const [images, setImages] = useState<GalleryItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  // State selectedFile dihapus karena kita langsung upload file yang masuk
 
   const fetchImages = useCallback(async () => {
     setLoading(true);
     try {
-      // List files in 'gallery' folder of 'cougan' bucket
       const { data, error } = await supabase.storage.from('cougan').list('gallery', {
         limit: 100,
         offset: 0,
@@ -60,29 +59,26 @@ export function GalleryManager() {
     fetchImages();
   }, [fetchImages]);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setSelectedFile(e.target.files[0]);
-    }
-  };
-
-  const handleUpload = async () => {
-    if (!selectedFile) return;
+  // --- PERBAIKAN UTAMA DI SINI ---
+  // Fungsi ini menangani pemilihan file DAN langsung melakukan upload
+  const handleDirectUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
 
     setUploading(true);
+
     try {
-      const fileExt = selectedFile.name.split('.').pop();
+      const fileExt = file.name.split('.').pop();
+      // Gunakan timestamp biar nama file unik
       const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 15)}.${fileExt}`;
       const filePath = `gallery/${fileName}`;
 
-      const { error } = await supabase.storage.from('cougan').upload(filePath, selectedFile);
+      const { error } = await supabase.storage.from('cougan').upload(filePath, file);
 
       if (error) {
         alert(`Error uploading image: ${error.message}`);
       } else {
-        setSelectedFile(null);
-        // Reset file input if possible, or just let React handle it via key
-        // Refetch images
+        // Refresh gallery setelah sukses
         await fetchImages();
       }
     } catch (err) {
@@ -90,6 +86,8 @@ export function GalleryManager() {
       alert('An unexpected error occurred during upload.');
     } finally {
       setUploading(false);
+      // Reset value input agar user bisa mengupload file yang sama lagi jika mau
+      e.target.value = '';
     }
   };
 
@@ -127,7 +125,6 @@ export function GalleryManager() {
 
       {/* Upload Section */}
       <div className=" rounded-lg p-4 mb-8">
-
         <label
           className={`
       flex flex-col items-center justify-center w-full h-32 
@@ -158,7 +155,7 @@ export function GalleryManager() {
             type="file"
             accept="image/*"
             disabled={uploading}
-            onChange={handleFileChange} // Pastikan fungsi ini langsung trigger upload
+            onChange={handleDirectUpload} // Menggunakan fungsi gabungan baru
             className="hidden"
           />
         </label>
