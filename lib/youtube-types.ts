@@ -27,6 +27,7 @@ export const QUOTA_COSTS = {
   VIDEOS_LIST: 1, // videos.list - Validate video status
   SEARCH_LIST: 100, // search.list - Find live videos (EXPENSIVE!)
   PLAYLIST_ITEMS: 1, // playlistItems.list
+  LIVE_CHAT_MESSAGES: 5, // liveChatMessages.list - 5 units
 } as const;
 
 /**

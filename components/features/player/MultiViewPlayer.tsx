@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Streamer } from '@/types';
 import { X, Users } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { ChatOverlay } from '@/components/features/player/ChatOverlay';
 
 import { useLanguage } from '@/components/providers/LanguageProvider';
 
@@ -55,20 +56,46 @@ export function MultiViewPlayer({ initialStreamers }: MultiViewPlayerProps) {
       case count === 0:
         return 'grid-cols-1';
       case count === 1:
-        return 'grid-cols-1 h-[40vh] md:h-[80vh]';
+        return 'grid-cols-1 min-h-[40vh] md:min-h-[80vh]';
       case count === 2:
-        return 'grid-cols-1 md:grid-cols-2 h-auto md:h-[80vh]';
+        return 'grid-cols-1 md:grid-cols-2 h-auto min-h-[40vh] md:min-h-[80vh]';
       case count <= 4:
-        return 'grid-cols-2 md:grid-cols-2 h-auto md:h-[80vh]';
+        return 'grid-cols-1 md:grid-cols-2 h-auto min-h-[80vh]';
       case count <= 6:
-        return 'grid-cols-2 md:grid-cols-3 h-auto min-h-[80vh]';
+        return 'grid-cols-1 md:grid-cols-3 h-auto min-h-[80vh]';
       case count <= 8:
-        return 'grid-cols-2 md:grid-cols-4 h-auto min-h-[80vh]';
+        return 'grid-cols-1 md:grid-cols-4 h-auto min-h-[80vh]';
       default:
         // 9-10 items
-        return 'grid-cols-2 md:grid-cols-5 h-auto min-h-[80vh]';
+        return 'grid-cols-1 md:grid-cols-5 h-auto min-h-[80vh]';
     }
   };
+
+  // Track which chats are open
+  const [openChats, setOpenChats] = useState<Record<string, boolean>>({});
+  const [domain, setDomain] = useState('');
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setDomain(window.location.hostname);
+    }
+  }, []);
+
+  const toggleChat = (streamerId: string) => {
+    setOpenChats((prev) => ({
+      ...prev,
+      [streamerId]: !prev[streamerId],
+    }));
+  };
+
+  // Determine grid based on VISIBLE slots, but if chat is open, it takes vertical space.
+  // The layout automatically flows.
+
+  // Bubble Size State
+  const [bubbleSize, setBubbleSize] = useState<'small' | 'medium' | 'large'>('medium');
+  const [bubbleOpacity, setBubbleOpacity] = useState(1);
+  const [bubbleBgOpacity, setBubbleBgOpacity] = useState(0.6);
+  const [showSettings, setShowSettings] = useState(false);
 
   return (
     <div className="flex flex-col h-full gap-4">
@@ -80,6 +107,57 @@ export function MultiViewPlayer({ initialStreamers }: MultiViewPlayerProps) {
             {dict.multiview.activeStreams} ({activeStreamers.length}/10)
           </span>
         </div>
+
+        <button
+          onClick={() => setShowSettings(!showSettings)}
+          className={cn('px-3 py-1.5 rounded-full text-xs font-medium border transition-colors', showSettings ? 'bg-zinc-700 text-white border-zinc-600' : 'bg-zinc-800 text-zinc-400 border-zinc-700 hover:text-white')}>
+          {showSettings ? 'Hide Settings' : 'Bubble Settings'}
+        </button>
+
+        {/* Extended Settings Panel */}
+        {showSettings && (
+          <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-4 mt-2 pt-2 border-t border-white/5 animate-in fade-in slide-in-from-top-2 basis-full order-last">
+            {/* Size */}
+            <div className="flex items-center gap-2 bg-zinc-800/30 rounded-lg p-2">
+              <span className="text-xs text-zinc-400 w-12">Size:</span>
+              <div className="flex gap-1">
+                {(['small', 'medium', 'large'] as const).map((size) => (
+                  <button
+                    key={size}
+                    onClick={() => setBubbleSize(size)}
+                    className={cn(
+                      'px-2 py-0.5 text-xs rounded-md transition-colors capitalize border border-transparent',
+                      bubbleSize === size ? 'bg-zinc-600 text-white border-zinc-500' : 'text-zinc-500 hover:text-zinc-300 hover:bg-zinc-800',
+                    )}>
+                    {size}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Overall Opacity */}
+            <div className="flex items-center gap-2 bg-zinc-800/30 rounded-lg p-2">
+              <span className="text-xs text-zinc-400 w-12">Opacity:</span>
+              <input type="range" min="0.1" max="1" step="0.1" value={bubbleOpacity} onChange={(e) => setBubbleOpacity(parseFloat(e.target.value))} className="w-full h-1 bg-zinc-700 rounded-lg appearance-none cursor-pointer accent-gold" />
+              <span className="text-xs text-zinc-500 w-8 text-right">{Math.round(bubbleOpacity * 100)}%</span>
+            </div>
+
+            {/* Background Opacity */}
+            <div className="flex items-center gap-2 bg-zinc-800/30 rounded-lg p-2">
+              <span className="text-xs text-zinc-400 w-16">BG Opacity:</span>
+              <input
+                type="range"
+                min="0"
+                max="1"
+                step="0.1"
+                value={bubbleBgOpacity}
+                onChange={(e) => setBubbleBgOpacity(parseFloat(e.target.value))}
+                className="w-full h-1 bg-zinc-700 rounded-lg appearance-none cursor-pointer accent-gold"
+              />
+              <span className="text-xs text-zinc-500 w-8 text-right">{Math.round(bubbleBgOpacity * 100)}%</span>
+            </div>
+          </div>
+        )}
 
         <div className="flex gap-2 flex-wrap">
           {streamerData.map((s) => {
@@ -120,24 +198,42 @@ export function MultiViewPlayer({ initialStreamers }: MultiViewPlayerProps) {
           activeStreamers.map((id) => {
             const streamer = streamerData.find((s) => s.id === id);
             if (!streamer) return null;
+            const isChatOpen = !!openChats[id];
+
             return (
-              <div key={id} className="relative w-full h-full min-h-[200px] md:min-h-[300px] bg-black rounded-lg overflow-hidden border border-zinc-800 group aspect-video">
-                {/* Remove Button Overlay */}
-                <button onClick={() => toggleStreamer(id)} className="absolute top-2 right-2 z-10 bg-black/60 p-1.5 rounded-full text-white/50 hover:text-white hover:bg-black transition-all opacity-0 group-hover:opacity-100">
-                  <X size={16} />
-                </button>
+              <div key={id} className="flex flex-col w-full h-full bg-black rounded-lg overflow-hidden border border-zinc-800 group">
+                <div className="relative w-full aspect-video">
+                  {/* Remove Button Overlay */}
+                  <button onClick={() => toggleStreamer(id)} className="absolute top-2 right-2 z-10 bg-black/60 p-1.5 rounded-full text-white/50 hover:text-white hover:bg-black transition-all opacity-0 group-hover:opacity-100">
+                    <X size={16} />
+                  </button>
 
-                <iframe
-                  className="w-full h-full absolute inset-0"
-                  src={`https://www.youtube.com/embed/${streamer.youtubeId}?autoplay=1&mute=1`}
-                  title={streamer.name}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
+                  <iframe
+                    className="w-full h-full absolute inset-0"
+                    src={`https://www.youtube.com/embed/${streamer.youtubeId}?autoplay=1&mute=1`}
+                    title={streamer.name}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
 
-                <div className="absolute bottom-0 left-0 right-0 bg-linear-to-t from-black to-transparent p-4 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-                  <span className="text-white font-bold drop-shadow-md">{streamer.name}</span>
+                  {/* Chat Overlay (Bubbles + Button) */}
+                  {streamer.activeLiveChatId && (
+                    <div className="absolute inset-0 z-20 pointer-events-none">
+                      <ChatOverlay chatId={streamer.activeLiveChatId} isChatOpen={isChatOpen} onToggleChat={() => toggleChat(id)} bubbleSize={bubbleSize} bubbleOpacity={bubbleOpacity} bubbleBgOpacity={bubbleBgOpacity} />
+                    </div>
+                  )}
+
+                  <div className="absolute bottom-0 left-0 right-0 bg-linear-to-t from-black to-transparent p-4 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-30">
+                    <span className="text-white font-bold drop-shadow-md">{streamer.name}</span>
+                  </div>
                 </div>
+
+                {/* Expanded Chat Box (Vertical Stack) */}
+                {isChatOpen && (
+                  <div className="w-full h-[400px] border-t border-zinc-800 bg-zinc-900 transition-all duration-300 ease-in-out">
+                    <iframe src={`https://www.youtube.com/live_chat?v=${streamer.youtubeId}&embed_domain=${domain}&dark_theme=1`} className="w-full h-full border-none" allowFullScreen />
+                  </div>
+                )}
               </div>
             );
           })

@@ -771,6 +771,7 @@ export const StreamerScalarFieldEnum = {
   lastChecked: 'lastChecked',
   lastVideoCheck: 'lastVideoCheck',
   latestVideoId: 'latestVideoId',
+  activeLiveChatId: 'activeLiveChatId',
   roleId: 'roleId'
 } as const
 

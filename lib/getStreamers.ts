@@ -31,6 +31,7 @@ export async function getStreamers(): Promise<Streamer[]> {
         // Default: Gunakan status lama dulu
         let finalStatus = streamer.status;
         let finalVideoId = streamer.youtubeId || '';
+        let finalLiveChatId = streamer.activeLiveChatId || '';
         let latestVideoIdCached = streamer.latestVideoId || '';
 
         const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
@@ -115,21 +116,25 @@ export async function getStreamers(): Promise<Streamer[]> {
                   if (isActuallyLive) {
                     finalStatus = 'live';
                     finalVideoId = videoIdToCheck;
+                    finalLiveChatId = liveDetails.activeLiveChatId || ''; // Extract chat ID
                     console.info(`[STREAMER] 🔴 Live Confirmed: ${streamer.name}`);
                   } else {
                     finalStatus = 'offline';
                     finalVideoId = '';
+                    finalLiveChatId = ''; // Clear chat ID
                     console.info(`[STREAMER] ⚪ Stream Ended: ${streamer.name}`);
                   }
                 } else {
                   // Video biasa (bukan live stream)
                   finalStatus = 'offline';
                   finalVideoId = '';
+                  finalLiveChatId = '';
                 }
               } else {
                 // Video tidak ditemukan (mungkin dihapus/private setelah live)
                 finalStatus = 'offline';
                 finalVideoId = '';
+                finalLiveChatId = '';
               }
             }
           }
@@ -140,7 +145,7 @@ export async function getStreamers(): Promise<Streamer[]> {
         // -----------------------------------------------------------
         // STEP C: UPDATE DATABASE (Only if changed)
         // -----------------------------------------------------------
-        const hasChanged = finalStatus !== streamer.status || finalVideoId !== (streamer.youtubeId || '') || latestVideoIdCached !== (streamer.latestVideoId || '');
+        const hasChanged = finalStatus !== streamer.status || finalLiveChatId !== (streamer.activeLiveChatId || '') || finalVideoId !== (streamer.youtubeId || '') || latestVideoIdCached !== (streamer.latestVideoId || '');
 
         if (hasChanged) {
           try {
@@ -149,6 +154,7 @@ export async function getStreamers(): Promise<Streamer[]> {
               data: {
                 status: finalStatus,
                 youtubeId: finalVideoId,
+                activeLiveChatId: finalLiveChatId,
                 latestVideoId: latestVideoIdCached,
                 lastChecked: new Date(),
                 lastVideoCheck: finalStatus === 'live' ? new Date() : streamer.lastVideoCheck,
@@ -168,6 +174,7 @@ export async function getStreamers(): Promise<Streamer[]> {
           role: streamer.role,
           channelId: streamer.channelId,
           youtubeId: finalVideoId,
+          activeLiveChatId: finalLiveChatId,
           avatar: getAvatarUrl(streamer.avatar),
           status: finalStatus,
           position: streamer.position,

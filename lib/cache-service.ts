@@ -1,19 +1,13 @@
-import { Streamer } from '@/types';
-
-interface CacheEntry {
-  data: Streamer[];
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+interface CacheEntry<T = any> {
+  data: T;
   timestamp: number;
   ttl: number; // Time to live in milliseconds
 }
 
 /**
  * In-Memory Cache Service
- * Reduces YouTube API quota usage by caching streamer data
- *
- * Cache Strategy:
- * - Live streamers: 2 minute TTL (need frequent updates)
- * - Offline streamers: 10 minute TTL (less frequent updates needed)
- * - Automatic invalidation on TTL expiry
+ * Reduces YouTube API quota usage by caching data
  */
 class CacheService {
   private cache: Map<string, CacheEntry> = new Map();
@@ -26,7 +20,8 @@ class CacheService {
    * @param key Cache key
    * @returns Cached data or null if expired/missing
    */
-  get(key: string): Streamer[] | null {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  get<T = any>(key: string): T | null {
     const entry = this.cache.get(key);
 
     if (!entry) {
@@ -45,11 +40,13 @@ class CacheService {
   }
 
   /**
-   * Set cache with intelligent TTL based on live status
+   * Set cache with intelligent TTL
    * @param key Cache key
-   * @param data Streamer data
+   * @param data Data to cache
+   * @param ttlSeconds Optional TTL in seconds (overrides default logic)
    */
-  set(key: string, data: Streamer[]): void {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  set(key: string, data: any, ttlSeconds?: number): void {
     // Prevent cache from growing too large
     if (this.cache.size >= this.MAX_CACHE_SIZE) {
       const firstKey = this.cache.keys().next().value;
@@ -58,9 +55,16 @@ class CacheService {
       }
     }
 
-    // Determine TTL based on live streamers count
-    const liveCount = data.filter((s) => s.status === 'live').length;
-    const ttl = liveCount > 0 ? this.DEFAULT_TTL : this.OFFLINE_TTL;
+    let ttl = this.DEFAULT_TTL;
+
+    if (ttlSeconds) {
+      ttl = ttlSeconds * 1000;
+    } else if (Array.isArray(data)) {
+      // Assume streamer array logic if no TTL provided
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const liveCount = data.filter((s: any) => s.status === 'live').length;
+      ttl = liveCount > 0 ? this.DEFAULT_TTL : this.OFFLINE_TTL;
+    }
 
     this.cache.set(key, {
       data,

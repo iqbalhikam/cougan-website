@@ -36,6 +36,7 @@ model Streamer {
   lastChecked    DateTime? @map("last_checked")
   lastVideoCheck DateTime? @map("last_video_check")
   latestVideoId  String?   @map("latest_video_id")
+  activeLiveChatId String? @map("active_live_chat_id")
   roleId         String?   @map("role_id")
 
   @@map("streamers")

@@ -14,6 +14,7 @@ export interface Streamer {
 
   // --- TAMBAHKAN FIELD BARU INI (Wajib ada tanda tanya ?) ---
   customUrl?: string | null;
+  activeLiveChatId?: string | null;
   latestVideoId?: string | null; // <--- Ini yang bikin error
   lastChecked?: Date | null;
   lastVideoCheck?: Date | null;
