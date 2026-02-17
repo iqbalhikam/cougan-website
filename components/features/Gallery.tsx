@@ -101,18 +101,18 @@ export function Gallery() {
       <div className="container mx-auto px-4 relative z-20">
         <motion.div initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 1, ease: 'easeOut' }} viewport={{ once: true }} className="text-center mb-20">
           <div className="inline-block relative">
-            <h2 className="text-5xl md:text-7xl font-serif text-gold mb-6 tracking-[0.2em] uppercase drop-shadow-[0_10px_20px_rgba(0,0,0,1)] relative z-10">GALLERY</h2>
+            <h2 className="text-4xl lg:text-6xl font-serif text-gold mb-6 tracking-[0.2em] uppercase drop-shadow-[0_10px_20px_rgba(0,0,0,1)] relative z-10">GALLERY</h2>
             {/* Blood red accent behind title */}
             <div className="absolute -inset-4 bg-red-900/20 blur-3xl rounded-[50%] -z-10 opacity-60"></div>
           </div>
 
-          <div className="flex items-center justify-center gap-4 mb-8 opacity-80">
+          <div className="flex items-center justify-center gap-4 mb-4 opacity-80">
             <div className="h-px w-12 md:w-24 bg-linear-to-r from-transparent to-gold"></div>
             <div className="w-2 h-2 rotate-45 border border-gold"></div>
             <div className="h-px w-12 md:w-24 bg-linear-to-l from-transparent to-gold"></div>
           </div>
 
-          <p className="text-zinc-500 font-serif italic text-xl md:text-2xl max-w-3xl mx-auto tracking-wide leading-relaxed">&quot;Every picture tells a story, captured in time.&quot;</p>
+          <p className="text-zinc-500 font-serif italic text-sm md:text-xl max-w-3xl mx-auto tracking-wide leading-relaxed">&quot;Every picture tells a story, captured in time.&quot;</p>
         </motion.div>
 
         {/* Carousel Section */}
@@ -173,14 +173,26 @@ export function Gallery() {
             </button>
 
             <div className="flex items-center gap-3">
-              {scrollSnaps.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => scrollTo(index)}
-                  className={`w-2 h-2 rounded-full transition-all duration-500 ${index === selectedIndex ? 'w-8 bg-gold shadow-[0_0_10px_rgba(212,175,55,0.5)]' : 'bg-white/20 hover:bg-white/40'}`}
-                  aria-label={`Go to slide ${index + 1}`}
-                />
-              ))}
+              {(() => {
+                const maxIndicators = 4;
+                const total = scrollSnaps.length;
+                let start = selectedIndex - Math.floor((maxIndicators - 1) / 2);
+                if (start < 0) start = 0;
+                if (start + maxIndicators > total) start = total - maxIndicators;
+                if (start < 0) start = 0; // In case total < maxIndicators
+
+                return scrollSnaps.slice(start, start + maxIndicators).map((_, i) => {
+                  const index = start + i;
+                  return (
+                    <button
+                      key={index}
+                      onClick={() => scrollTo(index)}
+                      className={`w-2 h-2 rounded-full transition-all duration-500 ${index === selectedIndex ? 'w-8 bg-gold shadow-[0_0_10px_rgba(212,175,55,0.5)]' : 'bg-white/20 hover:bg-white/40'}`}
+                      aria-label={`Go to slide ${index + 1}`}
+                    />
+                  );
+                });
+              })()}
             </div>
 
             <button

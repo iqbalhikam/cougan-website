@@ -42,8 +42,8 @@ export function MultiViewPlayer({ initialStreamers }: MultiViewPlayerProps) {
     if (activeStreamers.includes(id)) {
       setActiveStreamers((prev) => prev.filter((s) => s !== id));
     } else {
-      // Limit to 4 for performance/layout reasons
-      if (activeStreamers.length < 4) {
+      // Limit to 10 for performance/layout reasons
+      if (activeStreamers.length < 10) {
         setActiveStreamers((prev) => [...prev, id]);
       }
     }
@@ -51,16 +51,22 @@ export function MultiViewPlayer({ initialStreamers }: MultiViewPlayerProps) {
 
   // Dynamic grid class based on count
   const getGridClass = (count: number) => {
-    switch (count) {
-      case 1:
-        return 'grid-cols-1 h-[80vh]';
-      case 2:
-        return 'grid-cols-1 md:grid-cols-2 h-[80vh]';
-      case 3:
-      case 4:
-        return 'grid-cols-1 md:grid-cols-2 h-auto md:h-[80vh] grid-rows-2';
-      default:
+    switch (true) {
+      case count === 0:
         return 'grid-cols-1';
+      case count === 1:
+        return 'grid-cols-1 h-[40vh] md:h-[80vh]';
+      case count === 2:
+        return 'grid-cols-1 md:grid-cols-2 h-auto md:h-[80vh]';
+      case count <= 4:
+        return 'grid-cols-2 md:grid-cols-2 h-auto md:h-[80vh]';
+      case count <= 6:
+        return 'grid-cols-2 md:grid-cols-3 h-auto min-h-[80vh]';
+      case count <= 8:
+        return 'grid-cols-2 md:grid-cols-4 h-auto min-h-[80vh]';
+      default:
+        // 9-10 items
+        return 'grid-cols-2 md:grid-cols-5 h-auto min-h-[80vh]';
     }
   };
 
@@ -71,7 +77,7 @@ export function MultiViewPlayer({ initialStreamers }: MultiViewPlayerProps) {
         <div className="flex items-center gap-2 text-white font-medium mr-auto">
           <Users className="text-gold" />
           <span>
-            {dict.multiview.activeStreams} ({activeStreamers.length}/4)
+            {dict.multiview.activeStreams} ({activeStreamers.length}/10)
           </span>
         </div>
 
@@ -83,16 +89,16 @@ export function MultiViewPlayer({ initialStreamers }: MultiViewPlayerProps) {
               <button
                 key={s.id}
                 onClick={() => toggleStreamer(s.id)}
-                disabled={!isActive && (activeStreamers.length >= 4 || !isLive)}
+                disabled={!isActive && (activeStreamers.length >= 10 || !isLive)}
                 className={cn(
-                  'px-3 py-1.5 rounded-full text-sm font-medium transition-colors border flex items-center gap-2',
+                  'px-3 py-1.5 rounded-full text-xs md:text-sm font-medium transition-colors border flex items-center gap-2',
                   isActive
                     ? 'bg-gold text-black border-gold hover:bg-gold-dim'
                     : isLive
                       ? 'bg-zinc-800 text-zinc-300 border-zinc-700 hover:border-gold hover:text-white'
                       : 'bg-zinc-900 text-zinc-600 border-zinc-800 opacity-50 cursor-not-allowed',
                 )}>
-                <span className={cn('w-2 h-2 rounded-full', isLive ? 'bg-red-500 animate-pulse' : 'bg-gray-500')} />
+                <span className={cn('w-1.5 h-1.5 md:w-2 md:h-2 rounded-full', isLive ? 'bg-red-500 animate-pulse' : 'bg-gray-500')} />
                 {isActive ? dict.multiview.hide : dict.multiview.add} {s.name}
               </button>
             );
@@ -101,19 +107,21 @@ export function MultiViewPlayer({ initialStreamers }: MultiViewPlayerProps) {
       </div>
 
       {/* Video Grid */}
-      <div className={cn('grid gap-4 w-full transition-all duration-300', getGridClass(activeStreamers.length))}>
+      <div className={cn('grid gap-2 md:gap-4 w-full transition-all duration-300', getGridClass(activeStreamers.length))}>
         {activeStreamers.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-[50vh] bg-zinc-900/30 rounded-xl border border-dashed border-zinc-700">
-            <Users className="w-16 h-16 text-zinc-600 mb-4" />
-            <h3 className="text-xl text-zinc-400 font-medium">{dict.multiview.selectMember}</h3>
-            <p className="text-zinc-600">{dict.multiview.selectLimit}</p>
+          <div className="flex flex-col items-center justify-center h-[40vh] md:h-[50vh] bg-zinc-900/50 rounded-lg border border-white/5 border-dashed">
+            <div className="p-4 rounded-full bg-white/5 mb-4">
+              <Users className="w-8 h-8 md:w-16 md:h-16 text-gold/50" />
+            </div>
+            <h3 className="text-sm md:text-xl text-white font-medium mb-1">{dict.multiview.selectMember}</h3>
+            <p className="text-xs md:text-base text-zinc-400">{dict.multiview.selectLimit}</p>
           </div>
         ) : (
           activeStreamers.map((id) => {
             const streamer = streamerData.find((s) => s.id === id);
             if (!streamer) return null;
             return (
-              <div key={id} className="relative w-full h-full min-h-[300px] bg-black rounded-lg overflow-hidden border border-zinc-800 group">
+              <div key={id} className="relative w-full h-full min-h-[200px] md:min-h-[300px] bg-black rounded-lg overflow-hidden border border-zinc-800 group aspect-video">
                 {/* Remove Button Overlay */}
                 <button onClick={() => toggleStreamer(id)} className="absolute top-2 right-2 z-10 bg-black/60 p-1.5 rounded-full text-white/50 hover:text-white hover:bg-black transition-all opacity-0 group-hover:opacity-100">
                   <X size={16} />

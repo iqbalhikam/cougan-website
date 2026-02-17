@@ -39,8 +39,8 @@ function SortableItem({ streamer }: { streamer: Streamer }) {
           {/* Mobile Label for Name (Hidden on Desktop because of Grid) */}
           <div className="md:hidden font-bold text-lg text-white">{streamer.name}</div>
 
-          <button {...attributes} {...listeners} className="cursor-grab hover:text-white text-zinc-500 p-1 md:p-0">
-            <GripVertical size={20} />
+          <button {...attributes} {...listeners} className="cursor-grab hover:text-white text-zinc-500 p-4 md:p-0 touch-none">
+            <GripVertical size={24} />
           </button>
         </div>
 
@@ -96,7 +96,11 @@ export function SortableStreamerList({ initialStreamers }: SortableStreamerListP
   }, [initialStreamers]);
 
   const sensors = useSensors(
-    useSensor(PointerSensor),
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8, // Require 8px movement before drag starts (prevents accidental drags on scroll)
+      },
+    }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     }),
