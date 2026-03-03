@@ -92,7 +92,7 @@ export default function LoadingScreen() {
       {/* Debug Message Overlay */}
       {debugMsg && <div className="absolute top-10 left-10 text-red-500 z-[101] bg-white p-2 text-xs">{debugMsg}</div>}
 
-      <video ref={videoRef} playsInline onEnded={handleVideoEnd} onError={handleVideoError} onTimeUpdate={handleTimeUpdate} className="h-full w-full object-cover">
+      <video ref={videoRef} playsInline onEnded={handleVideoEnd} onError={handleVideoError} onTimeUpdate={handleTimeUpdate} preload="auto" className="h-full w-full object-cover">
         <source src="/loading-screen.webm" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
