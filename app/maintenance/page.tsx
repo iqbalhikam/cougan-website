@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import Image from 'next/image';
 import { MaintenanceAudio } from '@/components/maintenance/MaintenanceAudio';
 import { BackgroundSlider } from '@/components/maintenance/BackgroundSlider';
@@ -43,4 +44,12 @@ export default function MaintenancePage() {
       <MaintenanceAudio />
     </main>
   );
+=======
+'use client';
+
+import MaintenanceScreen from '@/components/maintenance/MaintenanceScreen';
+
+export default function MaintenancePage() {
+  return <MaintenanceScreen />;
+>>>>>>> sejarah-cougan
 }

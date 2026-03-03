@@ -7,6 +7,7 @@
   --color-charcoal: #1c1c1c;
   --color-background: #000000;
   --color-foreground: #ededed;
+  --perspective-distant: 1200px;
 }
 
 body {
@@ -41,6 +42,7 @@ body {
   }
 }
 
+<<<<<<< HEAD
 @keyframes pulse-slow {
   0%,
   100% {
@@ -55,4 +57,53 @@ body {
 
 .animate-pulse-slow {
   animation: pulse-slow 4s ease-in-out infinite;
+=======
+/* Maintenance Page Animations */
+@keyframes gradient {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-gradient {
+  background-size: 200% auto;
+  animation: gradient 3s ease infinite;
+}
+
+.animate-spin-slow {
+  animation: spin 8s linear infinite;
+}
+
+.delay-100 {
+  animation-delay: 0.1s;
+}
+
+.delay-200 {
+  animation-delay: 0.2s;
+}
+
+.delay-\[400ms\] {
+  animation-delay: 400ms;
+}
+
+.delay-1000 {
+  animation-delay: 1s;
+}
+
+.delay-2000 {
+  animation-delay: 2s;
+>>>>>>> sejarah-cougan
 }

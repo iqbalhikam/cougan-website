@@ -51,7 +51,10 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-  Streamer: 'Streamer'
+  Role: 'Role',
+  Admin: 'Admin',
+  Streamer: 'Streamer',
+  Backsound: 'Backsound'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -70,19 +73,52 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
+export const RoleScalarFieldEnum = {
+  id: 'id',
+  name: 'name'
+} as const
+
+export type RoleScalarFieldEnum = (typeof RoleScalarFieldEnum)[keyof typeof RoleScalarFieldEnum]
+
+
+export const AdminScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  createdAt: 'createdAt'
+} as const
+
+export type AdminScalarFieldEnum = (typeof AdminScalarFieldEnum)[keyof typeof AdminScalarFieldEnum]
+
+
 export const StreamerScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  role: 'role',
   channelId: 'channelId',
   youtubeId: 'youtubeId',
   avatar: 'avatar',
   status: 'status',
   createdAt: 'createdAt',
-  position: 'position'
+  position: 'position',
+  lastChecked: 'lastChecked',
+  lastVideoCheck: 'lastVideoCheck',
+  latestVideoId: 'latestVideoId',
+  activeLiveChatId: 'activeLiveChatId',
+  roleId: 'roleId'
 } as const
 
 export type StreamerScalarFieldEnum = (typeof StreamerScalarFieldEnum)[keyof typeof StreamerScalarFieldEnum]
+
+
+export const BacksoundScalarFieldEnum = {
+  id: 'id',
+  filename: 'filename',
+  url: 'url',
+  size: 'size',
+  createdAt: 'createdAt',
+  originalName: 'originalName'
+} as const
+
+export type BacksoundScalarFieldEnum = (typeof BacksoundScalarFieldEnum)[keyof typeof BacksoundScalarFieldEnum]
 
 
 export const SortOrder = {

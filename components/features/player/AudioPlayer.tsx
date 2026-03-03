@@ -126,24 +126,25 @@ export function AudioPlayer({ playlist }: AudioPlayerProps) {
   if (!playlist || playlist.length === 0) return null;
 
   return (
-    <div className={`fixed bottom-4 left-4 z-50 transition-all duration-300 ${isExpanded ? 'w-md' : 'w-16'} h-16 bg-black/80 backdrop-blur-md border border-white/10 rounded-full overflow-hidden flex items-center shadow-lg group`}>
+    <div
+      className={`fixed bottom-4 left-4 z-50 transition-all duration-300 ${isExpanded ? 'w-[calc(80vw-2rem)] md:w-96' : 'w-10'} ${isExpanded ? 'h-16' : 'h-10'} bg-black/80 backdrop-blur-md border border-white/10 rounded-full overflow-hidden flex items-center shadow-lg group`}>
       <audio ref={audioRef} src={playlist[currentTrackIndex]} onEnded={handleTrackEnd} onTimeUpdate={handleTimeUpdate} onLoadedMetadata={handleLoadedMetadata} autoPlay />
 
       {/* Main Toggle Button */}
-      <button onClick={() => setIsExpanded(!isExpanded)} className="w-16 h-16 flex items-center justify-center text-white shrink-0 hover:text-gold transition-colors z-10">
-        <svg className={`w-6 h-6 ${isPlaying ? 'animate-spin-slow' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <button onClick={() => setIsExpanded(!isExpanded)} className={` ${isExpanded ? 'w-16' : 'w-10'} ${isExpanded ? 'h-16' : 'h-10'}  flex items-center justify-center text-white shrink-0 hover:text-gold transition-colors z-10`}>
+        <svg className={`w-4 h-4 ${isPlaying ? 'animate-spin-slow' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
         </svg>
       </button>
 
       {/* Expanded Controls */}
-      <div className={`flex flex-col flex-1 px-4 pr-6 transition-opacity duration-300 ${isExpanded ? 'opacity-100 visible' : 'opacity-0 invisible absolute'}`}>
+      <div className={`flex flex-col flex-1 pl-0 pr-6 transition-opacity duration-300 overflow-hidden ${isExpanded ? 'opacity-100 visible w-auto' : 'opacity-0 invisible absolute w-0'}`}>
         {/* Controls Row */}
         <div className="flex items-center justify-between mb-1">
           <div className="flex items-center gap-3">
             {/* Prev */}
             <button onClick={handlePrev} className="text-zinc-400 hover:text-white transition-colors">
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z" />
               </svg>
             </button>
@@ -151,11 +152,11 @@ export function AudioPlayer({ playlist }: AudioPlayerProps) {
             {/* Play/Pause */}
             <button onClick={togglePlay} className="text-zinc-200 hover:text-white transition-colors">
               {isPlaying ? (
-                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
                 </svg>
               ) : (
-                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M8 5v14l11-7z" />
                 </svg>
               )}
@@ -163,7 +164,7 @@ export function AudioPlayer({ playlist }: AudioPlayerProps) {
 
             {/* Next */}
             <button onClick={handleNext} className="text-zinc-400 hover:text-white transition-colors">
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z" />
               </svg>
             </button>

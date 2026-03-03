@@ -6,6 +6,7 @@ export default async function EditStreamerPage({ params }: { params: Promise<{ i
   const { id } = await params;
   const streamer = await prisma.streamer.findUnique({
     where: { id },
+    include: { role: true },
   });
 
   if (!streamer) {

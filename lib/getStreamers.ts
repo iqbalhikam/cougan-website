@@ -1,109 +1,192 @@
-import { prisma } from '@/lib/prisma';
-import { Streamer } from '@/types'; // Keep type definition if compatible, or define new one
+// path: lib/getStreamers.ts
 
-// Helper to get full avatar URL
+import { prisma } from '@/lib/prisma';
+import { Streamer } from '@/types';
+import { parseStringPromise } from 'xml2js';
+import { quotaService } from '@/lib/quota-service';
+
+// Helper: Fix Avatar URL
 function getAvatarUrl(path: string) {
-  return `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/cougan/avatar/${path}`;
+  if (path.startsWith('http')) return path;
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+  return `${supabaseUrl}/storage/v1/object/public/cougan/avatar/${path}`;
 }
 
 export async function getStreamers(): Promise<Streamer[]> {
-  console.log('Fetching streamer data from Database...');
+  console.info('[STREAMER] 🔍 Starting Smart Check (RSS Mode - Quota Saver)...');
 
   try {
-    // 1. Fetch from DB
     const dbStreamers = await prisma.streamer.findMany({
       orderBy: { position: 'asc' },
+      include: { role: true },
     });
 
-    // 2. Process and Scrape
-    const updatedStreamers = await Promise.all(
+    const processedStreamers = await Promise.all(
       dbStreamers.map(async (streamer) => {
-        // Construct basic streamer object from DB
-        const currentStreamer: Streamer = {
-          id: streamer.id,
-          name: streamer.name,
-          role: streamer.role,
-          channelId: streamer.channelId,
-          youtubeId: streamer.youtubeId || '',
-          avatar: getAvatarUrl(streamer.avatar),
-          status: streamer.status as 'live' | 'offline',
-          position: streamer.position,
-        };
-
-        // If no channelId or placeholder, return DB state
-        if (!streamer.channelId || streamer.channelId.startsWith('UC_youtube') || streamer.channelId.includes('PLACEHOLDER')) {
-          return currentStreamer;
+        // Skip placeholder
+        if (!streamer.channelId || streamer.channelId.includes('PLACEHOLDER')) {
+          return { ...streamer, status: 'offline' } as Streamer;
         }
+
+        // Default: Gunakan status lama dulu
+        let finalStatus = streamer.status;
+        let finalVideoId = streamer.youtubeId || '';
+        let finalLiveChatId = streamer.activeLiveChatId || '';
+        let latestVideoIdCached = streamer.latestVideoId || '';
+
+        const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
 
         try {
-          const response = await fetch(`https://www.youtube.com/channel/${streamer.channelId}/live`, {
-            headers: {
-              'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-              'Accept-Language': 'en-US,en;q=0.9',
-            },
-            next: { revalidate: 60 },
-          });
+          // -----------------------------------------------------------
+          // STEP A: CEK RSS FEED (GRATIS)
+          // -----------------------------------------------------------
+          const rssRes = await fetch(`https://www.youtube.com/feeds/videos.xml?channel_id=${streamer.channelId}`, { next: { revalidate: 60 } });
 
-          if (!response.ok) return currentStreamer;
+          if (rssRes.ok) {
+            const xmlText = await rssRes.text();
+            const result = await parseStringPromise(xmlText);
+            const entry = result.feed.entry ? result.feed.entry[0] : null;
 
-          const html = await response.text();
-          let isLive = false;
-          let videoId = '';
+            if (entry) {
+              const rssVideoId = entry['yt:videoId'][0];
+              const publishedTime = new Date(entry.published[0]);
+              const now = new Date();
+              const hoursSincePublish = (now.getTime() - publishedTime.getTime()) / (1000 * 60 * 60);
 
-          // 1. Try parsing ytInitialData (More reliable)
-          const ytInitialDataMatch = html.match(/var ytInitialData = ({.*?});/);
-          if (ytInitialDataMatch && ytInitialDataMatch[1]) {
-            try {
-              const ytData = JSON.parse(ytInitialDataMatch[1]);
-              const microformat = ytData.microformat?.microformatDataRenderer;
-              if (microformat?.liveBroadcastDetails?.isLiveBroadcast) {
-                isLive = true;
-                videoId = microformat.liveBroadcastDetails.videoId;
+              // Update cache ID video terbaru
+              latestVideoIdCached = rssVideoId;
+
+              // LOGIK FILTER:
+              // 1. Jika video di RSS sama dengan yg di DB, DAN status di DB offline -> SKIP API (Hemat)
+              // 2. TAPI jika status di DB 'live', kita WAJIB cek API untuk memastikan dia masih live atau sudah udahan.
+              // 2. TAPI jika status di DB 'live', kita WAJIB cek API untuk memastikan dia masih live atau sudah udahan.
+              const shouldCheckApi =
+                rssVideoId !== streamer.latestVideoId || // Ada video baru
+                streamer.status === 'live'; // Sedang live (perlu cek apakah udah off)
+
+              if (shouldCheckApi) {
+                // Update cache variable immediately to prevent loop
+                latestVideoIdCached = rssVideoId;
               }
-            } catch (e) {
-              console.error('Error parsing ytInitialData:', e);
+
+              if (!shouldCheckApi) {
+                // Cek double protection: kalau video baru tapi < 4 jam, mungkin tadi ke-skip
+                if (hoursSincePublish < 4) {
+                  // Lanjut cek API...
+                } else {
+                  return {
+                    ...streamer,
+                    avatar: getAvatarUrl(streamer.avatar),
+                    // Kembalikan data DB apa adanya
+                    status: streamer.status,
+                    latestVideoId: latestVideoIdCached,
+                  } as Streamer;
+                }
+              }
+
+              // -----------------------------------------------------------
+              // STEP B: VALIDASI API (MURAH - 1 UNIT)
+              // -----------------------------------------------------------
+              // Kita cek video ID dari RSS (atau ID yg lagi live di DB)
+              // Jika DB bilang live tapi video ID beda, cek video ID yg di DB dulu
+              const videoIdToCheck = streamer.status === 'live' && streamer.youtubeId ? streamer.youtubeId : rssVideoId;
+
+              // CIRCUIT BREAKER CHECK
+              if (quotaService.isCircuitBreakerOpen()) {
+                console.warn(`[STREAMER] ⚠️ Circuit breaker OPEN. Skipping API check for ${streamer.name}`);
+                return { ...streamer, avatar: getAvatarUrl(streamer.avatar) }; // Return cached data
+              }
+
+              const apiUrl = `https://www.googleapis.com/youtube/v3/videos?part=liveStreamingDetails,snippet&id=${videoIdToCheck}&key=${YOUTUBE_API_KEY}`;
+              const apiRes = await fetch(apiUrl, { next: { revalidate: 60 } }); // PENTING: Cache 60s agar build static aman & hemat quota
+
+              const apiData = await apiRes.json();
+
+              if (apiData.items && apiData.items.length > 0) {
+                const videoItem = apiData.items[0];
+                const liveDetails = videoItem.liveStreamingDetails;
+
+                // LOGIC PENENTU LIVE YANG LEBIH KETAT
+                if (liveDetails) {
+                  // 1. Harus punya liveStreamingDetails
+                  // 2. TIDAK BOLEH ada actualEndTime (artinya belum selesai)
+                  // 3. Snippet harus bilang 'live' (bukan 'upcoming' atau 'none')
+                  const isActuallyLive = !liveDetails.actualEndTime && videoItem.snippet.liveBroadcastContent === 'live';
+
+                  if (isActuallyLive) {
+                    finalStatus = 'live';
+                    finalVideoId = videoIdToCheck;
+                    finalLiveChatId = liveDetails.activeLiveChatId || ''; // Extract chat ID
+                    console.info(`[STREAMER] 🔴 Live Confirmed: ${streamer.name}`);
+                  } else {
+                    finalStatus = 'offline';
+                    finalVideoId = '';
+                    finalLiveChatId = ''; // Clear chat ID
+                    console.info(`[STREAMER] ⚪ Stream Ended: ${streamer.name}`);
+                  }
+                } else {
+                  // Video biasa (bukan live stream)
+                  finalStatus = 'offline';
+                  finalVideoId = '';
+                  finalLiveChatId = '';
+                }
+              } else {
+                // Video tidak ditemukan (mungkin dihapus/private setelah live)
+                finalStatus = 'offline';
+                finalVideoId = '';
+                finalLiveChatId = '';
+              }
             }
           }
-
-          // 2. Fallback: Check for raw text indicators if logic above failed to find live
-          if (!isLive) {
-            const hasLiveText = html.includes('"text":"LIVE"') && html.includes('watching now');
-            if (hasLiveText) {
-              const match = html.match(/"videoId":"([a-zA-Z0-9_-]{11})"/);
-              if (match && match[1]) {
-                isLive = true;
-                videoId = match[1];
-              }
-            }
-          }
-
-          if (isLive && videoId) {
-            console.log(`LIVE FOUND (Scrape): ${currentStreamer.name} -> ${videoId}`);
-            return {
-              ...currentStreamer,
-              status: 'live' as const,
-              youtubeId: videoId,
-            };
-          } else {
-            // Explicitly return offline if we scraped successfully but found no live stream
-            // This prevents "different youtube" issue by overriding stale DB data
-            return {
-              ...currentStreamer,
-              status: 'offline',
-            };
-          }
-        } catch (error) {
-          console.error(`Error scraping for ${streamer.name}:`, error);
-          // On ERROR (e.g. rate limit), fallback to DB so we don't break site
-          return currentStreamer;
+        } catch (innerError) {
+          console.error(`Error processing ${streamer.name}:`, innerError);
         }
+
+        // -----------------------------------------------------------
+        // STEP C: UPDATE DATABASE (Only if changed)
+        // -----------------------------------------------------------
+        const hasChanged = finalStatus !== streamer.status || finalLiveChatId !== (streamer.activeLiveChatId || '') || finalVideoId !== (streamer.youtubeId || '') || latestVideoIdCached !== (streamer.latestVideoId || '');
+
+        if (hasChanged) {
+          try {
+            await prisma.streamer.update({
+              where: { id: streamer.id },
+              data: {
+                status: finalStatus,
+                youtubeId: finalVideoId,
+                activeLiveChatId: finalLiveChatId,
+                latestVideoId: latestVideoIdCached,
+                lastChecked: new Date(),
+                lastVideoCheck: finalStatus === 'live' ? new Date() : streamer.lastVideoCheck,
+              },
+            });
+            console.info(`[STREAMER] 💾 Updated DB for ${streamer.name}: ${finalStatus}`);
+          } catch {
+            // Ignore if record not found (deleted)
+            console.warn(`[STREAMER] ⚠️ Skipping update for ${streamer.name}: Record might be deleted.`);
+          }
+        }
+
+        return {
+          id: streamer.id,
+          name: streamer.name,
+          roleId: streamer.roleId,
+          role: streamer.role,
+          channelId: streamer.channelId,
+          youtubeId: finalVideoId,
+          activeLiveChatId: finalLiveChatId,
+          avatar: getAvatarUrl(streamer.avatar),
+          status: finalStatus,
+          position: streamer.position,
+          latestVideoId: latestVideoIdCached,
+          lastChecked: hasChanged ? new Date() : streamer.lastChecked || new Date(),
+        } as Streamer;
       }),
     );
 
-    return updatedStreamers;
+    return processedStreamers;
   } catch (error) {
-    console.error('Error in getStreamers:', error);
-    // Fallback? Return empty or handle error gracefully
+    console.error('❌ Error in getStreamers:', error);
     return [];
   }
 }

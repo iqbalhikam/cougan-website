@@ -1,34 +1,45 @@
 import { Navbar } from '@/components/layout/Navbar';
 import { Hero } from '@/components/layout/Hero';
-import { StreamerCard } from '@/components/features/streamer/StreamerCard';
+
 import { getStreamers } from '@/lib/getStreamers';
 
-export const revalidate = 60; // Revalidate every 60 seconds
+import dynamic from 'next/dynamic';
+
+import { LazyCouganHistoryBook } from '@/components/features/history/LazyCouganHistoryBook';
+import { LazyGallery } from '@/components/features/LazyGallery';
+
+const RealtimeStreamerList = dynamic(() => import('@/components/features/streamer/RealtimeStreamerList').then((mod) => mod.RealtimeStreamerList), {
+  loading: () => (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      {[...Array(4)].map((_, i) => (
+        <div key={i} className="aspect-square bg-zinc-900/50 rounded-xl animate-pulse border border-white/5" />
+      ))}
+    </div>
+  ),
+});
+
+import { HomeHeader } from '@/components/features/home/HomeHeader';
+import { Footer } from '@/components/layout/Footer';
+
+export const revalidate = 120; // Revalidate every 2 minutes (reduced from 60s)
 
 export default async function Home() {
   const streamers = await getStreamers();
   return (
-    <main className="min-h-screen bg-black scroll-smooth pt-16">
+    <main className="min-h-screen bg-black scroll-smooth pt-12 md:pt-16">
       <Navbar />
       <Hero />
 
-      <section id="members" className="py-20 px-4 md:px-8 pt-20 max-w-7xl mx-auto">
-        <div className="mb-12 text-center md:text-left">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            The <span className="text-gold">Family</span> Members
-          </h2>
-          <p className="text-zinc-400 max-w-2xl">Watch the live perspectives of every Cougan family member. Choose your POV or watch them all at once in Multi-View.</p>
-        </div>
+      <LazyCouganHistoryBook />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {streamers.map((streamer) => (
-            <StreamerCard key={streamer.id} streamer={streamer} />
-          ))}
-        </div>
+      <LazyGallery />
+
+      <section id="members" className="py-12 md:py-20 px-4 md:px-8 pt-12 md:pt-20 max-w-7xl mx-auto">
+        <HomeHeader />
+
+        <RealtimeStreamerList initialStreamers={streamers} />
       </section>
-      <footer className="py-10 border-t border-white/10 text-center text-zinc-500 text-sm">
-        <p>&copy; {new Date().getFullYear()} Cougan Fams. All rights reserved.</p>
-      </footer>
+      <Footer />
     </main>
   );
 }

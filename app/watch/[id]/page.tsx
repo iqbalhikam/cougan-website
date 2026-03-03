@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { ArrowLeft, VideoOff } from 'lucide-react';
 
+export const revalidate = 0; // Force dynamic to ensure live status is checked on every navigation
+
 // In Next.js 15, params is a Promise.
 interface WatchPageProps {
   params: Promise<{
@@ -63,7 +65,7 @@ export default async function WatchPage({ params }: WatchPageProps) {
             <div>
               <h1 className="text-3xl font-bold text-white mb-2">{streamer.name}</h1>
               <div className="flex items-center gap-3">
-                <span className="bg-gold text-black px-3 py-1 rounded text-sm font-bold uppercase">{streamer.role}</span>
+                <span className="bg-gold text-black px-3 py-1 rounded text-sm font-bold uppercase">{streamer.role?.name || 'Unknown'}</span>
                 {streamer.status === 'live' && (
                   <span className="flex items-center text-red-500 font-bold text-sm animate-pulse">
                     <span className="w-2 h-2 bg-red-500 rounded-full mr-2" />

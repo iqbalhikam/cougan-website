@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation';
 import { createSupabaseServer } from '@/lib/supabase/server';
+import { QuotaMonitor } from '@/components/admin/QuotaMonitor';
 
 export const dynamic = 'force-dynamic';
 
@@ -27,6 +28,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       </div>
 
       <main className="p-8 max-w-7xl mx-auto">{children}</main>
+      <QuotaMonitor />
     </div>
   );
 }

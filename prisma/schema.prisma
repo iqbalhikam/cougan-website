@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client"
   output   = "./generated/prisma"
@@ -13,16 +7,48 @@ datasource db {
   provider = "postgresql"
 }
 
-model Streamer {
-  id        String   @id
-  name      String
-  role      String
-  channelId String   @map("channel_id")
-  youtubeId String?  @default("") @map("youtube_id")
-  avatar    String
-  status    String   @default("offline")
+model Role {
+  id        String     @id @default(cuid())
+  name      String     @unique
+  streamers Streamer[]
+
+  @@map("roles")
+}
+
+model Admin {
+  id        String   @id @default(cuid())
+  email     String   @unique
   createdAt DateTime @default(now()) @map("created_at")
-  position     Int      @default(autoincrement()) 
+
+  @@map("admins")
+}
+
+model Streamer {
+  id             String    @id
+  name           String
+  role           Role?     @relation(fields: [roleId], references: [id])
+  channelId      String    @map("channel_id")
+  youtubeId      String?   @default("") @map("youtube_id")
+  avatar         String
+  status         String    @default("offline")
+  createdAt      DateTime  @default(now()) @map("created_at")
+  position       Int       @default(autoincrement())
+  lastChecked    DateTime? @map("last_checked")
+  lastVideoCheck DateTime? @map("last_video_check")
+  latestVideoId  String?   @map("latest_video_id")
+  activeLiveChatId String? @map("active_live_chat_id")
+  roleId         String?   @map("role_id")
 
   @@map("streamers")
+}
+
+model Backsound {
+  id           String   @id @default(cuid())
+  filename     String
+  url          String
+  size         Int
+  createdAt    DateTime @default(now()) @map("created_at")
+  originalName String?  @map("original_name")
+
+  @@map("backsounds")
 }

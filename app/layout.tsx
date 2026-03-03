@@ -1,12 +1,11 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
-import { QuotaMonitor } from '@/components/admin/QuotaMonitor';
 import './globals.css';
 import LoadingScreen from '@/components/layout/LoadingScreen';
 import { AudioPlayer } from '@/components/features/player/AudioPlayer';
-import fs from 'fs';
-import path from 'path';
-
+import { Analytics } from '@vercel/analytics/next';
+import { prisma } from '@/lib/prisma';
+import { LanguageProvider } from '@/components/providers/LanguageProvider';
 const geistSans = Geist({
   variable: '--font-geist-sans',
   subsets: ['latin'],
@@ -22,31 +21,39 @@ export const metadata: Metadata = {
   description: 'Official streaming hub for the Cougan Family.',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Read backsound directory
-  const backsoundDir = path.join(process.cwd(), 'public', 'backsound');
-  let playlist: string[] = [];
+  // Read backsound from database
+  // Read backsound from local directory
+  const tracks = await prisma.backsound.findMany({
+    orderBy: { createdAt: 'desc' },
+    select: { url: true },
+  });
 
-  try {
-    const files = fs.readdirSync(backsoundDir);
-    playlist = files.filter((file) => /\.(mp3|wav|ogg)$/i.test(file)).map((file) => `/backsound/${file}`);
-  } catch (error) {
-    console.error('Error reading backsound directory:', error);
-  }
+  // Convert object array ke string array ['url1', 'url2']
+  const playlistUrls = tracks.map((t) => t.url);
 
   const isMaintenance = process.env.NEXT_PUBLIC_MAINTENANCE_MODE === 'true';
 
   return (
     <html lang="en" className="scroll-smooth">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+<<<<<<< HEAD
         {!isMaintenance && <LoadingScreen />}
         {!isMaintenance && <AudioPlayer playlist={playlist} />}
         {children}
         <QuotaMonitor />
+=======
+        <LanguageProvider>
+          <LoadingScreen />
+          <AudioPlayer playlist={playlistUrls} />
+          {children}
+          <Analytics />
+        </LanguageProvider>
+>>>>>>> sejarah-cougan
       </body>
     </html>
   );

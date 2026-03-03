@@ -20,7 +20,7 @@ const config: runtime.GetPrismaClientConfig = {
   "clientVersion": "7.3.0",
   "engineVersion": "9d6ad21cbbceab97458517b147a6a09ff43aa735",
   "activeProvider": "postgresql",
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client\"\n  output   = \"./generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel Streamer {\n  id        String   @id\n  name      String\n  role      String\n  channelId String   @map(\"channel_id\")\n  youtubeId String?  @default(\"\") @map(\"youtube_id\")\n  avatar    String\n  status    String   @default(\"offline\")\n  createdAt DateTime @default(now()) @map(\"created_at\")\n  position  Int      @unique @default(autoincrement())\n\n  @@map(\"streamers\")\n}\n",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"./generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel Role {\n  id        String     @id @default(cuid())\n  name      String     @unique\n  streamers Streamer[]\n\n  @@map(\"roles\")\n}\n\nmodel Admin {\n  id        String   @id @default(cuid())\n  email     String   @unique\n  createdAt DateTime @default(now()) @map(\"created_at\")\n\n  @@map(\"admins\")\n}\n\nmodel Streamer {\n  id               String    @id\n  name             String\n  role             Role?     @relation(fields: [roleId], references: [id])\n  channelId        String    @map(\"channel_id\")\n  youtubeId        String?   @default(\"\") @map(\"youtube_id\")\n  avatar           String\n  status           String    @default(\"offline\")\n  createdAt        DateTime  @default(now()) @map(\"created_at\")\n  position         Int       @default(autoincrement())\n  lastChecked      DateTime? @map(\"last_checked\")\n  lastVideoCheck   DateTime? @map(\"last_video_check\")\n  latestVideoId    String?   @map(\"latest_video_id\")\n  activeLiveChatId String?   @map(\"active_live_chat_id\")\n  roleId           String?   @map(\"role_id\")\n\n  @@map(\"streamers\")\n}\n\nmodel Backsound {\n  id           String   @id @default(cuid())\n  filename     String\n  url          String\n  size         Int\n  createdAt    DateTime @default(now()) @map(\"created_at\")\n  originalName String?  @map(\"original_name\")\n\n  @@map(\"backsounds\")\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
@@ -28,7 +28,7 @@ const config: runtime.GetPrismaClientConfig = {
   }
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"Streamer\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"channelId\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"channel_id\"},{\"name\":\"youtubeId\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"youtube_id\"},{\"name\":\"avatar\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"created_at\"},{\"name\":\"position\",\"kind\":\"scalar\",\"type\":\"Int\"}],\"dbName\":\"streamers\"}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"Role\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"streamers\",\"kind\":\"object\",\"type\":\"Streamer\",\"relationName\":\"RoleToStreamer\"}],\"dbName\":\"roles\"},\"Admin\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"created_at\"}],\"dbName\":\"admins\"},\"Streamer\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"object\",\"type\":\"Role\",\"relationName\":\"RoleToStreamer\"},{\"name\":\"channelId\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"channel_id\"},{\"name\":\"youtubeId\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"youtube_id\"},{\"name\":\"avatar\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"created_at\"},{\"name\":\"position\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"lastChecked\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"last_checked\"},{\"name\":\"lastVideoCheck\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"last_video_check\"},{\"name\":\"latestVideoId\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"latest_video_id\"},{\"name\":\"activeLiveChatId\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"active_live_chat_id\"},{\"name\":\"roleId\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"role_id\"}],\"dbName\":\"streamers\"},\"Backsound\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"filename\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"url\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"size\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"created_at\"},{\"name\":\"originalName\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"original_name\"}],\"dbName\":\"backsounds\"}},\"enums\":{},\"types\":{}}")
 
 async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Module> {
   const { Buffer } = await import('node:buffer')
@@ -60,8 +60,8 @@ export interface PrismaClientConstructor {
    * @example
    * ```
    * const prisma = new PrismaClient()
-   * // Fetch zero or more Streamers
-   * const streamers = await prisma.streamer.findMany()
+   * // Fetch zero or more Roles
+   * const roles = await prisma.role.findMany()
    * ```
    * 
    * Read more in our [docs](https://pris.ly/d/client).
@@ -82,8 +82,8 @@ export interface PrismaClientConstructor {
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more Streamers
- * const streamers = await prisma.streamer.findMany()
+ * // Fetch zero or more Roles
+ * const roles = await prisma.role.findMany()
  * ```
  * 
  * Read more in our [docs](https://pris.ly/d/client).
@@ -177,6 +177,26 @@ export interface PrismaClient<
   }>>
 
       /**
+   * `prisma.role`: Exposes CRUD operations for the **Role** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Roles
+    * const roles = await prisma.role.findMany()
+    * ```
+    */
+  get role(): Prisma.RoleDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.admin`: Exposes CRUD operations for the **Admin** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Admins
+    * const admins = await prisma.admin.findMany()
+    * ```
+    */
+  get admin(): Prisma.AdminDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
    * `prisma.streamer`: Exposes CRUD operations for the **Streamer** model.
     * Example usage:
     * ```ts
@@ -185,6 +205,16 @@ export interface PrismaClient<
     * ```
     */
   get streamer(): Prisma.StreamerDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.backsound`: Exposes CRUD operations for the **Backsound** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Backsounds
+    * const backsounds = await prisma.backsound.findMany()
+    * ```
+    */
+  get backsound(): Prisma.BacksoundDelegate<ExtArgs, { omit: OmitOpts }>;
 }
 
 export function getPrismaClientClass(): PrismaClientConstructor {
