@@ -3,7 +3,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
 
-const IMAGES = ['/mantenace-bg/family.png', '/mantenace-bg/family2.png', '/mantenace-bg/gashima.jpg', '/mantenace-bg/silent.png', '/mantenace-bg/srigala-cougan.jpg'];
+const IMAGES = ['/mantenace-bg/family.webp', '/mantenace-bg/family2.webp', '/mantenace-bg/gashima.webp', '/mantenace-bg/silent.webp', '/mantenace-bg/srigala-cougan.webp'];
 
 export function BackgroundSlider() {
   const [index, setIndex] = useState(0);

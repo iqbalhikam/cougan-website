@@ -18,10 +18,10 @@ export default function MaintenanceScreen() {
             <Image src="/LOGO-COUGAN.gif" alt="Cougan Family Logo" fill className="object-cover" priority unoptimized />
           </div>
           <div className="relative w-14 h-14 md:w-24 md:h-24 lg:w-50 lg:h-50 animate-pulse-slow drop-shadow-[0_0_25px_rgba(180,148,31,0.3)]">
-            <Image src="/mantenace-bg/x.png" alt="Cougan Family Logo" fill className="object-contain" priority unoptimized />
+            <Image src="/mantenace-bg/x.webp" alt="Cougan Family Logo" fill className="object-contain" priority unoptimized />
           </div>
           <div className="relative flex items-center justify-center w-20 h-20 md:w-36 md:h-36 lg:w-60 lg:h-60 animate-pulse-slow drop-shadow-[0_0_25px_rgba(180,148,31,0.3)]">
-            <Image src="/BSG_LOGO.png" alt="BSG Logo" fill className="object-contain hover:grayscale-0 transition-all duration-700 grayscale" />
+            <Image src="/BSG_LOGO.webp" alt="BSG Logo" fill className="object-contain hover:grayscale-0 transition-all duration-700 grayscale" />
           </div>
         </div>
 
