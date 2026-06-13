@@ -5,6 +5,8 @@ export const dictionaries = {
     navbar: {
       home: 'Home',
       multiView: 'Multi-View',
+      citizenCard: 'Citizen ID',
+      discussion: 'Public Board',
     },
     hero: {
       byOrderOf: 'By Order Of',
@@ -73,6 +75,8 @@ export const dictionaries = {
     navbar: {
       home: 'Beranda',
       multiView: 'Multi-View',
+      citizenCard: 'Citizen ID',
+      discussion: 'Papan Diskusi',
     },
     hero: {
       byOrderOf: 'Atas Perintah',

@@ -24,20 +24,28 @@ model Admin {
 }
 
 model Streamer {
-  id             String    @id
-  name           String
-  role           Role?     @relation(fields: [roleId], references: [id])
-  channelId      String    @map("channel_id")
-  youtubeId      String?   @default("") @map("youtube_id")
-  avatar         String
-  status         String    @default("offline")
-  createdAt      DateTime  @default(now()) @map("created_at")
-  position       Int       @default(autoincrement())
-  lastChecked    DateTime? @map("last_checked")
-  lastVideoCheck DateTime? @map("last_video_check")
-  latestVideoId  String?   @map("latest_video_id")
-  activeLiveChatId String? @map("active_live_chat_id")
-  roleId         String?   @map("role_id")
+  id               String    @id
+  name             String    // RP Name / Streamer Name
+  role             Role?     @relation(fields: [roleId], references: [id])
+  channelId        String    @map("channel_id")
+  youtubeId        String?   @default("") @map("youtube_id")
+  avatar           String
+  status           String    @default("offline") 
+  
+  // --- IN CHARACTER (LORE & ROSTER) DATA ---
+  divisions        String[]  @default(["MEMBER"]) // E.g., "FAMS", "DONN", "SWAG", "MEMBER"
+  lore             String?   @db.Text           // Background story
+  factionStatus    String    @default("ACTIVE") // "ACTIVE", "OUT", "CK"
+  combatStats      Json?     // To store specific stats like kill count
+  
+
+  createdAt        DateTime  @default(now()) @map("created_at")
+  position         Int       @default(autoincrement())
+  lastChecked      DateTime? @map("last_checked")
+  lastVideoCheck   DateTime? @map("last_video_check")
+  latestVideoId    String?   @map("latest_video_id")
+  activeLiveChatId String?   @map("active_live_chat_id")
+  roleId           String?   @map("role_id")
 
   @@map("streamers")
 }
@@ -51,4 +59,20 @@ model Backsound {
   originalName String?  @map("original_name")
 
   @@map("backsounds")
+}
+
+model Discussion {
+  id        String   @id @default(uuid())
+  name      String
+  username  String?
+  message   String   @db.Text
+  isAdmin   Boolean  @default(false)
+  isPinned  Boolean  @default(false)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  parentId  String?  @map("parent_id")
+  parent    Discussion?  @relation("DiscussionReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies   Discussion[] @relation("DiscussionReplies")
+
+  @@map("discussions")
 }

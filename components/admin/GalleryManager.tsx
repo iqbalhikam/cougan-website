@@ -184,7 +184,7 @@ export function GalleryManager() {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 className="group relative aspect-square bg-zinc-950 rounded-lg overflow-hidden border border-zinc-800">
-                <Image src={img.url} alt={img.name} fill className="object-cover transition-transform duration-300 group-hover:scale-110" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 20vw" />
+                <Image src={img.url} alt={img.name} fill unoptimized className="object-cover transition-transform duration-300 group-hover:scale-110" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 20vw" />
 
                 {/* Overlay with Delete Button */}
                 <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">

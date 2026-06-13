@@ -18,9 +18,9 @@ export function Hero() {
     <div className="relative w-full min-h-[80vh] md:min-h-screen overflow-hidden flex flex-col items-center justify-center ">
       {/* Background Image - Drives Height */}
       <div className="absolute inset-0 w-full h-full">
-        <div className="absolute inset-0 bg-linear-to-b from-transparent via-black/60 to-black z-10" />
-        <Image src="/images/background/full-cougan.webp" alt="Cougan Famillia" fill className="object-cover object-center" priority quality={100} sizes="100vw" />
-        <div className="absolute bottom-0 left-0 right-0 h-50 bg-linear-to-t from-black via-black/80 to-transparent z-10" />
+        <div className="absolute inset-0 bg-linear-to-b from-background/90 via-background/70 to-background z-10" />
+        <Image src="/images/background/full-cougan.webp" alt="Cougan Famillia" fill className="object-cover object-center grayscale opacity-40" priority quality={100} sizes="100vw" />
+        <div className="absolute bottom-0 left-0 right-0 h-50 bg-linear-to-t from-background via-background/90 to-transparent z-10" />
       </div>
 
       {/* Content - Absolute Overlay */}
@@ -34,19 +34,18 @@ export function Hero() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-[#e0c090] tracking-widest uppercase font-serif drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)] mb-4 md:mb-6 leading-tight">
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif text-white tracking-widest uppercase mb-4 md:mb-6 leading-tight">
             {dict.hero.byOrderOf} <br className="md:hidden" />
-            <span className="text-gold border-b-2 border-gold/30 pb-1"> {dict.hero.theCouganFamily} </span>
+            <span className="text-zinc-500 border-b border-zinc-800 pb-2"> {dict.hero.theCouganFamily} </span>
           </motion.h1>
           <motion.p
             style={{ opacity: textOpacity2 }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-base sm:text-lg md:text-xl text-zinc-300 mb-8 md:mb-10 max-w-xl md:max-w-2xl mx-auto font-light leading-relaxed px-2">
-            {dict.hero.quote}
-            <br className="hidden md:block" />
-            <span className="text-gold/80 font-medium mt-2 block rounded-full px-2 text-sm md:text-base">{dict.hero.roleplay}</span>
+            className="text-base sm:text-lg md:text-xl text-zinc-400 mb-10 max-w-xl md:max-w-2xl mx-auto font-serif italic leading-relaxed px-4 border-l-2 border-zinc-800 text-left">
+            "{dict.hero.quote}"
+            <span className="text-zinc-600 font-sans uppercase tracking-[0.3em] mt-4 block text-[10px]">{dict.hero.roleplay}</span>
           </motion.p>
           <motion.div
             style={{ opacity: buttonOpacity }}
@@ -55,12 +54,12 @@ export function Hero() {
             transition={{ duration: 0.5, delay: 0.6 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
             <Link href="/multiview" className="w-full sm:w-auto">
-              <Button variant="gold" size="lg" className="w-full sm:w-auto rounded-full px-8 md:px-10 text-base md:text-lg font-bold">
+              <Button variant="ghost" size="lg" className="w-full sm:w-auto rounded-none px-10 text-[10px] tracking-[0.2em] uppercase font-bold bg-white text-black hover:bg-zinc-200">
                 {dict.hero.watchMultiview}
               </Button>
             </Link>
             <a href="#members" className="w-full sm:w-auto">
-              <Button variant="outline" size="lg" className="w-full sm:w-auto rounded-full px-8 md:px-10 text-base md:text-lg border-zinc-500 text-zinc-300 hover:text-white hover:border-white bg-black/40 backdrop-blur-sm">
+              <Button variant="outline" size="lg" className="w-full sm:w-auto rounded-none px-10 text-[10px] tracking-[0.2em] uppercase border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-600 hover:bg-zinc-900/50 backdrop-blur-sm">
                 {dict.hero.meetTheFamily}
               </Button>
             </a>

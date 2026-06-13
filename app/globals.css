@@ -5,8 +5,8 @@
   --color-gold-dim: #b4941f;
   --color-blood: #8a0303;
   --color-charcoal: #1c1c1c;
-  --color-background: #000000;
-  --color-foreground: #ededed;
+  --color-background: #050505;
+  --color-foreground: #e5e5e5;
   --perspective-distant: 1200px;
 }
 
@@ -17,19 +17,20 @@ body {
   overflow-x: hidden;
 }
 
-/* Custom Scrollbar */
+/* Custom Scrollbar - Sharp Dossier Style */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--color-background);
+  background: #050505;
+  border-left: 1px solid #111;
 }
 ::-webkit-scrollbar-thumb {
-  background: #333;
-  border-radius: 4px;
+  background: #222;
+  border-radius: 0px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-gold);
+  background: #444;
 }
 
 @keyframes music-bar {

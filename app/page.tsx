@@ -6,6 +6,7 @@ import { getStreamers } from '@/lib/getStreamers';
 import dynamic from 'next/dynamic';
 
 import { LazyCouganHistoryBook } from '@/components/features/history/LazyCouganHistoryBook';
+
 import { LazyGallery } from '@/components/features/LazyGallery';
 
 const RealtimeStreamerList = dynamic(() => import('@/components/features/streamer/RealtimeStreamerList').then((mod) => mod.RealtimeStreamerList), {
@@ -26,7 +27,7 @@ export const revalidate = 120; // Revalidate every 2 minutes (reduced from 60s)
 export default async function Home() {
   const streamers = await getStreamers();
   return (
-    <main className="min-h-screen bg-black scroll-smooth pt-12 md:pt-16">
+    <main className="min-h-screen bg-background scroll-smooth pt-12 md:pt-16">
       <Navbar />
       <Hero />
 

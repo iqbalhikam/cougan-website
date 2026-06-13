@@ -6,7 +6,7 @@ export function Footer() {
   const { dict } = useLanguage();
 
   return (
-    <footer className="py-10 border-t border-white/10 text-center text-zinc-500 text-sm">
+    <footer className="py-12 border-t border-zinc-900 bg-background text-center text-zinc-600 text-[10px] uppercase tracking-[0.3em]">
       <p>
         &copy; {new Date().getFullYear()} {dict.home.copyright}
       </p>

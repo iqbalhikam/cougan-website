@@ -59,3 +59,8 @@ export type Streamer = Prisma.StreamerModel
  * 
  */
 export type Backsound = Prisma.BacksoundModel
+/**
+ * Model Discussion
+ * 
+ */
+export type Discussion = Prisma.DiscussionModel

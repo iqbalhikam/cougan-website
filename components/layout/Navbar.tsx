@@ -18,10 +18,11 @@ export function Navbar() {
   const routes = [
     { href: '/', label: dict.navbar.home },
     { href: '/multiview', label: dict.navbar.multiView },
+    { href: '/citizen-card', label: dict.navbar.citizenCard },
   ];
 
   return (
-    <nav className="fixed top-0 z-50 w-full border-b border-white/10 bg-black/10 backdrop-blur-sm">
+    <nav className="fixed top-0 z-50 w-full border-b border-zinc-900 bg-background">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
@@ -37,7 +38,7 @@ export function Navbar() {
           <div className="hidden md:block">
             <div className="flex items-center space-x-8">
               {routes.map((route) => (
-                <Link key={route.href} href={route.href} className={cn('text-sm font-medium transition-colors hover:text-gold', pathname === route.href ? 'text-gold' : 'text-zinc-400')}>
+                <Link key={route.href} href={route.href} className={cn('text-[10px] uppercase tracking-[0.2em] font-medium transition-colors hover:text-zinc-100', pathname === route.href ? 'text-zinc-100' : 'text-zinc-500')}>
                   {route.label}
                 </Link>
               ))}
@@ -56,14 +57,14 @@ export function Navbar() {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden border-b border-white/10 bg-black">
+        <div className="md:hidden border-b border-zinc-900 bg-background">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             {routes.map((route) => (
               <Link
                 key={route.href}
                 href={route.href}
                 onClick={() => setIsOpen(false)}
-                className={cn('block px-3 py-2 rounded-md text-base font-medium', pathname === route.href ? 'bg-white/10 text-gold' : 'text-zinc-400 hover:bg-white/5 hover:text-white')}>
+                className={cn('block px-3 py-3 text-[10px] uppercase tracking-[0.2em] font-medium border-b border-zinc-900 last:border-none', pathname === route.href ? 'bg-zinc-900/30 text-white' : 'text-zinc-500 hover:bg-zinc-900/10 hover:text-zinc-300')}>
                 {route.label}
               </Link>
             ))}

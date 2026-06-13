@@ -54,7 +54,8 @@ export const ModelName = {
   Role: 'Role',
   Admin: 'Admin',
   Streamer: 'Streamer',
-  Backsound: 'Backsound'
+  Backsound: 'Backsound',
+  Discussion: 'Discussion'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -97,6 +98,10 @@ export const StreamerScalarFieldEnum = {
   youtubeId: 'youtubeId',
   avatar: 'avatar',
   status: 'status',
+  divisions: 'divisions',
+  lore: 'lore',
+  factionStatus: 'factionStatus',
+  combatStats: 'combatStats',
   createdAt: 'createdAt',
   position: 'position',
   lastChecked: 'lastChecked',
@@ -121,6 +126,20 @@ export const BacksoundScalarFieldEnum = {
 export type BacksoundScalarFieldEnum = (typeof BacksoundScalarFieldEnum)[keyof typeof BacksoundScalarFieldEnum]
 
 
+export const DiscussionScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  username: 'username',
+  message: 'message',
+  isAdmin: 'isAdmin',
+  isPinned: 'isPinned',
+  createdAt: 'createdAt',
+  parentId: 'parentId'
+} as const
+
+export type DiscussionScalarFieldEnum = (typeof DiscussionScalarFieldEnum)[keyof typeof DiscussionScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -129,12 +148,29 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
 export const QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
 export const NullsOrder = {

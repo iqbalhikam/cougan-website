@@ -155,62 +155,57 @@ export function CouganHistoryBook() {
   };
 
   const paperStyle = {
-    backgroundColor: '#e3d5b8', // Slightly lighter base
+    backgroundColor: '#0a0a0a',
     backgroundImage: `
-      linear-gradient(to right, rgba(0,0,0,0.1) 0%, transparent 5%, transparent 95%, rgba(0,0,0,0.1) 100%),
-      repeating-linear-gradient(to right, transparent 0, transparent 2px, rgba(0,0,0,0.03) 3px),
-      radial-gradient(circle at 50% 50%, rgba(200, 150, 50, 0.1), transparent 60%),
-      url("https://www.transparenttextures.com/patterns/aged-paper.png")
+      linear-gradient(to right, rgba(255,255,255,0.02) 0%, transparent 5%, transparent 95%, rgba(255,255,255,0.02) 100%),
+      repeating-linear-gradient(to right, transparent 0, transparent 2px, rgba(255,255,255,0.01) 3px),
+      radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.02), transparent 60%)
     `,
-    boxShadow: 'inset 0 0 30px rgba(80, 50, 20, 0.1)',
-    backgroundSize: '100% 100%, 4px 100%, 100% 100%, auto',
-    backgroundBlendMode: 'multiply, multiply, multiply, overlay',
+    boxShadow: 'inset 0 0 30px rgba(0, 0, 0, 0.8)',
+    backgroundSize: '100% 100%, 4px 100%, 100% 100%',
+    backgroundBlendMode: 'screen',
   };
 
   const leatherStyle = {
-    backgroundColor: '#1a0a0a',
+    backgroundColor: '#050505',
     backgroundImage: `
-      radial-gradient(circle at 30% 30%, rgba(255,255,255,0.05), transparent 25%), 
-      radial-gradient(circle at 70% 80%, rgba(255,255,255,0.03), transparent 20%),
-      url("https://www.transparenttextures.com/patterns/black-leather.png"),
-      linear-gradient(to bottom right, #000000, #2c1810)
+      radial-gradient(circle at 30% 30%, rgba(255,255,255,0.02), transparent 25%), 
+      radial-gradient(circle at 70% 80%, rgba(255,255,255,0.01), transparent 20%),
+      linear-gradient(to bottom right, #000000, #0a0a0a)
     `,
-    backgroundBlendMode: 'overlay, overlay, multiply, normal',
-    boxShadow: 'inset 0 0 50px rgba(0,0,0,0.9), 5px 10px 20px rgba(0,0,0,0.6)',
+    backgroundBlendMode: 'screen',
+    boxShadow: 'inset 0 0 50px rgba(0,0,0,0.9), 5px 10px 20px rgba(0,0,0,0.8)',
   };
 
   const goldTextStyle = {
-    background: 'linear-gradient(to bottom, #cfc09f 0%, #ffecb3 20%, #a47e3c 40%, #7c5a2b 60%, #cfc09f 80%, #ffecb3 100%)',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
-    textShadow: '0px 1px 0px rgba(255,255,255,0.2), 0px -1px 0px rgba(0,0,0,0.6)',
-    filter: 'drop-shadow(0 2px 3px rgba(0,0,0,0.5))',
+    color: '#ffffff',
+    textShadow: '0px 1px 0px rgba(255,255,255,0.1), 0px -1px 0px rgba(0,0,0,0.8)',
+    filter: 'drop-shadow(0 2px 3px rgba(0,0,0,0.8))',
   };
 
   return (
-    <section className="relative w-full mx-auto py-12 md:py-24 hidden md:flex flex-col items-center justify-center min-h-[500px] md:min-h-[700px] select-none overflow-hidden">
+    <section className="relative w-full mx-auto py-8 md:py-12 hidden md:flex flex-col items-center justify-center min-h-[400px] md:min-h-[500px] select-none overflow-hidden">
       {/* Atmosphere */}
       <div className="absolute inset-0 z-0 bg-radial-[circle_at_center,transparent_10%,rgba(0,0,0,0.85)_90%] pointer-events-none" />
 
       {/* Header */}
-      <div className="flex items-center gap-3 md:gap-6 mb-8 md:mb-16 z-10 relative select-none pointer-events-none px-4 text-center">
-        <div className="h-px w-12 md:w-24 bg-linear-to-r from-transparent to-gold/40 hidden md:block" />
-        <BookOpen className="w-6 h-6 md:w-8 md:h-8 text-gold drop-shadow-md shrink-0" />
-        <h2 className="text-2xl md:text-3xl lg:text-5xl font-bold text-[#e0c090] tracking-widest uppercase font-serif drop-shadow-lg text-center leading-tight">{dict.history.header}</h2>
-        <div className="h-px w-12 md:w-24 bg-linear-to-l from-transparent to-gold/40 hidden md:block" />
+      <div className="w-full max-w-4xl mx-auto px-4 mb-8 z-10 relative select-none pointer-events-none text-left flex items-center gap-4">
+        <div className="w-8 md:w-16 h-[2px] bg-zinc-700" />
+        <h2 className="text-lg md:text-2xl font-serif text-zinc-200 tracking-[0.2em] uppercase shrink-0">The Archives</h2>
+        <div className="flex-1 h-px bg-zinc-900" />
       </div>
 
       {/* 3D Scene Container */}
       <motion.div
         animate={{
           x: flippedIndex === 0 ? '-25%' : flippedIndex > totalSheets ? '25%' : '0%',
-          scale: typeof window !== 'undefined' && window.innerWidth < 768 ? 0.9 : 1,
+          scale: typeof window !== 'undefined' && window.innerWidth < 768 ? 0.9 : 0.85,
         }}
         transition={{
           duration: 0.8,
           ease: 'easeInOut',
         }}
-        className="relative perspective-distant md:perspective-[2000px] w-[95%] md:w-full max-w-lg md:max-w-5xl aspect-[0.7/1] md:aspect-[1.6/1] z-20 drop-shadow-2xl">
+        className="relative perspective-distant md:perspective-[2000px] w-[95%] md:w-full max-w-lg md:max-w-4xl aspect-[0.7/1] md:aspect-[1.6/1] z-20 drop-shadow-2xl">
         <div className="absolute top-0 bottom-0 left-1/2 w-8 md:w-12 -ml-4 md:-ml-6 bg-[#0a0a0a] transform translate-z-[-2px] rounded-sm" style={{ boxShadow: '0 0 10px rgba(0,0,0,0.8)' }} />
 
         {/* 1. FRONT COVER */}
@@ -228,8 +223,8 @@ export function CouganHistoryBook() {
               <div className="absolute inset-0 opacity-60 mix-blend-overlay bg-[url('https://www.transparenttextures.com/patterns/black-leather.png')]" />
 
               {/* Embossed Border */}
-              <div className="absolute inset-2 md:inset-4 border-2 border-[#cfc09f]/30 rounded-sm shadow-[inset_1px_1px_2px_rgba(0,0,0,0.8),1px_1px_2px_rgba(255,255,255,0.05)]" />
-              <div className="absolute inset-4 md:inset-6 border border-[#cfc09f]/10 rounded-sm" />
+              <div className="absolute inset-2 md:inset-4 border-2 border-zinc-800/50 rounded-sm shadow-[inset_1px_1px_2px_rgba(0,0,0,0.9),1px_1px_2px_rgba(255,255,255,0.02)]" />
+              <div className="absolute inset-4 md:inset-6 border border-zinc-800/30 rounded-sm" />
 
               <div className="relative z-10 text-center p-4 md:p-8">
                 <div className="relative inline-block mx-auto mb-4 md:mb-8">
@@ -238,17 +233,17 @@ export function CouganHistoryBook() {
                     alt="Cougan Family"
                     width={160}
                     height={160}
-                    className="relative z-10 opacity-90 pointer-events-none select-none drop-shadow-[0_4px_6px_rgba(0,0,0,0.5)] w-24 h-24 md:w-40 md:h-40 object-contain"
+                    className="relative z-10 opacity-70 pointer-events-none grayscale contrast-125 select-none drop-shadow-[0_4px_6px_rgba(0,0,0,0.8)] w-24 h-24 md:w-40 md:h-40 object-contain"
                     unoptimized
                     draggable={false}
                   />
-                  <div className="absolute inset-0 bg-[#cfc09f] blur-2xl opacity-10 rounded-full" />
+                  <div className="absolute inset-0 bg-black blur-2xl opacity-50 rounded-full" />
                 </div>
-                <h1 className="text-2xl md:text-4xl lg:text-6xl font-serif font-bold tracking-widest uppercase mb-2 pointer-events-none" style={goldTextStyle}>
+                <h1 className="text-2xl md:text-4xl lg:text-6xl font-serif tracking-widest uppercase mb-2 pointer-events-none" style={goldTextStyle}>
                   Cougan
                 </h1>
-                <div className="w-20 md:w-32 h-1 mx-auto mb-2 md:mb-4" style={{ background: 'linear-gradient(90deg, transparent, #cfc09f, #a47e3c, #cfc09f, transparent)' }} />
-                <p className="text-[#a47e3c] font-serif tracking-[0.2em] md:tracking-[0.3em] text-[10px] md:text-sm uppercase pointer-events-none drop-shadow-sm font-bold">{dict.history.officialRecords}</p>
+                <div className="w-20 md:w-32 h-px mx-auto mb-2 md:mb-4 bg-zinc-800" />
+                <p className="text-zinc-600 font-sans tracking-[0.3em] md:tracking-[0.4em] text-[8px] md:text-[10px] uppercase pointer-events-none font-bold">{dict.history.officialRecords}</p>
               </div>
             </div>
           }
@@ -259,12 +254,12 @@ export function CouganHistoryBook() {
 
               <div className="absolute inset-0 opacity-40 mix-blend-overlay bg-[url('https://www.transparenttextures.com/patterns/black-leather.png')]" />
               <div className="relative z-10 h-full flex flex-col justify-center items-center text-center p-4 md:p-10 opacity-90">
-                <div className="border border-[#cfc09f]/30 p-4 md:p-8 rounded-sm bg-black/40 backdrop-blur-sm pointer-events-none shadow-[0_0_15px_rgba(0,0,0,0.5)]">
-                  <h3 className="text-xl md:text-4xl font-serif font-bold mb-2 md:mb-4 uppercase tracking-[0.2em]" style={goldTextStyle}>
+                <div className="border border-zinc-800 p-4 md:p-8 rounded-sm bg-black/60 backdrop-blur-sm pointer-events-none shadow-[0_0_15px_rgba(0,0,0,0.8)]">
+                  <h3 className="text-xl md:text-3xl font-serif mb-2 md:mb-4 uppercase tracking-[0.3em] text-white">
                     {dict.history.confidential}
                   </h3>
-                  <div className="w-8 md:w-12 h-0.5 mx-auto" style={{ background: 'linear-gradient(90deg, transparent, #cfc09f, transparent)' }} />
-                  <p className="mt-2 md:mt-4 font-serif italic text-[#d4c5a9] text-xs md:text-sm opacity-60">
+                  <div className="w-8 md:w-12 h-px bg-zinc-800 mx-auto" />
+                  <p className="mt-2 md:mt-4 font-sans uppercase tracking-[0.2em] text-zinc-600 text-[8px] md:text-[10px]">
                     {dict.history.propertyOf}
                     <br />
                     {dict.history.theFamily}
@@ -291,15 +286,15 @@ export function CouganHistoryBook() {
                   <div className="absolute inset-0 pointer-events-none mix-blend-multiply bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')] opacity-40" />
                   {/* Title Page (Front/Right) */}
                   <div className="relative z-10 p-4 md:p-8 lg:p-12 h-full flex flex-col justify-center items-center text-center pointer-events-none">
-                    <div className="border-2 md:border-4 border-double border-[#2c1810]/30 p-4 md:p-8 w-full h-full flex flex-col justify-center items-center bg-[#d4c5a9]/20">
-                      <div className="w-12 h-12 md:w-20 md:h-20 rounded-full border-2 border-[#8b4513]/30 flex items-center justify-center mb-4 md:mb-6 rotate-[-15deg] opacity-60">
-                        <span className="text-[8px] md:text-[10px] font-serif font-bold text-[#8b4513] uppercase text-center leading-tight">{dict.history.officialDocumentVerified}</span>
+                    <div className="border border-zinc-800 p-4 md:p-8 w-full h-full flex flex-col justify-center items-center bg-background">
+                      <div className="w-12 h-12 md:w-20 md:h-20 rounded-sm border border-zinc-800 flex items-center justify-center mb-4 md:mb-6 opacity-60">
+                        <span className="text-[6px] md:text-[8px] font-sans font-bold text-zinc-500 uppercase tracking-widest text-center leading-tight">ARCHIVE<br/>RECORD</span>
                       </div>
-                      <h3 className="text-xl md:text-4xl lg:text-5xl font-serif font-bold text-[#1a0f0a] mb-4 md:mb-6 drop-shadow-sm tracking-tight leading-tight">{chapter.title}</h3>
-                      <div className="w-20 md:w-32 h-1 bg-[#8b4513] mb-4 md:mb-8 opacity-60" />
-                      <p className="font-serif italic text-[#3e2723] max-w-xs text-xs md:text-lg leading-relaxed">{dict.history.quote}</p>
+                      <h3 className="text-xl md:text-4xl lg:text-5xl font-serif text-white mb-4 md:mb-6 tracking-wide leading-tight">{chapter.title}</h3>
+                      <div className="w-20 md:w-32 h-px bg-zinc-800 mb-4 md:mb-8" />
+                      <p className="font-serif italic text-zinc-400 max-w-xs text-xs md:text-lg leading-relaxed">{dict.history.quote}</p>
                       <div className="mt-auto w-full flex justify-between items-end">
-                        <span className="font-serif text-[10px] md:text-sm font-bold text-black/60">{i * 2 + 1}</span>
+                        <span className="font-sans text-[8px] md:text-[10px] tracking-widest text-zinc-700">{i * 2 + 1}</span>
                       </div>
                     </div>
                   </div>
@@ -308,26 +303,26 @@ export function CouganHistoryBook() {
               backContent={
                 <div className="absolute inset-0 rounded-l-sm overflow-hidden border-r border-black/10 select-none" style={{ ...paperStyle }}>
                   <div className="absolute inset-0 pointer-events-none mix-blend-multiply bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')] opacity-40" />
-                  <div className="absolute -right-10 -bottom-10 w-40 h-40 rounded-full bg-[#8b4513] opacity-10 blur-xl mix-blend-multiply pointer-events-none" />
+                  <div className="absolute -right-10 -bottom-10 w-40 h-40 rounded-full bg-white opacity-5 blur-3xl pointer-events-none" />
                   {/* Content Page (Back/Left) */}
                   <div className="relative z-10 p-4 md:p-8 lg:p-12 h-full flex flex-col pointer-events-none">
-                    <div className="flex justify-between items-start mb-4 md:mb-6 border-b border-black/20 pb-2">
-                      <span className="font-serif text-[8px] md:text-[10px] text-black/40 uppercase tracking-widest">
+                    <div className="flex justify-between items-start mb-4 md:mb-6 border-b border-zinc-800 pb-2">
+                      <span className="font-sans text-[8px] md:text-[10px] text-zinc-500 uppercase tracking-[0.3em]">
                         {dict.history.caseFile} #{1000 + chapter.id}
                       </span>
-                      <span className="font-serif text-sm md:text-lg text-black/70 font-bold">
+                      <span className="font-sans text-[8px] md:text-[10px] text-zinc-400 tracking-[0.3em] uppercase">
                         {dict.history.chapter} {chapter.id}
                       </span>
                     </div>
                     <div className="flex-1 overflow-hidden relative">
-                      <p className="text-xs md:text-base lg:text-[1.15rem] text-[#2c1810] font-serif leading-relaxed md:leading-[1.8] tracking-wide font-medium drop-shadow-sm opacity-90 line-clamp-10 md:line-clamp-none">
-                        <span className="float-left text-3xl md:text-5xl font-bold text-[#8b4513] mr-2 md:mr-3 mt-[-4px] md:mt-[-10px] font-serif border border-black/10 px-1 md:px-2 bg-black/5 rounded-sm">{chapter.content.charAt(0)}</span>
+                      <p className="text-xs md:text-sm lg:text-base text-zinc-300 font-serif leading-relaxed md:leading-[1.8] tracking-wide opacity-90 line-clamp-10 md:line-clamp-none">
+                        <span className="float-left text-2xl md:text-4xl text-white mr-2 md:mr-3 mt-[-2px] md:mt-[-4px] font-serif border-l-[3px] border-zinc-700 pl-2 pr-1">{chapter.content.charAt(0)}</span>
                         {chapter.content.slice(1)}
                       </p>
                     </div>
-                    <div className="mt-auto pt-2 md:pt-4 flex justify-between items-center border-t border-black/10">
-                      <span className="font-serif text-[8px] md:text-xs text-black/40 italic">{dict.history.header}</span>
-                      <span className="font-serif text-[10px] md:text-sm font-bold text-black/60">{i * 2 + 2}</span>
+                    <div className="mt-auto pt-2 md:pt-4 flex justify-between items-center border-t border-zinc-800">
+                      <span className="font-sans tracking-widest text-[8px] md:text-[10px] text-zinc-700 uppercase">{dict.history.header}</span>
+                      <span className="font-sans text-[8px] md:text-[10px] tracking-widest text-zinc-700">{i * 2 + 2}</span>
                     </div>
                   </div>
                 </div>
@@ -353,22 +348,21 @@ export function CouganHistoryBook() {
                   alt="Cougan Emblem"
                   width={120}
                   height={120}
-                  className="mx-auto opacity-30 grayscale contrast-150 pointer-events-none select-none drop-shadow-2xl w-20 h-20 md:w-32 md:h-32 object-contain"
+                  className="mx-auto opacity-20 grayscale contrast-150 pointer-events-none select-none drop-shadow-2xl w-20 h-20 md:w-32 md:h-32 object-contain"
                   unoptimized
                   draggable={false}
                 />
-                <p className="mt-4 md:mt-6 font-serif text-[10px] md:text-xs text-[#cfc09f]/40 uppercase tracking-widest">{dict.history.endOfFile}</p>
+                <p className="mt-4 md:mt-6 font-sans text-[8px] md:text-[10px] text-zinc-700 uppercase tracking-[0.4em]">END OF FILE</p>
               </div>
             </div>
           }
           backContent={
-            <div className="absolute inset-0 bg-[#0f0f0f] border-y-2 md:border-y-4 border-l-2 md:border-l-4 border-[#2a2a2a] rounded-l-md shadow-2xl select-none" style={leatherStyle}>
+            <div className="absolute inset-0 bg-background border-y-2 md:border-y-4 border-l-2 md:border-l-4 border-zinc-900 rounded-l-md shadow-2xl select-none" style={leatherStyle}>
               <div className="absolute right-0 top-0 bottom-0 w-4 md:w-8 bg-linear-to-l from-black/60 to-transparent z-20" />
-              <div className="absolute inset-0 opacity-60 mix-blend-overlay bg-[url('https://www.transparenttextures.com/patterns/black-leather.png')]" />
-              <div className="absolute inset-4 md:inset-8 border border-black/40 rounded-sm shadow-[inset_0_2px_4px_rgba(0,0,0,0.8)]" />
+              <div className="absolute inset-4 md:inset-8 border border-zinc-900 rounded-sm" />
               <div className="flex items-center justify-center h-full">
-                <div className="w-16 h-16 md:w-24 md:h-24 rounded-full border border-[#cfc09f]/10 flex items-center justify-center opacity-30 mix-blend-overlay">
-                  <div className="w-12 h-12 md:w-20 md:h-20 rounded-full border border-[#cfc09f]/5" />
+                <div className="w-16 h-16 md:w-24 md:h-24 rounded-full border border-zinc-800 flex items-center justify-center opacity-30">
+                  <div className="w-12 h-12 md:w-20 md:h-20 rounded-full border border-zinc-800" />
                 </div>
               </div>
             </div>
@@ -377,25 +371,25 @@ export function CouganHistoryBook() {
       </motion.div>
 
       {/* External Controls */}
-      <div className="mt-8 md:mt-16 flex gap-4 md:gap-10 items-center z-10 transition-opacity duration-500 max-w-full px-4" style={{ opacity: flippedIndex === 0 || flippedIndex > totalSheets ? 0 : 1 }}>
+      <div className="mt-4 md:mt-8 flex gap-4 md:gap-8 items-center z-10 transition-opacity duration-500 max-w-full px-4" style={{ opacity: flippedIndex === 0 || flippedIndex > totalSheets ? 0 : 1 }}>
         {/* Only show controls when book is OPEN */}
         <button
           onClick={prevPage}
           disabled={flippedIndex <= 1}
-          className="group flex items-center gap-2 md:gap-3 px-4 md:px-6 py-2 md:py-3 rounded-sm border border-gold/20 bg-black/60 text-gold hover:bg-gold/10 hover:border-gold/50 transition-all disabled:opacity-20 disabled:hover:bg-transparent backdrop-blur-md">
+          className="group flex items-center gap-2 md:gap-3 px-4 md:px-6 py-2 md:py-3 rounded-none border border-zinc-800 bg-background text-zinc-500 hover:text-white hover:bg-zinc-900 transition-all disabled:opacity-20 disabled:hover:bg-transparent">
           <ChevronLeft size={16} className="md:w-[18px] md:h-[18px]" />
-          <span className="font-serif tracking-[0.2em] text-[10px] md:text-xs uppercase">{dict.history.previous}</span>
+          <span className="font-sans tracking-[0.3em] text-[8px] md:text-[10px] uppercase">{dict.history.previous}</span>
         </button>
 
-        <div className="text-gold/40 font-serif text-[10px] md:text-xs tracking-[0.3em] uppercase whitespace-nowrap">
-          {dict.history.file} {flippedIndex} <span className="mx-1 md:mx-2 text-gold/20">|</span> {totalSheets}
+        <div className="text-zinc-600 font-sans text-[8px] md:text-[10px] tracking-[0.4em] uppercase whitespace-nowrap">
+          {dict.history.file} {flippedIndex} <span className="mx-1 md:mx-2 text-zinc-800">|</span> {totalSheets}
         </div>
 
         <button
           onClick={nextPage}
           disabled={flippedIndex > totalSheets}
-          className="group flex items-center gap-2 md:gap-3 px-4 md:px-6 py-2 md:py-3 rounded-sm border border-gold/20 bg-black/60 text-gold hover:bg-gold/10 hover:border-gold/50 transition-all disabled:opacity-20 disabled:hover:bg-transparent backdrop-blur-md">
-          <span className="font-serif tracking-[0.2em] text-[10px] md:text-xs uppercase">{dict.history.next}</span>
+          className="group flex items-center gap-2 md:gap-3 px-4 md:px-6 py-2 md:py-3 rounded-none border border-zinc-800 bg-background text-zinc-500 hover:text-white hover:bg-zinc-900 transition-all disabled:opacity-20 disabled:hover:bg-transparent">
+          <span className="font-sans tracking-[0.3em] text-[8px] md:text-[10px] uppercase">{dict.history.next}</span>
           <ChevronRight size={16} className="md:w-[18px] md:h-[18px]" />
         </button>
       </div>

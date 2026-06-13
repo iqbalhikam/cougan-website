@@ -21,6 +21,10 @@ export default async function AdminDashboard() {
           <Link href="/admin/new" className="w-full sm:w-auto">
             <Button className="bg-gold text-black hover:bg-yellow-500 w-full sm:w-auto">Add New Member</Button>
           </Link>
+          <Link href="/admin/discussion" className="w-full sm:w-auto">
+            <Button className="bg-emerald-500 text-black hover:bg-emerald-400 w-full sm:w-auto">Manage Discussions</Button>
+          </Link>
+
           <form action={signOut}>
             <Button variant="destructive" className="w-full sm:w-auto">
               Logout

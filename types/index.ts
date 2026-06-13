@@ -18,4 +18,7 @@ export interface Streamer {
   latestVideoId?: string | null; // <--- Ini yang bikin error
   lastChecked?: Date | null;
   lastVideoCheck?: Date | null;
+  divisions?: string[];
+  factionStatus?: string | null;
+  lore?: string | null;
 }

@@ -41,6 +41,8 @@ export type StreamerMinAggregateOutputType = {
   youtubeId: string | null
   avatar: string | null
   status: string | null
+  lore: string | null
+  factionStatus: string | null
   createdAt: Date | null
   position: number | null
   lastChecked: Date | null
@@ -57,6 +59,8 @@ export type StreamerMaxAggregateOutputType = {
   youtubeId: string | null
   avatar: string | null
   status: string | null
+  lore: string | null
+  factionStatus: string | null
   createdAt: Date | null
   position: number | null
   lastChecked: Date | null
@@ -73,6 +77,10 @@ export type StreamerCountAggregateOutputType = {
   youtubeId: number
   avatar: number
   status: number
+  divisions: number
+  lore: number
+  factionStatus: number
+  combatStats: number
   createdAt: number
   position: number
   lastChecked: number
@@ -99,6 +107,8 @@ export type StreamerMinAggregateInputType = {
   youtubeId?: true
   avatar?: true
   status?: true
+  lore?: true
+  factionStatus?: true
   createdAt?: true
   position?: true
   lastChecked?: true
@@ -115,6 +125,8 @@ export type StreamerMaxAggregateInputType = {
   youtubeId?: true
   avatar?: true
   status?: true
+  lore?: true
+  factionStatus?: true
   createdAt?: true
   position?: true
   lastChecked?: true
@@ -131,6 +143,10 @@ export type StreamerCountAggregateInputType = {
   youtubeId?: true
   avatar?: true
   status?: true
+  divisions?: true
+  lore?: true
+  factionStatus?: true
+  combatStats?: true
   createdAt?: true
   position?: true
   lastChecked?: true
@@ -234,6 +250,10 @@ export type StreamerGroupByOutputType = {
   youtubeId: string | null
   avatar: string
   status: string
+  divisions: string[]
+  lore: string | null
+  factionStatus: string
+  combatStats: runtime.JsonValue | null
   createdAt: Date
   position: number
   lastChecked: Date | null
@@ -273,6 +293,10 @@ export type StreamerWhereInput = {
   youtubeId?: Prisma.StringNullableFilter<"Streamer"> | string | null
   avatar?: Prisma.StringFilter<"Streamer"> | string
   status?: Prisma.StringFilter<"Streamer"> | string
+  divisions?: Prisma.StringNullableListFilter<"Streamer">
+  lore?: Prisma.StringNullableFilter<"Streamer"> | string | null
+  factionStatus?: Prisma.StringFilter<"Streamer"> | string
+  combatStats?: Prisma.JsonNullableFilter<"Streamer">
   createdAt?: Prisma.DateTimeFilter<"Streamer"> | Date | string
   position?: Prisma.IntFilter<"Streamer"> | number
   lastChecked?: Prisma.DateTimeNullableFilter<"Streamer"> | Date | string | null
@@ -290,6 +314,10 @@ export type StreamerOrderByWithRelationInput = {
   youtubeId?: Prisma.SortOrderInput | Prisma.SortOrder
   avatar?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  divisions?: Prisma.SortOrder
+  lore?: Prisma.SortOrderInput | Prisma.SortOrder
+  factionStatus?: Prisma.SortOrder
+  combatStats?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   position?: Prisma.SortOrder
   lastChecked?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -310,6 +338,10 @@ export type StreamerWhereUniqueInput = Prisma.AtLeast<{
   youtubeId?: Prisma.StringNullableFilter<"Streamer"> | string | null
   avatar?: Prisma.StringFilter<"Streamer"> | string
   status?: Prisma.StringFilter<"Streamer"> | string
+  divisions?: Prisma.StringNullableListFilter<"Streamer">
+  lore?: Prisma.StringNullableFilter<"Streamer"> | string | null
+  factionStatus?: Prisma.StringFilter<"Streamer"> | string
+  combatStats?: Prisma.JsonNullableFilter<"Streamer">
   createdAt?: Prisma.DateTimeFilter<"Streamer"> | Date | string
   position?: Prisma.IntFilter<"Streamer"> | number
   lastChecked?: Prisma.DateTimeNullableFilter<"Streamer"> | Date | string | null
@@ -327,6 +359,10 @@ export type StreamerOrderByWithAggregationInput = {
   youtubeId?: Prisma.SortOrderInput | Prisma.SortOrder
   avatar?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  divisions?: Prisma.SortOrder
+  lore?: Prisma.SortOrderInput | Prisma.SortOrder
+  factionStatus?: Prisma.SortOrder
+  combatStats?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   position?: Prisma.SortOrder
   lastChecked?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -351,6 +387,10 @@ export type StreamerScalarWhereWithAggregatesInput = {
   youtubeId?: Prisma.StringNullableWithAggregatesFilter<"Streamer"> | string | null
   avatar?: Prisma.StringWithAggregatesFilter<"Streamer"> | string
   status?: Prisma.StringWithAggregatesFilter<"Streamer"> | string
+  divisions?: Prisma.StringNullableListFilter<"Streamer">
+  lore?: Prisma.StringNullableWithAggregatesFilter<"Streamer"> | string | null
+  factionStatus?: Prisma.StringWithAggregatesFilter<"Streamer"> | string
+  combatStats?: Prisma.JsonNullableWithAggregatesFilter<"Streamer">
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Streamer"> | Date | string
   position?: Prisma.IntWithAggregatesFilter<"Streamer"> | number
   lastChecked?: Prisma.DateTimeNullableWithAggregatesFilter<"Streamer"> | Date | string | null
@@ -367,6 +407,10 @@ export type StreamerCreateInput = {
   youtubeId?: string | null
   avatar: string
   status?: string
+  divisions?: Prisma.StreamerCreatedivisionsInput | string[]
+  lore?: string | null
+  factionStatus?: string
+  combatStats?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   position?: number
   lastChecked?: Date | string | null
@@ -383,6 +427,10 @@ export type StreamerUncheckedCreateInput = {
   youtubeId?: string | null
   avatar: string
   status?: string
+  divisions?: Prisma.StreamerCreatedivisionsInput | string[]
+  lore?: string | null
+  factionStatus?: string
+  combatStats?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   position?: number
   lastChecked?: Date | string | null
@@ -399,6 +447,10 @@ export type StreamerUpdateInput = {
   youtubeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  divisions?: Prisma.StreamerUpdatedivisionsInput | string[]
+  lore?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  factionStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  combatStats?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   position?: Prisma.IntFieldUpdateOperationsInput | number
   lastChecked?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -415,6 +467,10 @@ export type StreamerUncheckedUpdateInput = {
   youtubeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  divisions?: Prisma.StreamerUpdatedivisionsInput | string[]
+  lore?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  factionStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  combatStats?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   position?: Prisma.IntFieldUpdateOperationsInput | number
   lastChecked?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -431,6 +487,10 @@ export type StreamerCreateManyInput = {
   youtubeId?: string | null
   avatar: string
   status?: string
+  divisions?: Prisma.StreamerCreatedivisionsInput | string[]
+  lore?: string | null
+  factionStatus?: string
+  combatStats?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   position?: number
   lastChecked?: Date | string | null
@@ -447,6 +507,10 @@ export type StreamerUpdateManyMutationInput = {
   youtubeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  divisions?: Prisma.StreamerUpdatedivisionsInput | string[]
+  lore?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  factionStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  combatStats?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   position?: Prisma.IntFieldUpdateOperationsInput | number
   lastChecked?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -462,6 +526,10 @@ export type StreamerUncheckedUpdateManyInput = {
   youtubeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  divisions?: Prisma.StreamerUpdatedivisionsInput | string[]
+  lore?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  factionStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  combatStats?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   position?: Prisma.IntFieldUpdateOperationsInput | number
   lastChecked?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -481,6 +549,14 @@ export type StreamerOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type StringNullableListFilter<$PrismaModel = never> = {
+  equals?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null
+  has?: string | Prisma.StringFieldRefInput<$PrismaModel> | null
+  hasEvery?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  hasSome?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  isEmpty?: boolean
+}
+
 export type StreamerCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
@@ -488,6 +564,10 @@ export type StreamerCountOrderByAggregateInput = {
   youtubeId?: Prisma.SortOrder
   avatar?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  divisions?: Prisma.SortOrder
+  lore?: Prisma.SortOrder
+  factionStatus?: Prisma.SortOrder
+  combatStats?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   position?: Prisma.SortOrder
   lastChecked?: Prisma.SortOrder
@@ -508,6 +588,8 @@ export type StreamerMaxOrderByAggregateInput = {
   youtubeId?: Prisma.SortOrder
   avatar?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  lore?: Prisma.SortOrder
+  factionStatus?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   position?: Prisma.SortOrder
   lastChecked?: Prisma.SortOrder
@@ -524,6 +606,8 @@ export type StreamerMinOrderByAggregateInput = {
   youtubeId?: Prisma.SortOrder
   avatar?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  lore?: Prisma.SortOrder
+  factionStatus?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   position?: Prisma.SortOrder
   lastChecked?: Prisma.SortOrder
@@ -579,8 +663,17 @@ export type StreamerUncheckedUpdateManyWithoutRoleNestedInput = {
   deleteMany?: Prisma.StreamerScalarWhereInput | Prisma.StreamerScalarWhereInput[]
 }
 
+export type StreamerCreatedivisionsInput = {
+  set: string[]
+}
+
 export type NullableStringFieldUpdateOperationsInput = {
   set?: string | null
+}
+
+export type StreamerUpdatedivisionsInput = {
+  set?: string[]
+  push?: string | string[]
 }
 
 export type IntFieldUpdateOperationsInput = {
@@ -602,6 +695,10 @@ export type StreamerCreateWithoutRoleInput = {
   youtubeId?: string | null
   avatar: string
   status?: string
+  divisions?: Prisma.StreamerCreatedivisionsInput | string[]
+  lore?: string | null
+  factionStatus?: string
+  combatStats?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   position?: number
   lastChecked?: Date | string | null
@@ -617,6 +714,10 @@ export type StreamerUncheckedCreateWithoutRoleInput = {
   youtubeId?: string | null
   avatar: string
   status?: string
+  divisions?: Prisma.StreamerCreatedivisionsInput | string[]
+  lore?: string | null
+  factionStatus?: string
+  combatStats?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   position?: number
   lastChecked?: Date | string | null
@@ -661,6 +762,10 @@ export type StreamerScalarWhereInput = {
   youtubeId?: Prisma.StringNullableFilter<"Streamer"> | string | null
   avatar?: Prisma.StringFilter<"Streamer"> | string
   status?: Prisma.StringFilter<"Streamer"> | string
+  divisions?: Prisma.StringNullableListFilter<"Streamer">
+  lore?: Prisma.StringNullableFilter<"Streamer"> | string | null
+  factionStatus?: Prisma.StringFilter<"Streamer"> | string
+  combatStats?: Prisma.JsonNullableFilter<"Streamer">
   createdAt?: Prisma.DateTimeFilter<"Streamer"> | Date | string
   position?: Prisma.IntFilter<"Streamer"> | number
   lastChecked?: Prisma.DateTimeNullableFilter<"Streamer"> | Date | string | null
@@ -677,6 +782,10 @@ export type StreamerCreateManyRoleInput = {
   youtubeId?: string | null
   avatar: string
   status?: string
+  divisions?: Prisma.StreamerCreatedivisionsInput | string[]
+  lore?: string | null
+  factionStatus?: string
+  combatStats?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   position?: number
   lastChecked?: Date | string | null
@@ -692,6 +801,10 @@ export type StreamerUpdateWithoutRoleInput = {
   youtubeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  divisions?: Prisma.StreamerUpdatedivisionsInput | string[]
+  lore?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  factionStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  combatStats?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   position?: Prisma.IntFieldUpdateOperationsInput | number
   lastChecked?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -707,6 +820,10 @@ export type StreamerUncheckedUpdateWithoutRoleInput = {
   youtubeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  divisions?: Prisma.StreamerUpdatedivisionsInput | string[]
+  lore?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  factionStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  combatStats?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   position?: Prisma.IntFieldUpdateOperationsInput | number
   lastChecked?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -722,6 +839,10 @@ export type StreamerUncheckedUpdateManyWithoutRoleInput = {
   youtubeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  divisions?: Prisma.StreamerUpdatedivisionsInput | string[]
+  lore?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  factionStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  combatStats?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   position?: Prisma.IntFieldUpdateOperationsInput | number
   lastChecked?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -739,6 +860,10 @@ export type StreamerSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   youtubeId?: boolean
   avatar?: boolean
   status?: boolean
+  divisions?: boolean
+  lore?: boolean
+  factionStatus?: boolean
+  combatStats?: boolean
   createdAt?: boolean
   position?: boolean
   lastChecked?: boolean
@@ -756,6 +881,10 @@ export type StreamerSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   youtubeId?: boolean
   avatar?: boolean
   status?: boolean
+  divisions?: boolean
+  lore?: boolean
+  factionStatus?: boolean
+  combatStats?: boolean
   createdAt?: boolean
   position?: boolean
   lastChecked?: boolean
@@ -773,6 +902,10 @@ export type StreamerSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   youtubeId?: boolean
   avatar?: boolean
   status?: boolean
+  divisions?: boolean
+  lore?: boolean
+  factionStatus?: boolean
+  combatStats?: boolean
   createdAt?: boolean
   position?: boolean
   lastChecked?: boolean
@@ -790,6 +923,10 @@ export type StreamerSelectScalar = {
   youtubeId?: boolean
   avatar?: boolean
   status?: boolean
+  divisions?: boolean
+  lore?: boolean
+  factionStatus?: boolean
+  combatStats?: boolean
   createdAt?: boolean
   position?: boolean
   lastChecked?: boolean
@@ -799,7 +936,7 @@ export type StreamerSelectScalar = {
   roleId?: boolean
 }
 
-export type StreamerOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "channelId" | "youtubeId" | "avatar" | "status" | "createdAt" | "position" | "lastChecked" | "lastVideoCheck" | "latestVideoId" | "activeLiveChatId" | "roleId", ExtArgs["result"]["streamer"]>
+export type StreamerOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "channelId" | "youtubeId" | "avatar" | "status" | "divisions" | "lore" | "factionStatus" | "combatStats" | "createdAt" | "position" | "lastChecked" | "lastVideoCheck" | "latestVideoId" | "activeLiveChatId" | "roleId", ExtArgs["result"]["streamer"]>
 export type StreamerInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   role?: boolean | Prisma.Streamer$roleArgs<ExtArgs>
 }
@@ -822,6 +959,10 @@ export type $StreamerPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     youtubeId: string | null
     avatar: string
     status: string
+    divisions: string[]
+    lore: string | null
+    factionStatus: string
+    combatStats: runtime.JsonValue | null
     createdAt: Date
     position: number
     lastChecked: Date | null
@@ -1259,6 +1400,10 @@ export interface StreamerFieldRefs {
   readonly youtubeId: Prisma.FieldRef<"Streamer", 'String'>
   readonly avatar: Prisma.FieldRef<"Streamer", 'String'>
   readonly status: Prisma.FieldRef<"Streamer", 'String'>
+  readonly divisions: Prisma.FieldRef<"Streamer", 'String[]'>
+  readonly lore: Prisma.FieldRef<"Streamer", 'String'>
+  readonly factionStatus: Prisma.FieldRef<"Streamer", 'String'>
+  readonly combatStats: Prisma.FieldRef<"Streamer", 'Json'>
   readonly createdAt: Prisma.FieldRef<"Streamer", 'DateTime'>
   readonly position: Prisma.FieldRef<"Streamer", 'Int'>
   readonly lastChecked: Prisma.FieldRef<"Streamer", 'DateTime'>

@@ -27,6 +27,10 @@ export interface StreamerInput {
   avatar: string;
   status?: string;
   position?: number;
+  divisions?: string[];
+  factionStatus?: string;
+  lore?: string;
+
 }
 
 export async function createStreamer(data: StreamerInput) {
@@ -37,15 +41,20 @@ export async function createStreamer(data: StreamerInput) {
       data: {
         id: crypto.randomUUID(), // Or let Prisma handle it if configured
         name: data.name,
-        roleId: data.roleId,
+        role: data.roleId ? { connect: { id: data.roleId } } : undefined,
         channelId: data.channelId,
         youtubeId: data.youtubeId,
         avatar: data.avatar, // Path from storage
         status: data.status || 'offline',
         position: data.position || 0,
+        divisions: data.divisions || ['MEMBER'],
+        factionStatus: data.factionStatus || 'ACTIVE',
+        lore: data.lore || '',
+
       },
     });
-    revalidatePath('/', 'layout');
+    revalidatePath('/');
+    revalidatePath('/roster');
     revalidatePath('/admin');
     console.info(`[ACTION] ✅ Created streamer: ${data.name}`);
     return { success: true, data: newStreamer };
@@ -68,12 +77,16 @@ export async function updateStreamer(id: string, data: Partial<StreamerInput>) {
       where: { id },
       data: {
         name: data.name,
-        roleId: data.roleId,
+        role: data.roleId ? { connect: { id: data.roleId } } : undefined,
         channelId: data.channelId,
         youtubeId: data.youtubeId,
         avatar: data.avatar,
         status: data.status,
         position: data.position,
+        divisions: data.divisions,
+        factionStatus: data.factionStatus,
+        lore: data.lore,
+
       },
     });
 
@@ -121,7 +134,8 @@ export async function updateStreamer(id: string, data: Partial<StreamerInput>) {
       }
     }
 
-    revalidatePath('/', 'layout');
+    revalidatePath('/');
+    revalidatePath('/roster');
     revalidatePath('/admin');
     return { success: true };
   } catch (error) {

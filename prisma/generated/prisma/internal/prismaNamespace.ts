@@ -387,7 +387,8 @@ export const ModelName = {
   Role: 'Role',
   Admin: 'Admin',
   Streamer: 'Streamer',
-  Backsound: 'Backsound'
+  Backsound: 'Backsound',
+  Discussion: 'Discussion'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -403,7 +404,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "role" | "admin" | "streamer" | "backsound"
+    modelProps: "role" | "admin" | "streamer" | "backsound" | "discussion"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -703,6 +704,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Discussion: {
+      payload: Prisma.$DiscussionPayload<ExtArgs>
+      fields: Prisma.DiscussionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.DiscussionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiscussionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.DiscussionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiscussionPayload>
+        }
+        findFirst: {
+          args: Prisma.DiscussionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiscussionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.DiscussionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiscussionPayload>
+        }
+        findMany: {
+          args: Prisma.DiscussionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiscussionPayload>[]
+        }
+        create: {
+          args: Prisma.DiscussionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiscussionPayload>
+        }
+        createMany: {
+          args: Prisma.DiscussionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.DiscussionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiscussionPayload>[]
+        }
+        delete: {
+          args: Prisma.DiscussionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiscussionPayload>
+        }
+        update: {
+          args: Prisma.DiscussionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiscussionPayload>
+        }
+        deleteMany: {
+          args: Prisma.DiscussionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.DiscussionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.DiscussionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiscussionPayload>[]
+        }
+        upsert: {
+          args: Prisma.DiscussionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiscussionPayload>
+        }
+        aggregate: {
+          args: Prisma.DiscussionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateDiscussion>
+        }
+        groupBy: {
+          args: Prisma.DiscussionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DiscussionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.DiscussionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DiscussionCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -766,6 +841,10 @@ export const StreamerScalarFieldEnum = {
   youtubeId: 'youtubeId',
   avatar: 'avatar',
   status: 'status',
+  divisions: 'divisions',
+  lore: 'lore',
+  factionStatus: 'factionStatus',
+  combatStats: 'combatStats',
   createdAt: 'createdAt',
   position: 'position',
   lastChecked: 'lastChecked',
@@ -790,6 +869,20 @@ export const BacksoundScalarFieldEnum = {
 export type BacksoundScalarFieldEnum = (typeof BacksoundScalarFieldEnum)[keyof typeof BacksoundScalarFieldEnum]
 
 
+export const DiscussionScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  username: 'username',
+  message: 'message',
+  isAdmin: 'isAdmin',
+  isPinned: 'isPinned',
+  createdAt: 'createdAt',
+  parentId: 'parentId'
+} as const
+
+export type DiscussionScalarFieldEnum = (typeof DiscussionScalarFieldEnum)[keyof typeof DiscussionScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -798,12 +891,29 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
 export const QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
 export const NullsOrder = {
@@ -849,6 +959,20 @@ export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
 
 
 /**
+ * Reference to a field of type 'Json'
+ */
+export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+/**
+ * Reference to a field of type 'QueryMode'
+ */
+export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+/**
  * Reference to a field of type 'Int'
  */
 export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -859,6 +983,13 @@ export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'In
  * Reference to a field of type 'Int[]'
  */
 export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -974,6 +1105,7 @@ export type GlobalOmitConfig = {
   admin?: Prisma.AdminOmit
   streamer?: Prisma.StreamerOmit
   backsound?: Prisma.BacksoundOmit
+  discussion?: Prisma.DiscussionOmit
 }
 
 /* Types for Logging */

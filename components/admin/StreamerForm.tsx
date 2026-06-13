@@ -6,7 +6,7 @@ import { createBrowserClient } from '@supabase/ssr';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { createStreamer, updateStreamer } from '@/lib/actions/streamers';
-import { getRoles, createRole } from '@/lib/actions/roles'; // Import actions
+import { getRoles, createRole } from '@/lib/actions/roles';
 
 import { Streamer, Role } from '@/prisma/generated/prisma/client'; // Import Role type
 
@@ -31,21 +31,29 @@ export function StreamerForm({ initialData, isEdit = false }: StreamerFormProps)
     avatar: initialData?.avatar || '',
     status: initialData?.status || 'offline',
     position: initialData?.position || 0,
+    divisions: initialData?.divisions || ['MEMBER'],
+    factionStatus: initialData?.factionStatus || 'ACTIVE',
+    lore: initialData?.lore || '',
+
   });
+
+
 
   const [file, setFile] = useState<File | null>(null);
 
-  // Fetch roles on mount
+  // Fetch roles and FAMS members on mount
   useEffect(() => {
-    async function fetchRoles() {
+    async function fetchData() {
       const fetchedRoles = await getRoles();
       setRoles(fetchedRoles);
       // If no role selected yet and roles exist, select the first one (or keep empty)
       if (!formData.roleId && fetchedRoles.length > 0 && !isEdit) {
         setFormData((prev) => ({ ...prev, roleId: fetchedRoles[0].id }));
       }
+      
+
     }
-    fetchRoles();
+    fetchData();
   }, [formData.roleId, isEdit]);
 
   const supabase = createBrowserClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!);
@@ -118,6 +126,7 @@ export function StreamerForm({ initialData, isEdit = false }: StreamerFormProps)
         ...formData,
         channelId: cleanChannelId,
         avatar: avatarPath,
+
       };
 
       let result;
@@ -216,6 +225,56 @@ export function StreamerForm({ initialData, isEdit = false }: StreamerFormProps)
           <label className="text-sm font-medium text-zinc-400">Display Order</label>
           <Input type="number" value={formData.position} onChange={(e) => setFormData({ ...formData, position: parseInt(e.target.value) || 0 })} className="bg-zinc-800 border-zinc-700" placeholder="0" />
         </div>
+
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-zinc-400">Divisions</label>
+          <div className="flex flex-wrap gap-4 p-3 rounded-md border border-zinc-700 bg-zinc-800">
+            {['FAMS', 'DONN', 'SWAG', 'BUSINESS', 'MEMBER'].map(div => (
+              <label key={div} className="flex items-center space-x-2 text-sm text-white cursor-pointer hover:text-gold transition-colors">
+                <input 
+                  type="checkbox" 
+                  checked={formData.divisions.includes(div)}
+                  onChange={(e) => {
+                    const checked = e.target.checked;
+                    setFormData(prev => ({
+                      ...prev,
+                      divisions: checked 
+                        ? [...prev.divisions, div]
+                        : prev.divisions.filter(d => d !== div)
+                    }));
+                  }}
+                  className="rounded border-zinc-600 bg-zinc-900 text-gold focus:ring-gold w-4 h-4 cursor-pointer"
+                />
+                <span className="select-none">{div}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-zinc-400">Faction Status</label>
+          <select
+            value={formData.factionStatus}
+            onChange={(e) => setFormData({ ...formData, factionStatus: e.target.value })}
+            className="flex h-10 w-full rounded-md border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-zinc-900">
+            <option value="ACTIVE">ACTIVE</option>
+            <option value="OUT">OUT</option>
+            <option value="CK">CK</option>
+          </select>
+        </div>
+
+        <div className="space-y-2 md:col-span-2">
+          <label className="text-sm font-medium text-zinc-400">Lore / Background Story</label>
+          <textarea
+            value={formData.lore}
+            onChange={(e) => setFormData({ ...formData, lore: e.target.value })}
+            rows={4}
+            className="flex w-full rounded-md border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-zinc-900 resize-y placeholder:text-zinc-600"
+            placeholder="Character background story..."
+          />
+        </div>
+
+
       </div>
 
       <div className="space-y-2">

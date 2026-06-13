@@ -6,6 +6,8 @@ import { AudioPlayer } from '@/components/features/player/AudioPlayer';
 import { Analytics } from '@vercel/analytics/next';
 import { prisma } from '@/lib/prisma';
 import { LanguageProvider } from '@/components/providers/LanguageProvider';
+import { DiscussionDrawer } from '@/components/features/discussion/DiscussionDrawer';
+
 const geistSans = Geist({
   variable: '--font-geist-sans',
   subsets: ['latin'],
@@ -43,6 +45,7 @@ export default async function RootLayout({
           <LoadingScreen />
           <AudioPlayer playlist={playlistUrls} />
           {children}
+          <DiscussionDrawer />
           <Analytics />
         </LanguageProvider>
       </body>

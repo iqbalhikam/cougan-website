@@ -7,7 +7,8 @@ import { quotaService } from '@/lib/quota-service';
 
 // Helper: Fix Avatar URL
 function getAvatarUrl(path: string) {
-  if (path.startsWith('http')) return path;
+  if (!path || path.trim() === '') return '/images/logo/LOGO-COUGAN.webp';
+  if (path.startsWith('http') || path.startsWith('/')) return path;
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
   return `${supabaseUrl}/storage/v1/object/public/cougan/avatar/${path}`;
 }
@@ -16,13 +17,38 @@ export async function getStreamers(): Promise<Streamer[]> {
   console.info('[STREAMER] 🔍 Starting Smart Check (RSS Mode - Quota Saver)...');
 
   try {
-    const dbStreamers = await prisma.streamer.findMany({
+    let dbStreamers = await prisma.streamer.findMany({
       orderBy: { position: 'asc' },
       include: { role: true },
     });
 
+    // Sort by Division priority
+    const getDivisionPriority = (divisions: string[] = []) => {
+      if (divisions.includes('DONN')) return 1;
+      if (divisions.includes('FAMS')) return 2;
+      if (divisions.includes('SWAG')) return 3;
+      if (divisions.includes('BUSINESS')) return 4;
+      if (divisions.includes('MEMBER')) return 5;
+      return 99; // Fallback
+    };
+
+    dbStreamers.sort((a, b) => {
+      const priorityA = getDivisionPriority(a.divisions);
+      const priorityB = getDivisionPriority(b.divisions);
+      
+      if (priorityA !== priorityB) {
+        return priorityA - priorityB;
+      }
+      return 0; // Same division, fallback to original DB position order
+    });
+
     const processedStreamers = await Promise.all(
       dbStreamers.map(async (streamer) => {
+        // Format name to include "Cougan" if missing for display
+        streamer.name = streamer.name.toLowerCase().includes('cougan')
+          ? streamer.name
+          : `${streamer.name.trim()} Cougan`;
+
         // Skip placeholder
         if (!streamer.channelId || streamer.channelId.includes('PLACEHOLDER')) {
           return { ...streamer, status: 'offline' } as Streamer;
@@ -178,6 +204,9 @@ export async function getStreamers(): Promise<Streamer[]> {
           avatar: getAvatarUrl(streamer.avatar),
           status: finalStatus,
           position: streamer.position,
+          divisions: streamer.divisions,
+          factionStatus: streamer.factionStatus,
+          lore: streamer.lore,
           latestVideoId: latestVideoIdCached,
           lastChecked: hasChanged ? new Date() : streamer.lastChecked || new Date(),
         } as Streamer;
