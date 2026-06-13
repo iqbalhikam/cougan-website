@@ -29,7 +29,7 @@ export default async function DiscussionPage() {
           
           <h2 className="text-lg font-bold text-zinc-300 mb-4">Initialize New Thread</h2>
           
-          <form action={async (formData) => { await postPublicDiscussion(formData); }} className="space-y-4">
+          <form action={async (formData) => { "use server"; await postPublicDiscussion(formData); }} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-1">
                 <label className="text-xs text-zinc-500 uppercase tracking-wider">Ident (Required)</label>
