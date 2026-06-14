@@ -14,7 +14,15 @@ export async function GET() {
     const tracks = await prisma.backsound.findMany({
       orderBy: { createdAt: 'desc' },
     });
-    return NextResponse.json(tracks);
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseBaseUrl = `${supabaseUrl}/storage/v1/object/public/cougan/`;
+    const formattedTracks = tracks.map(t => ({
+      ...t,
+      url: t.url.startsWith(supabaseBaseUrl) 
+        ? t.url.replace(supabaseBaseUrl, "/cdn/") 
+        : t.url
+    }));
+    return NextResponse.json(formattedTracks);
   } catch (error) {
     logger.error({ err: error }, 'Failed to fetch music tracks');
     return NextResponse.json({ error: 'Gagal mengambil data' }, { status: 500 });
@@ -54,12 +62,14 @@ export async function POST(req: Request) {
       data: { publicUrl },
     } = supabase.storage.from(BUCKET_NAME).getPublicUrl(fileName);
 
+    const proxyUrl = `/cdn/backsounds/${fileName}`;
+
     // Save DB
     const newTrack = await prisma.backsound.create({
       data: {
         filename: fileName, // Simpan nama file storage untuk delete nanti
         originalName: file.name, // Nama asli untuk display (tambahkan field ini di schema jika mau, atau pakai filename saja)
-        url: publicUrl,
+        url: proxyUrl,
         size: file.size,
       },
     });

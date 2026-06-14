@@ -55,11 +55,9 @@ export function Gallery() {
         const imageList = data
           .filter((item) => item.name !== '.emptyFolderPlaceholder')
           .map((item) => {
-            const { data: publicUrlData } = supabase.storage.from('cougan').getPublicUrl(`gallery/${item.name}`);
-
             return {
               name: item.name,
-              url: publicUrlData.publicUrl,
+              url: `/cdn/gallery/${item.name}`,
             };
           });
         setImages([...imageList, ...imageList, ...imageList]);

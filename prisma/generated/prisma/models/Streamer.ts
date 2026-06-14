@@ -667,10 +667,6 @@ export type StreamerCreatedivisionsInput = {
   set: string[]
 }
 
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
-}
-
 export type StreamerUpdatedivisionsInput = {
   set?: string[]
   push?: string | string[]

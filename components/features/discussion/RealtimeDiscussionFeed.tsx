@@ -92,7 +92,7 @@ export default function RealtimeDiscussionFeed({
               {new Date(thread.createdAt).toLocaleString()}
             </span>
           </div>
-          <p className="whitespace-pre-wrap">{thread.message}</p>
+          <p className="whitespace-pre-wrap">{thread.message.replaceAll(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/cougan/`, "/cdn/")}</p>
 
           {thread.replies && thread.replies.length > 0 && (
             <div className="mt-4 pl-4 border-l-2 border-zinc-800 space-y-4">
@@ -124,7 +124,7 @@ export default function RealtimeDiscussionFeed({
                     </span>
                   </div>
                   <p className={`whitespace-pre-wrap ${reply.isAdmin ? "text-red-200" : "text-zinc-300"}`}>
-                    {reply.message}
+                    {reply.message.replaceAll(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/cougan/`, "/cdn/")}
                   </p>
                 </div>
               ))}

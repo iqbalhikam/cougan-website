@@ -64,3 +64,8 @@ export type Backsound = Prisma.BacksoundModel
  * 
  */
 export type Discussion = Prisma.DiscussionModel
+/**
+ * Model CustomSticker
+ * 
+ */
+export type CustomSticker = Prisma.CustomStickerModel

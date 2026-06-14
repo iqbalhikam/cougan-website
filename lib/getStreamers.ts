@@ -5,12 +5,17 @@ import { Streamer } from '@/types';
 import { parseStringPromise } from 'xml2js';
 import { quotaService } from '@/lib/quota-service';
 
-// Helper: Fix Avatar URL
 function getAvatarUrl(path: string) {
   if (!path || path.trim() === '') return '/images/logo/LOGO-COUGAN.webp';
+  
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseBaseUrl = `${supabaseUrl}/storage/v1/object/public/cougan/`;
+  if (path.startsWith(supabaseBaseUrl)) {
+    return path.replace(supabaseBaseUrl, '/cdn/');
+  }
+
   if (path.startsWith('http') || path.startsWith('/')) return path;
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-  return `${supabaseUrl}/storage/v1/object/public/cougan/avatar/${path}`;
+  return `/cdn/avatar/${path}`;
 }
 
 export async function getStreamers(): Promise<Streamer[]> {

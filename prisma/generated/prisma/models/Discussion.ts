@@ -26,6 +26,7 @@ export type AggregateDiscussion = {
 
 export type DiscussionMinAggregateOutputType = {
   id: string | null
+  title: string | null
   name: string | null
   username: string | null
   message: string | null
@@ -37,6 +38,7 @@ export type DiscussionMinAggregateOutputType = {
 
 export type DiscussionMaxAggregateOutputType = {
   id: string | null
+  title: string | null
   name: string | null
   username: string | null
   message: string | null
@@ -48,11 +50,13 @@ export type DiscussionMaxAggregateOutputType = {
 
 export type DiscussionCountAggregateOutputType = {
   id: number
+  title: number
   name: number
   username: number
   message: number
   isAdmin: number
   isPinned: number
+  reactions: number
   createdAt: number
   parentId: number
   _all: number
@@ -61,6 +65,7 @@ export type DiscussionCountAggregateOutputType = {
 
 export type DiscussionMinAggregateInputType = {
   id?: true
+  title?: true
   name?: true
   username?: true
   message?: true
@@ -72,6 +77,7 @@ export type DiscussionMinAggregateInputType = {
 
 export type DiscussionMaxAggregateInputType = {
   id?: true
+  title?: true
   name?: true
   username?: true
   message?: true
@@ -83,11 +89,13 @@ export type DiscussionMaxAggregateInputType = {
 
 export type DiscussionCountAggregateInputType = {
   id?: true
+  title?: true
   name?: true
   username?: true
   message?: true
   isAdmin?: true
   isPinned?: true
+  reactions?: true
   createdAt?: true
   parentId?: true
   _all?: true
@@ -167,11 +175,13 @@ export type DiscussionGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inter
 
 export type DiscussionGroupByOutputType = {
   id: string
+  title: string | null
   name: string
   username: string | null
   message: string
   isAdmin: boolean
   isPinned: boolean
+  reactions: runtime.JsonValue | null
   createdAt: Date
   parentId: string | null
   _count: DiscussionCountAggregateOutputType | null
@@ -199,11 +209,13 @@ export type DiscussionWhereInput = {
   OR?: Prisma.DiscussionWhereInput[]
   NOT?: Prisma.DiscussionWhereInput | Prisma.DiscussionWhereInput[]
   id?: Prisma.StringFilter<"Discussion"> | string
+  title?: Prisma.StringNullableFilter<"Discussion"> | string | null
   name?: Prisma.StringFilter<"Discussion"> | string
   username?: Prisma.StringNullableFilter<"Discussion"> | string | null
   message?: Prisma.StringFilter<"Discussion"> | string
   isAdmin?: Prisma.BoolFilter<"Discussion"> | boolean
   isPinned?: Prisma.BoolFilter<"Discussion"> | boolean
+  reactions?: Prisma.JsonNullableFilter<"Discussion">
   createdAt?: Prisma.DateTimeFilter<"Discussion"> | Date | string
   parentId?: Prisma.StringNullableFilter<"Discussion"> | string | null
   parent?: Prisma.XOR<Prisma.DiscussionNullableScalarRelationFilter, Prisma.DiscussionWhereInput> | null
@@ -212,11 +224,13 @@ export type DiscussionWhereInput = {
 
 export type DiscussionOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  title?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
   username?: Prisma.SortOrderInput | Prisma.SortOrder
   message?: Prisma.SortOrder
   isAdmin?: Prisma.SortOrder
   isPinned?: Prisma.SortOrder
+  reactions?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   parentId?: Prisma.SortOrderInput | Prisma.SortOrder
   parent?: Prisma.DiscussionOrderByWithRelationInput
@@ -228,11 +242,13 @@ export type DiscussionWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.DiscussionWhereInput | Prisma.DiscussionWhereInput[]
   OR?: Prisma.DiscussionWhereInput[]
   NOT?: Prisma.DiscussionWhereInput | Prisma.DiscussionWhereInput[]
+  title?: Prisma.StringNullableFilter<"Discussion"> | string | null
   name?: Prisma.StringFilter<"Discussion"> | string
   username?: Prisma.StringNullableFilter<"Discussion"> | string | null
   message?: Prisma.StringFilter<"Discussion"> | string
   isAdmin?: Prisma.BoolFilter<"Discussion"> | boolean
   isPinned?: Prisma.BoolFilter<"Discussion"> | boolean
+  reactions?: Prisma.JsonNullableFilter<"Discussion">
   createdAt?: Prisma.DateTimeFilter<"Discussion"> | Date | string
   parentId?: Prisma.StringNullableFilter<"Discussion"> | string | null
   parent?: Prisma.XOR<Prisma.DiscussionNullableScalarRelationFilter, Prisma.DiscussionWhereInput> | null
@@ -241,11 +257,13 @@ export type DiscussionWhereUniqueInput = Prisma.AtLeast<{
 
 export type DiscussionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  title?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
   username?: Prisma.SortOrderInput | Prisma.SortOrder
   message?: Prisma.SortOrder
   isAdmin?: Prisma.SortOrder
   isPinned?: Prisma.SortOrder
+  reactions?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   parentId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.DiscussionCountOrderByAggregateInput
@@ -258,22 +276,26 @@ export type DiscussionScalarWhereWithAggregatesInput = {
   OR?: Prisma.DiscussionScalarWhereWithAggregatesInput[]
   NOT?: Prisma.DiscussionScalarWhereWithAggregatesInput | Prisma.DiscussionScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Discussion"> | string
+  title?: Prisma.StringNullableWithAggregatesFilter<"Discussion"> | string | null
   name?: Prisma.StringWithAggregatesFilter<"Discussion"> | string
   username?: Prisma.StringNullableWithAggregatesFilter<"Discussion"> | string | null
   message?: Prisma.StringWithAggregatesFilter<"Discussion"> | string
   isAdmin?: Prisma.BoolWithAggregatesFilter<"Discussion"> | boolean
   isPinned?: Prisma.BoolWithAggregatesFilter<"Discussion"> | boolean
+  reactions?: Prisma.JsonNullableWithAggregatesFilter<"Discussion">
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Discussion"> | Date | string
   parentId?: Prisma.StringNullableWithAggregatesFilter<"Discussion"> | string | null
 }
 
 export type DiscussionCreateInput = {
   id?: string
+  title?: string | null
   name: string
   username?: string | null
   message: string
   isAdmin?: boolean
   isPinned?: boolean
+  reactions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   parent?: Prisma.DiscussionCreateNestedOneWithoutRepliesInput
   replies?: Prisma.DiscussionCreateNestedManyWithoutParentInput
@@ -281,11 +303,13 @@ export type DiscussionCreateInput = {
 
 export type DiscussionUncheckedCreateInput = {
   id?: string
+  title?: string | null
   name: string
   username?: string | null
   message: string
   isAdmin?: boolean
   isPinned?: boolean
+  reactions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   parentId?: string | null
   replies?: Prisma.DiscussionUncheckedCreateNestedManyWithoutParentInput
@@ -293,11 +317,13 @@ export type DiscussionUncheckedCreateInput = {
 
 export type DiscussionUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.StringFieldUpdateOperationsInput | string
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPinned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reactions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   parent?: Prisma.DiscussionUpdateOneWithoutRepliesNestedInput
   replies?: Prisma.DiscussionUpdateManyWithoutParentNestedInput
@@ -305,11 +331,13 @@ export type DiscussionUpdateInput = {
 
 export type DiscussionUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.StringFieldUpdateOperationsInput | string
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPinned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reactions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   replies?: Prisma.DiscussionUncheckedUpdateManyWithoutParentNestedInput
@@ -317,32 +345,38 @@ export type DiscussionUncheckedUpdateInput = {
 
 export type DiscussionCreateManyInput = {
   id?: string
+  title?: string | null
   name: string
   username?: string | null
   message: string
   isAdmin?: boolean
   isPinned?: boolean
+  reactions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   parentId?: string | null
 }
 
 export type DiscussionUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.StringFieldUpdateOperationsInput | string
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPinned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reactions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type DiscussionUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.StringFieldUpdateOperationsInput | string
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPinned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reactions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -364,17 +398,20 @@ export type DiscussionOrderByRelationAggregateInput = {
 
 export type DiscussionCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  title?: Prisma.SortOrder
   name?: Prisma.SortOrder
   username?: Prisma.SortOrder
   message?: Prisma.SortOrder
   isAdmin?: Prisma.SortOrder
   isPinned?: Prisma.SortOrder
+  reactions?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   parentId?: Prisma.SortOrder
 }
 
 export type DiscussionMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  title?: Prisma.SortOrder
   name?: Prisma.SortOrder
   username?: Prisma.SortOrder
   message?: Prisma.SortOrder
@@ -386,6 +423,7 @@ export type DiscussionMaxOrderByAggregateInput = {
 
 export type DiscussionMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  title?: Prisma.SortOrder
   name?: Prisma.SortOrder
   username?: Prisma.SortOrder
   message?: Prisma.SortOrder
@@ -459,22 +497,26 @@ export type DiscussionUncheckedUpdateManyWithoutParentNestedInput = {
 
 export type DiscussionCreateWithoutRepliesInput = {
   id?: string
+  title?: string | null
   name: string
   username?: string | null
   message: string
   isAdmin?: boolean
   isPinned?: boolean
+  reactions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   parent?: Prisma.DiscussionCreateNestedOneWithoutRepliesInput
 }
 
 export type DiscussionUncheckedCreateWithoutRepliesInput = {
   id?: string
+  title?: string | null
   name: string
   username?: string | null
   message: string
   isAdmin?: boolean
   isPinned?: boolean
+  reactions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   parentId?: string | null
 }
@@ -486,22 +528,26 @@ export type DiscussionCreateOrConnectWithoutRepliesInput = {
 
 export type DiscussionCreateWithoutParentInput = {
   id?: string
+  title?: string | null
   name: string
   username?: string | null
   message: string
   isAdmin?: boolean
   isPinned?: boolean
+  reactions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   replies?: Prisma.DiscussionCreateNestedManyWithoutParentInput
 }
 
 export type DiscussionUncheckedCreateWithoutParentInput = {
   id?: string
+  title?: string | null
   name: string
   username?: string | null
   message: string
   isAdmin?: boolean
   isPinned?: boolean
+  reactions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   replies?: Prisma.DiscussionUncheckedCreateNestedManyWithoutParentInput
 }
@@ -529,22 +575,26 @@ export type DiscussionUpdateToOneWithWhereWithoutRepliesInput = {
 
 export type DiscussionUpdateWithoutRepliesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.StringFieldUpdateOperationsInput | string
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPinned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reactions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   parent?: Prisma.DiscussionUpdateOneWithoutRepliesNestedInput
 }
 
 export type DiscussionUncheckedUpdateWithoutRepliesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.StringFieldUpdateOperationsInput | string
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPinned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reactions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -570,54 +620,64 @@ export type DiscussionScalarWhereInput = {
   OR?: Prisma.DiscussionScalarWhereInput[]
   NOT?: Prisma.DiscussionScalarWhereInput | Prisma.DiscussionScalarWhereInput[]
   id?: Prisma.StringFilter<"Discussion"> | string
+  title?: Prisma.StringNullableFilter<"Discussion"> | string | null
   name?: Prisma.StringFilter<"Discussion"> | string
   username?: Prisma.StringNullableFilter<"Discussion"> | string | null
   message?: Prisma.StringFilter<"Discussion"> | string
   isAdmin?: Prisma.BoolFilter<"Discussion"> | boolean
   isPinned?: Prisma.BoolFilter<"Discussion"> | boolean
+  reactions?: Prisma.JsonNullableFilter<"Discussion">
   createdAt?: Prisma.DateTimeFilter<"Discussion"> | Date | string
   parentId?: Prisma.StringNullableFilter<"Discussion"> | string | null
 }
 
 export type DiscussionCreateManyParentInput = {
   id?: string
+  title?: string | null
   name: string
   username?: string | null
   message: string
   isAdmin?: boolean
   isPinned?: boolean
+  reactions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
 }
 
 export type DiscussionUpdateWithoutParentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.StringFieldUpdateOperationsInput | string
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPinned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reactions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   replies?: Prisma.DiscussionUpdateManyWithoutParentNestedInput
 }
 
 export type DiscussionUncheckedUpdateWithoutParentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.StringFieldUpdateOperationsInput | string
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPinned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reactions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   replies?: Prisma.DiscussionUncheckedUpdateManyWithoutParentNestedInput
 }
 
 export type DiscussionUncheckedUpdateManyWithoutParentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.StringFieldUpdateOperationsInput | string
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPinned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reactions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -654,11 +714,13 @@ export type DiscussionCountOutputTypeCountRepliesArgs<ExtArgs extends runtime.Ty
 
 export type DiscussionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  title?: boolean
   name?: boolean
   username?: boolean
   message?: boolean
   isAdmin?: boolean
   isPinned?: boolean
+  reactions?: boolean
   createdAt?: boolean
   parentId?: boolean
   parent?: boolean | Prisma.Discussion$parentArgs<ExtArgs>
@@ -668,11 +730,13 @@ export type DiscussionSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
 
 export type DiscussionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  title?: boolean
   name?: boolean
   username?: boolean
   message?: boolean
   isAdmin?: boolean
   isPinned?: boolean
+  reactions?: boolean
   createdAt?: boolean
   parentId?: boolean
   parent?: boolean | Prisma.Discussion$parentArgs<ExtArgs>
@@ -680,11 +744,13 @@ export type DiscussionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
 
 export type DiscussionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  title?: boolean
   name?: boolean
   username?: boolean
   message?: boolean
   isAdmin?: boolean
   isPinned?: boolean
+  reactions?: boolean
   createdAt?: boolean
   parentId?: boolean
   parent?: boolean | Prisma.Discussion$parentArgs<ExtArgs>
@@ -692,16 +758,18 @@ export type DiscussionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
 
 export type DiscussionSelectScalar = {
   id?: boolean
+  title?: boolean
   name?: boolean
   username?: boolean
   message?: boolean
   isAdmin?: boolean
   isPinned?: boolean
+  reactions?: boolean
   createdAt?: boolean
   parentId?: boolean
 }
 
-export type DiscussionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "username" | "message" | "isAdmin" | "isPinned" | "createdAt" | "parentId", ExtArgs["result"]["discussion"]>
+export type DiscussionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "name" | "username" | "message" | "isAdmin" | "isPinned" | "reactions" | "createdAt" | "parentId", ExtArgs["result"]["discussion"]>
 export type DiscussionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   parent?: boolean | Prisma.Discussion$parentArgs<ExtArgs>
   replies?: boolean | Prisma.Discussion$repliesArgs<ExtArgs>
@@ -722,11 +790,13 @@ export type $DiscussionPayload<ExtArgs extends runtime.Types.Extensions.Internal
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    title: string | null
     name: string
     username: string | null
     message: string
     isAdmin: boolean
     isPinned: boolean
+    reactions: runtime.JsonValue | null
     createdAt: Date
     parentId: string | null
   }, ExtArgs["result"]["discussion"]>
@@ -1155,11 +1225,13 @@ export interface Prisma__DiscussionClient<T, Null = never, ExtArgs extends runti
  */
 export interface DiscussionFieldRefs {
   readonly id: Prisma.FieldRef<"Discussion", 'String'>
+  readonly title: Prisma.FieldRef<"Discussion", 'String'>
   readonly name: Prisma.FieldRef<"Discussion", 'String'>
   readonly username: Prisma.FieldRef<"Discussion", 'String'>
   readonly message: Prisma.FieldRef<"Discussion", 'String'>
   readonly isAdmin: Prisma.FieldRef<"Discussion", 'Boolean'>
   readonly isPinned: Prisma.FieldRef<"Discussion", 'Boolean'>
+  readonly reactions: Prisma.FieldRef<"Discussion", 'Json'>
   readonly createdAt: Prisma.FieldRef<"Discussion", 'DateTime'>
   readonly parentId: Prisma.FieldRef<"Discussion", 'String'>
 }

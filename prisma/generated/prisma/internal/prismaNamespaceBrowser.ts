@@ -55,7 +55,8 @@ export const ModelName = {
   Admin: 'Admin',
   Streamer: 'Streamer',
   Backsound: 'Backsound',
-  Discussion: 'Discussion'
+  Discussion: 'Discussion',
+  CustomSticker: 'CustomSticker'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -85,6 +86,9 @@ export type RoleScalarFieldEnum = (typeof RoleScalarFieldEnum)[keyof typeof Role
 export const AdminScalarFieldEnum = {
   id: 'id',
   email: 'email',
+  name: 'name',
+  role: 'role',
+  uniqueSlug: 'uniqueSlug',
   createdAt: 'createdAt'
 } as const
 
@@ -128,16 +132,28 @@ export type BacksoundScalarFieldEnum = (typeof BacksoundScalarFieldEnum)[keyof t
 
 export const DiscussionScalarFieldEnum = {
   id: 'id',
+  title: 'title',
   name: 'name',
   username: 'username',
   message: 'message',
   isAdmin: 'isAdmin',
   isPinned: 'isPinned',
+  reactions: 'reactions',
   createdAt: 'createdAt',
   parentId: 'parentId'
 } as const
 
 export type DiscussionScalarFieldEnum = (typeof DiscussionScalarFieldEnum)[keyof typeof DiscussionScalarFieldEnum]
+
+
+export const CustomStickerScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  imageUrl: 'imageUrl',
+  createdAt: 'createdAt'
+} as const
+
+export type CustomStickerScalarFieldEnum = (typeof CustomStickerScalarFieldEnum)[keyof typeof CustomStickerScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -164,6 +180,14 @@ export const QueryMode = {
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
 
 
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
 export const JsonNullValueFilter = {
   DbNull: DbNull,
   JsonNull: JsonNull,
@@ -171,12 +195,4 @@ export const JsonNullValueFilter = {
 } as const
 
 export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
-
-
-export const NullsOrder = {
-  first: 'first',
-  last: 'last'
-} as const
-
-export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 

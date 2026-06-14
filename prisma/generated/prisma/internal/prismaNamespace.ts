@@ -388,7 +388,8 @@ export const ModelName = {
   Admin: 'Admin',
   Streamer: 'Streamer',
   Backsound: 'Backsound',
-  Discussion: 'Discussion'
+  Discussion: 'Discussion',
+  CustomSticker: 'CustomSticker'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -404,7 +405,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "role" | "admin" | "streamer" | "backsound" | "discussion"
+    modelProps: "role" | "admin" | "streamer" | "backsound" | "discussion" | "customSticker"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -778,6 +779,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    CustomSticker: {
+      payload: Prisma.$CustomStickerPayload<ExtArgs>
+      fields: Prisma.CustomStickerFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.CustomStickerFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustomStickerPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.CustomStickerFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustomStickerPayload>
+        }
+        findFirst: {
+          args: Prisma.CustomStickerFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustomStickerPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.CustomStickerFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustomStickerPayload>
+        }
+        findMany: {
+          args: Prisma.CustomStickerFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustomStickerPayload>[]
+        }
+        create: {
+          args: Prisma.CustomStickerCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustomStickerPayload>
+        }
+        createMany: {
+          args: Prisma.CustomStickerCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.CustomStickerCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustomStickerPayload>[]
+        }
+        delete: {
+          args: Prisma.CustomStickerDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustomStickerPayload>
+        }
+        update: {
+          args: Prisma.CustomStickerUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustomStickerPayload>
+        }
+        deleteMany: {
+          args: Prisma.CustomStickerDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.CustomStickerUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.CustomStickerUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustomStickerPayload>[]
+        }
+        upsert: {
+          args: Prisma.CustomStickerUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustomStickerPayload>
+        }
+        aggregate: {
+          args: Prisma.CustomStickerAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateCustomSticker>
+        }
+        groupBy: {
+          args: Prisma.CustomStickerGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CustomStickerGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.CustomStickerCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CustomStickerCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -828,6 +903,9 @@ export type RoleScalarFieldEnum = (typeof RoleScalarFieldEnum)[keyof typeof Role
 export const AdminScalarFieldEnum = {
   id: 'id',
   email: 'email',
+  name: 'name',
+  role: 'role',
+  uniqueSlug: 'uniqueSlug',
   createdAt: 'createdAt'
 } as const
 
@@ -871,16 +949,28 @@ export type BacksoundScalarFieldEnum = (typeof BacksoundScalarFieldEnum)[keyof t
 
 export const DiscussionScalarFieldEnum = {
   id: 'id',
+  title: 'title',
   name: 'name',
   username: 'username',
   message: 'message',
   isAdmin: 'isAdmin',
   isPinned: 'isPinned',
+  reactions: 'reactions',
   createdAt: 'createdAt',
   parentId: 'parentId'
 } as const
 
 export type DiscussionScalarFieldEnum = (typeof DiscussionScalarFieldEnum)[keyof typeof DiscussionScalarFieldEnum]
+
+
+export const CustomStickerScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  imageUrl: 'imageUrl',
+  createdAt: 'createdAt'
+} as const
+
+export type CustomStickerScalarFieldEnum = (typeof CustomStickerScalarFieldEnum)[keyof typeof CustomStickerScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -907,6 +997,14 @@ export const QueryMode = {
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
 
 
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
 export const JsonNullValueFilter = {
   DbNull: DbNull,
   JsonNull: JsonNull,
@@ -914,14 +1012,6 @@ export const JsonNullValueFilter = {
 } as const
 
 export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
-
-
-export const NullsOrder = {
-  first: 'first',
-  last: 'last'
-} as const
-
-export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
 
@@ -941,6 +1031,20 @@ export type StringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 
  * Reference to a field of type 'String[]'
  */
 export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String[]'>
+    
+
+
+/**
+ * Reference to a field of type 'AdminRole'
+ */
+export type EnumAdminRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AdminRole'>
+    
+
+
+/**
+ * Reference to a field of type 'AdminRole[]'
+ */
+export type ListEnumAdminRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AdminRole[]'>
     
 
 
@@ -1106,6 +1210,7 @@ export type GlobalOmitConfig = {
   streamer?: Prisma.StreamerOmit
   backsound?: Prisma.BacksoundOmit
   discussion?: Prisma.DiscussionOmit
+  customSticker?: Prisma.CustomStickerOmit
 }
 
 /* Types for Logging */

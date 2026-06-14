@@ -2,6 +2,7 @@ import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   images: {
+    qualities: [75, 100],
     remotePatterns: [
       {
         protocol: 'https',
@@ -26,6 +27,14 @@ const nextConfig: NextConfig = {
         pathname: '/storage/v1/object/public/cougan/gallery/**',
       },
     ],
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/cdn/:path*',
+        destination: 'https://pygxavjgfzxeeyjbtmlo.supabase.co/storage/v1/object/public/cougan/:path*',
+      },
+    ];
   },
 };
 

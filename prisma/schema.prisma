@@ -15,10 +15,18 @@ model Role {
   @@map("roles")
 }
 
+enum AdminRole {
+  SUPER_ADMIN
+  ADMIN
+}
+
 model Admin {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  createdAt DateTime @default(now()) @map("created_at")
+  id          String    @id @default(uuid()) // Must match Supabase Auth UID
+  email       String    @unique
+  name        String    @default("Sub Admin")
+  role        AdminRole @default(ADMIN)
+  uniqueSlug  String?   @unique @map("unique_slug") // e.g., "fams-commander"
+  createdAt   DateTime  @default(now()) @map("created_at")
 
   @@map("admins")
 }
@@ -63,11 +71,13 @@ model Backsound {
 
 model Discussion {
   id        String   @id @default(uuid())
+  title     String?
   name      String
   username  String?
   message   String   @db.Text
   isAdmin   Boolean  @default(false)
   isPinned  Boolean  @default(false)
+  reactions Json?    @default("{}")
   createdAt DateTime @default(now()) @map("created_at")
 
   parentId  String?  @map("parent_id")
@@ -75,4 +85,13 @@ model Discussion {
   replies   Discussion[] @relation("DiscussionReplies")
 
   @@map("discussions")
+}
+
+model CustomSticker {
+  id        String   @id @default(uuid())
+  name      String   
+  imageUrl  String   @map("image_url") 
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("custom_stickers")
 }
