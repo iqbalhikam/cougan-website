@@ -95,3 +95,20 @@ model CustomSticker {
 
   @@map("custom_stickers")
 }
+
+model HeroBackground {
+  id           String   @id @default(cuid())
+  filename     String
+  url          String
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  @@map("hero_backgrounds")
+}
+
+model SiteSetting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("site_settings")
+}

@@ -4,14 +4,6 @@ const isDev = process.env.NODE_ENV === 'development';
 
 export const logger = pino({
   level: isDev ? 'debug' : 'info',
-  transport: isDev
-    ? {
-        target: 'pino-pretty',
-        options: {
-          colorize: true,
-        },
-      }
-    : undefined,
   base: {
     env: process.env.NODE_ENV,
   },

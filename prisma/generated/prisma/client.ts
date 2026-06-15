@@ -69,3 +69,13 @@ export type Discussion = Prisma.DiscussionModel
  * 
  */
 export type CustomSticker = Prisma.CustomStickerModel
+/**
+ * Model HeroBackground
+ * 
+ */
+export type HeroBackground = Prisma.HeroBackgroundModel
+/**
+ * Model SiteSetting
+ * 
+ */
+export type SiteSetting = Prisma.SiteSettingModel

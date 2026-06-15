@@ -389,7 +389,9 @@ export const ModelName = {
   Streamer: 'Streamer',
   Backsound: 'Backsound',
   Discussion: 'Discussion',
-  CustomSticker: 'CustomSticker'
+  CustomSticker: 'CustomSticker',
+  HeroBackground: 'HeroBackground',
+  SiteSetting: 'SiteSetting'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -405,7 +407,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "role" | "admin" | "streamer" | "backsound" | "discussion" | "customSticker"
+    modelProps: "role" | "admin" | "streamer" | "backsound" | "discussion" | "customSticker" | "heroBackground" | "siteSetting"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -853,6 +855,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    HeroBackground: {
+      payload: Prisma.$HeroBackgroundPayload<ExtArgs>
+      fields: Prisma.HeroBackgroundFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.HeroBackgroundFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HeroBackgroundPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.HeroBackgroundFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HeroBackgroundPayload>
+        }
+        findFirst: {
+          args: Prisma.HeroBackgroundFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HeroBackgroundPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.HeroBackgroundFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HeroBackgroundPayload>
+        }
+        findMany: {
+          args: Prisma.HeroBackgroundFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HeroBackgroundPayload>[]
+        }
+        create: {
+          args: Prisma.HeroBackgroundCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HeroBackgroundPayload>
+        }
+        createMany: {
+          args: Prisma.HeroBackgroundCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.HeroBackgroundCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HeroBackgroundPayload>[]
+        }
+        delete: {
+          args: Prisma.HeroBackgroundDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HeroBackgroundPayload>
+        }
+        update: {
+          args: Prisma.HeroBackgroundUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HeroBackgroundPayload>
+        }
+        deleteMany: {
+          args: Prisma.HeroBackgroundDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.HeroBackgroundUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.HeroBackgroundUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HeroBackgroundPayload>[]
+        }
+        upsert: {
+          args: Prisma.HeroBackgroundUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HeroBackgroundPayload>
+        }
+        aggregate: {
+          args: Prisma.HeroBackgroundAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateHeroBackground>
+        }
+        groupBy: {
+          args: Prisma.HeroBackgroundGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.HeroBackgroundGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.HeroBackgroundCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.HeroBackgroundCountAggregateOutputType> | number
+        }
+      }
+    }
+    SiteSetting: {
+      payload: Prisma.$SiteSettingPayload<ExtArgs>
+      fields: Prisma.SiteSettingFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SiteSettingFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SiteSettingPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SiteSettingFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SiteSettingPayload>
+        }
+        findFirst: {
+          args: Prisma.SiteSettingFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SiteSettingPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SiteSettingFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SiteSettingPayload>
+        }
+        findMany: {
+          args: Prisma.SiteSettingFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SiteSettingPayload>[]
+        }
+        create: {
+          args: Prisma.SiteSettingCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SiteSettingPayload>
+        }
+        createMany: {
+          args: Prisma.SiteSettingCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SiteSettingCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SiteSettingPayload>[]
+        }
+        delete: {
+          args: Prisma.SiteSettingDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SiteSettingPayload>
+        }
+        update: {
+          args: Prisma.SiteSettingUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SiteSettingPayload>
+        }
+        deleteMany: {
+          args: Prisma.SiteSettingDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SiteSettingUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SiteSettingUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SiteSettingPayload>[]
+        }
+        upsert: {
+          args: Prisma.SiteSettingUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SiteSettingPayload>
+        }
+        aggregate: {
+          args: Prisma.SiteSettingAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSiteSetting>
+        }
+        groupBy: {
+          args: Prisma.SiteSettingGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SiteSettingGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SiteSettingCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SiteSettingCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -971,6 +1121,25 @@ export const CustomStickerScalarFieldEnum = {
 } as const
 
 export type CustomStickerScalarFieldEnum = (typeof CustomStickerScalarFieldEnum)[keyof typeof CustomStickerScalarFieldEnum]
+
+
+export const HeroBackgroundScalarFieldEnum = {
+  id: 'id',
+  filename: 'filename',
+  url: 'url',
+  createdAt: 'createdAt'
+} as const
+
+export type HeroBackgroundScalarFieldEnum = (typeof HeroBackgroundScalarFieldEnum)[keyof typeof HeroBackgroundScalarFieldEnum]
+
+
+export const SiteSettingScalarFieldEnum = {
+  key: 'key',
+  value: 'value',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SiteSettingScalarFieldEnum = (typeof SiteSettingScalarFieldEnum)[keyof typeof SiteSettingScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1211,6 +1380,8 @@ export type GlobalOmitConfig = {
   backsound?: Prisma.BacksoundOmit
   discussion?: Prisma.DiscussionOmit
   customSticker?: Prisma.CustomStickerOmit
+  heroBackground?: Prisma.HeroBackgroundOmit
+  siteSetting?: Prisma.SiteSettingOmit
 }
 
 /* Types for Logging */

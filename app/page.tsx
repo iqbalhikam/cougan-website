@@ -2,6 +2,7 @@ import { Navbar } from '@/components/layout/Navbar';
 import { Hero } from '@/components/layout/Hero';
 
 import { getStreamers } from '@/lib/getStreamers';
+import { prisma } from '@/lib/prisma';
 
 import dynamic from 'next/dynamic';
 
@@ -26,10 +27,22 @@ export const revalidate = 120; // Revalidate every 2 minutes (reduced from 60s)
 
 export default async function Home() {
   const streamers = await getStreamers();
+  
+  // Ambil data background hero dari database
+  const heroBackgrounds = await prisma.heroBackground.findMany({
+    orderBy: { createdAt: 'desc' },
+    select: { url: true },
+  });
+
+  const speedSetting = await prisma.siteSetting.findUnique({
+    where: { key: 'hero_transition_speed' },
+  });
+  const transitionSpeed = speedSetting ? Number(speedSetting.value) : 5;
+
   return (
     <main className="min-h-screen bg-background scroll-smooth pt-12 md:pt-16">
       <Navbar />
-      <Hero />
+      <Hero backgrounds={heroBackgrounds} transitionSpeed={transitionSpeed} />
 
       <LazyCouganHistoryBook />
 

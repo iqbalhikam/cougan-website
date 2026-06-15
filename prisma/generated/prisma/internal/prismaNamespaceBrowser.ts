@@ -56,7 +56,9 @@ export const ModelName = {
   Streamer: 'Streamer',
   Backsound: 'Backsound',
   Discussion: 'Discussion',
-  CustomSticker: 'CustomSticker'
+  CustomSticker: 'CustomSticker',
+  HeroBackground: 'HeroBackground',
+  SiteSetting: 'SiteSetting'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -154,6 +156,25 @@ export const CustomStickerScalarFieldEnum = {
 } as const
 
 export type CustomStickerScalarFieldEnum = (typeof CustomStickerScalarFieldEnum)[keyof typeof CustomStickerScalarFieldEnum]
+
+
+export const HeroBackgroundScalarFieldEnum = {
+  id: 'id',
+  filename: 'filename',
+  url: 'url',
+  createdAt: 'createdAt'
+} as const
+
+export type HeroBackgroundScalarFieldEnum = (typeof HeroBackgroundScalarFieldEnum)[keyof typeof HeroBackgroundScalarFieldEnum]
+
+
+export const SiteSettingScalarFieldEnum = {
+  key: 'key',
+  value: 'value',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SiteSettingScalarFieldEnum = (typeof SiteSettingScalarFieldEnum)[keyof typeof SiteSettingScalarFieldEnum]
 
 
 export const SortOrder = {
