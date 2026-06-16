@@ -160,7 +160,9 @@ export function MultiViewPlayer({ initialStreamers }: MultiViewPlayerProps) {
         )}
 
         <div className="flex gap-2 flex-wrap">
-          {streamerData.map((s) => {
+          {streamerData
+            .filter((s) => s.channelId && s.channelId.trim() !== '' && !s.channelId.includes('tiktok'))
+            .map((s) => {
             const isActive = activeStreamers.includes(s.id);
             const isLive = s.status === 'live';
             return (

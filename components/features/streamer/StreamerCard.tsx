@@ -24,6 +24,17 @@ export function StreamerCard({ streamer }: StreamerCardProps) {
   const isOut = streamer.factionStatus === 'OUT';
   const isCk = streamer.factionStatus === 'CK';
 
+  const isTikTok = streamer.channelId?.includes('tiktok.com') || streamer.channelId?.includes('tiktok');
+  const isEmptyChannel = !streamer.channelId || streamer.channelId.trim() === '';
+  
+  const platformLink = isTikTok 
+    ? streamer.channelId 
+    : streamer.youtubeId 
+      ? `https://youtube.com/watch?v=${streamer.youtubeId}`
+      : streamer.channelId?.startsWith('UC') ? `https://youtube.com/channel/${streamer.channelId}` : `https://youtube.com/${streamer.channelId}`;
+      
+  const platformText = isTikTok ? 'TIKTOK' : dict.streamer.youtube;
+
   // Mafia / Syndicate Color Coding
   const getDivisionTheme = (type: string) => {
     switch(type) {
@@ -56,7 +67,7 @@ export function StreamerCard({ streamer }: StreamerCardProps) {
       {/* Dossier Portrait Section */}
       <div className="aspect-square relative w-full overflow-hidden bg-black">
         <Image 
-          src={streamer.avatar} 
+          src={streamer.avatar || '/images/logo/swag.webp'} 
           alt={streamer.name} 
           width={500} 
           height={500} 
@@ -130,16 +141,32 @@ export function StreamerCard({ streamer }: StreamerCardProps) {
         
         {/* Actions - Sharp and absolute bottom */}
         <div className="grid grid-cols-2 gap-0 mt-auto pt-3 border-t border-zinc-900">
-          <Link href={`/watch/${streamer.id}`} className="w-full border-r border-zinc-900">
-            <Button variant="ghost" size="sm" className="w-full rounded-none hover:bg-zinc-900 text-zinc-300 hover:text-white font-medium tracking-[0.2em] uppercase text-[8px] h-8 transition-all duration-300">
-              {dict.streamer.watchLive}
-            </Button>
-          </Link>
-          <a href={`https://youtube.com/watch?v=${streamer.youtubeId}`} target="_blank" rel="noopener noreferrer" className="w-full">
-            <Button variant="ghost" size="sm" className="w-full rounded-none hover:bg-zinc-900 text-zinc-500 hover:text-zinc-300 font-medium tracking-[0.2em] uppercase text-[8px] h-8 transition-all duration-300">
-              {dict.streamer.youtube}
-            </Button>
-          </a>
+          {isEmptyChannel || isTikTok ? (
+            <div className="w-full border-r border-zinc-900 cursor-not-allowed">
+              <Button disabled variant="ghost" size="sm" className="w-full rounded-none text-zinc-600 font-medium tracking-[0.2em] uppercase text-[8px] h-8">
+                {dict.streamer.watchLive}
+              </Button>
+            </div>
+          ) : (
+            <Link href={`/watch/${streamer.id}`} className="w-full border-r border-zinc-900">
+              <Button variant="ghost" size="sm" className="w-full rounded-none hover:bg-zinc-900 text-zinc-300 hover:text-white font-medium tracking-[0.2em] uppercase text-[8px] h-8 transition-all duration-300">
+                {dict.streamer.watchLive}
+              </Button>
+            </Link>
+          )}
+          {isEmptyChannel ? (
+            <div className="w-full cursor-not-allowed">
+              <Button disabled variant="ghost" size="sm" className="w-full rounded-none text-zinc-600 font-medium tracking-[0.2em] uppercase text-[8px] h-8">
+                {platformText}
+              </Button>
+            </div>
+          ) : (
+            <a href={platformLink} target="_blank" rel="noopener noreferrer" className="w-full">
+              <Button variant="ghost" size="sm" className="w-full rounded-none hover:bg-zinc-900 text-zinc-500 hover:text-zinc-300 font-medium tracking-[0.2em] uppercase text-[8px] h-8 transition-all duration-300">
+                {platformText}
+              </Button>
+            </a>
+          )}
         </div>
       </div>
     </motion.div>

@@ -51,7 +51,7 @@ export function Hero({ backgrounds = [], transitionSpeed = 5 }: HeroProps) {
             className="absolute inset-0"
           >
             <Image 
-              src={images[currentIndex].url} 
+              src={images[currentIndex]?.url || '/images/background/full-cougan.webp'} 
               alt={`Cougan Famillia Background ${currentIndex + 1}`} 
               fill 
               className="object-cover object-center grayscale opacity-50" 
